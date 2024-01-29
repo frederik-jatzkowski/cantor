@@ -1,0 +1,26 @@
+linters-settings:
+  cyclop:
+    max-complexity: 8
+      
+  lll:
+    line-length: 120
+
+linters:
+  disable-all: true
+  enable:
+    - errcheck
+    - gosimple
+    - govet
+    - gofmt
+    - ineffassign
+    - staticcheck
+    - unused
+    - cyclop
+    - lll
+    - inamedparam
+    - wsl
+    - nakedret
+    - ireturn
+
+run:
+  timeout: 5m
