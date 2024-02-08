@@ -1,7 +1,7 @@
 package cantor
 
 type intersection[T comparable] struct {
-	arg  EnumerableSet[T]
+	arg  IterableSet[T]
 	args []Container[T]
 }
 
@@ -19,13 +19,13 @@ func (set intersection[T]) Contains(element T) bool {
 	return true
 }
 
-func (set intersection[T]) Union(other EnumerableSet[T]) EnumerableSet[T] {
+func (set intersection[T]) Union(other IterableSet[T]) IterableSet[T] {
 	return union[T]{
-		args: []EnumerableSet[T]{set, other},
+		args: []IterableSet[T]{set, other},
 	}
 }
 
-func (set intersection[T]) Intersect(other Container[T]) EnumerableSet[T] {
+func (set intersection[T]) Intersect(other Container[T]) IterableSet[T] {
 	return intersection[T]{
 		arg:  set,
 		args: append(set.args, other),
@@ -38,25 +38,27 @@ func (set intersection[T]) Complement() ImplicitSet[T] {
 	}
 }
 
-func (set intersection[T]) Enumerate(callback func(element T) (stop bool)) {
-	set.arg.Enumerate(func(element T) (stop bool) {
-		for _, arg := range set.args {
-			if !arg.Contains(element) {
-				return false
+func (set intersection[T]) Iter() (rangefunc func(yield func(element T) (next bool))) {
+	return func(yield func(element T) (next bool)) {
+		set.arg.Iter()(func(element T) (stop bool) {
+			for _, arg := range set.args {
+				if !arg.Contains(element) {
+					return true
+				}
 			}
-		}
 
-		return callback(element)
-	})
+			return yield(element)
+		})
+	}
 }
 
 func (set intersection[T]) Size() int {
 	size := 0
 
-	set.Enumerate(func(element T) (stop bool) {
+	set.Iter()(func(element T) (stop bool) {
 		size++
 
-		return false
+		return true
 	})
 
 	return size

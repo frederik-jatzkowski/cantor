@@ -56,7 +56,7 @@ func Test_complement_Complement(t *testing.T) {
 	set := cantor.NewExplicitSet(1, 2, 3, 4, 5)
 	complementComplement := set.Complement().Complement()
 
-	set.Enumerate(func(element int) (stop bool) {
+	set.Iter()(func(element int) (stop bool) {
 		if !complementComplement.Contains(element) {
 			t.Errorf("complement of the complement does not contain %d", element)
 		}

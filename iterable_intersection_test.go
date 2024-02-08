@@ -20,7 +20,7 @@ func Test_intersection_Union(t *testing.T) {
 		}
 	}
 
-	cantor.NewExplicitSet(3, 4).Enumerate(func(element int) (stop bool) {
+	cantor.NewExplicitSet(3, 4).Iter()(func(element int) (stop bool) {
 		if !union.Contains(element) {
 			t.Errorf("union did not contain %d", element)
 		}
@@ -55,7 +55,7 @@ func Test_intersection_Intersection(t *testing.T) {
 		}
 	}
 
-	cantor.NewExplicitSet(2).Enumerate(func(element int) (stop bool) {
+	cantor.NewExplicitSet(2).Iter()(func(element int) (stop bool) {
 		if !intersection.Contains(element) {
 			t.Errorf("intersection did not contain %d", element)
 		}
@@ -68,7 +68,7 @@ func Test_intersection_Complement(t *testing.T) {
 	set := cantor.NewExplicitSet(1, 2).Intersect(cantor.NewExplicitSet(2, 3))
 	complement := set.Complement()
 
-	set.Enumerate(func(element int) (stop bool) {
+	set.Iter()(func(element int) (stop bool) {
 		if complement.Contains(element) {
 			t.Errorf("both set and complement contain %d", element)
 		}
@@ -77,14 +77,14 @@ func Test_intersection_Complement(t *testing.T) {
 	})
 }
 
-func Test_intersection_Enumerate(t *testing.T) {
+func Test_intersection_Iter(t *testing.T) {
 	set := cantor.NewExplicitSet(1, 2, 3).Intersect(cantor.NewExplicitSet(2, 3, 4))
 	counter := 0
 
-	set.Enumerate(func(element int) (stop bool) {
+	set.Iter()(func(element int) (stop bool) {
 		counter++
 
-		return false
+		return true
 	})
 
 	if counter != 2 {
@@ -92,14 +92,14 @@ func Test_intersection_Enumerate(t *testing.T) {
 	}
 }
 
-func Test_intersection_EnumerateStop(t *testing.T) {
+func Test_intersection_IterBreak(t *testing.T) {
 	set := cantor.NewExplicitSet(1, 2, 3).Intersect(cantor.NewExplicitSet(2, 3, 4))
 	counter := 0
 
-	set.Enumerate(func(element int) (stop bool) {
+	set.Iter()(func(element int) (stop bool) {
 		counter++
 
-		return counter >= 1
+		return counter < 1
 	})
 
 	if counter != 1 {

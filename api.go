@@ -4,24 +4,24 @@
 package cantor
 
 // Container represents any structure, which can implicitly or explicity contain elements.
-// Container is implemented by [ImplicitSet], [EnumerableSet] and [ExplicitSet].
+// Container is implemented by [ImplicitSet], [IterableSet] and [ExplicitSet].
 type Container[T comparable] interface {
 	// Contains must be a deterministic predicate and must not create side effects.
 	Contains(element T) bool
 }
 
-// Enumerator represents any structure, which can enumerate a predetermined amount of elements.
-// Enumerator is implemented by [EnumerableSet] and [ExplicitSet].
-type Enumerator[T comparable] interface {
-	// Enumerate calls callback for each element once and stops if callback returns true.
-	Enumerate(callback func(element T) (stop bool))
+// Iterable represents any structure, which can iterate over a predetermined number of elements.
+// Iterable is implemented by [IterableSet] and [ExplicitSet].
+type Iterable[T comparable] interface {
+	// Iter returns a rangefunc (https://go.dev/wiki/RangefuncExperiment), which can be used to iterate over all elements.
+	Iter() (rangefunc func(yield func(element T) (next bool)))
 
-	// Size returns the number of elements, that Enumerate would provide.
+	// Size returns the number of elements to iterate over.
 	Size() int
 }
 
 // Evaluator represents any structure, that can be evaluated into an [ExplicitSet].
-// Evaluator is implemented by [EnumerableSet] and [ExplicitSet].
+// Evaluator is implemented by [IterableSet] and [ExplicitSet].
 type Evaluator[T comparable] interface {
 	// Evaluate will evaluate the underlying structure into a new and independent ExplicitSet.
 	Evaluate() ExplicitSet[T]
@@ -43,22 +43,22 @@ type ImplicitSet[T comparable] interface {
 	Complement() ImplicitSet[T]
 }
 
-// EnumerableSet can be understood as an intermediate between [ImplicitSet] and [ExplicitSet].
-// While the exact size of the set are known and its elements can be enumerated, this type of set is read only.
+// IterableSet can be understood as an intermediate between [ImplicitSet] and [ExplicitSet].
+// While the exact size of the set is known and its elements can be enumerated, it does not allow modification.
 // One real world example of this are intervals over integer numbers.
-// EnumerableSet is also implemented by [ExplicitSet].
-type EnumerableSet[T comparable] interface {
+// IterableSet is also implemented by [ExplicitSet].
+type IterableSet[T comparable] interface {
 	Container[T]
-	Enumerator[T]
+	Iterable[T]
 	Evaluator[T]
 
-	// Union provides the set union of this EnumerableSet with another EnumerableSet.
-	Union(other EnumerableSet[T]) EnumerableSet[T]
+	// Union provides the set union of this IterableSet with another IterableSet.
+	Union(other IterableSet[T]) IterableSet[T]
 
-	// Intersect provides the set intersection of this EnumerableSet and any other value with a Contains()-method as a EnumerableSet.
-	Intersect(other Container[T]) EnumerableSet[T]
+	// Intersect provides the set intersection of this IterableSet and any other value with a Contains()-method as a IterableSet.
+	Intersect(other Container[T]) IterableSet[T]
 
-	// Complement provides an ImplicitSet, which contains all elements that are not contained in this EnumerableSet.
+	// Complement provides an ImplicitSet, which contains all elements that are not contained in this IterableSet.
 	// Since the result might be infinite, its elements cannot be enumerated and it has to be defined implicitly.
 	Complement() ImplicitSet[T]
 }
@@ -67,7 +67,7 @@ type EnumerableSet[T comparable] interface {
 // This generally comes at the cost, that all elements must be held in memory,
 // but at the same time ensures, that Size(), Enumerate() and Contains() are extremely fast.
 type ExplicitSet[T comparable] interface {
-	EnumerableSet[T]
+	IterableSet[T]
 
 	// After set.Add(e) was called, set.Contains(e) must return true.
 	// The return value indicates, if the value was not present before and actually was added.

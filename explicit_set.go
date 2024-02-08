@@ -36,13 +36,13 @@ func (set explicitSet[T]) Contains(element T) bool {
 	return contains
 }
 
-func (set explicitSet[T]) Union(other EnumerableSet[T]) EnumerableSet[T] {
+func (set explicitSet[T]) Union(other IterableSet[T]) IterableSet[T] {
 	return union[T]{
-		args: []EnumerableSet[T]{set, other},
+		args: []IterableSet[T]{set, other},
 	}
 }
 
-func (set explicitSet[T]) Intersect(other Container[T]) EnumerableSet[T] {
+func (set explicitSet[T]) Intersect(other Container[T]) IterableSet[T] {
 	return intersection[T]{
 		arg:  set,
 		args: []Container[T]{other},
@@ -55,10 +55,12 @@ func (set explicitSet[T]) Complement() ImplicitSet[T] {
 	}
 }
 
-func (set explicitSet[T]) Enumerate(callback func(element T) (stop bool)) {
-	for element := range set.elements {
-		if callback(element) {
-			break
+func (set explicitSet[T]) Iter() (rangefunc func(yield func(element T) (next bool))) {
+	return func(yield func(element T) (next bool)) {
+		for element := range set.elements {
+			if !yield(element) {
+				break
+			}
 		}
 	}
 }
