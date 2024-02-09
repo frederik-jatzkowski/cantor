@@ -72,3 +72,7 @@ func (set explicitSet[T]) Size() int {
 func (set explicitSet[T]) Evaluate() ExplicitSet[T] {
 	return evaluate[T](set)
 }
+
+func (set explicitSet[T]) String() string {
+	return toString[T](set)
+}

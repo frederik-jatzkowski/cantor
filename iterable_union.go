@@ -68,3 +68,7 @@ func (set union[T]) Size() int {
 func (set union[T]) Evaluate() ExplicitSet[T] {
 	return evaluate[T](set)
 }
+
+func (set union[T]) String() string {
+	return toString[T](set)
+}

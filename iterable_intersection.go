@@ -67,3 +67,7 @@ func (set intersection[T]) Size() int {
 func (set intersection[T]) Evaluate() ExplicitSet[T] {
 	return evaluate[T](set)
 }
+
+func (set intersection[T]) String() string {
+	return toString[T](set)
+}

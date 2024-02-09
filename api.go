@@ -3,6 +3,8 @@
 // infinite sets and set comprehension, exposed through a type safe, generic and extensible api.
 package cantor
 
+import "fmt"
+
 // Container represents any structure, which can implicitly or explicity contain elements.
 // Container is implemented by [ImplicitSet], [IterableSet] and [ExplicitSet].
 type Container[T comparable] interface {
@@ -51,6 +53,7 @@ type IterableSet[T comparable] interface {
 	Container[T]
 	Iterable[T]
 	Evaluator[T]
+	fmt.Stringer
 
 	// Union provides the set union of this IterableSet with another IterableSet.
 	Union(other IterableSet[T]) IterableSet[T]
