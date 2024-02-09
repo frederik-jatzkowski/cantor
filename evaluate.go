@@ -5,7 +5,7 @@ func evaluate[T comparable](set IterableSet[T]) ExplicitSet[T] {
 		elements: make(map[T]struct{}),
 	}
 
-	set.Iter()(func(element T) (stop bool) {
+	set.Iter()(func(element T) (next bool) {
 		result.elements[element] = struct{}{}
 
 		return true

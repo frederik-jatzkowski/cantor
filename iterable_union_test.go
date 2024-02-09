@@ -20,7 +20,7 @@ func Test_union_Union(t *testing.T) {
 		}
 	}
 
-	cantor.NewExplicitSet(1, 2, 3, 4, 5, 6).Iter()(func(element int) (stop bool) {
+	cantor.NewExplicitSet(1, 2, 3, 4, 5, 6).Iter()(func(element int) (next bool) {
 		if !union.Contains(element) {
 			t.Errorf("union did not contain %d", element)
 		}
@@ -55,7 +55,7 @@ func Test_union_Intersection(t *testing.T) {
 		}
 	}
 
-	cantor.NewExplicitSet(3, 4).Iter()(func(element int) (stop bool) {
+	cantor.NewExplicitSet(3, 4).Iter()(func(element int) (next bool) {
 		if !intersection.Contains(element) {
 			t.Errorf("intersection did not contain %d", element)
 		}
@@ -68,7 +68,7 @@ func Test_union_Complement(t *testing.T) {
 	set := cantor.NewExplicitSet(1, 2).Union(cantor.NewExplicitSet(3, 4))
 	complement := set.Complement()
 
-	set.Iter()(func(element int) (stop bool) {
+	set.Iter()(func(element int) (next bool) {
 		if complement.Contains(element) {
 			t.Errorf("both set and complement contain %d", element)
 		}
@@ -81,7 +81,7 @@ func Test_union_Iter(t *testing.T) {
 	set := cantor.NewExplicitSet(1, 2).Union(cantor.NewExplicitSet(3, 4))
 	counter := 0
 
-	set.Iter()(func(element int) (stop bool) {
+	set.Iter()(func(element int) (next bool) {
 		counter++
 
 		return true
@@ -96,7 +96,7 @@ func Test_union_IterBreak(t *testing.T) {
 	set := cantor.NewExplicitSet(1, 2).Union(cantor.NewExplicitSet(3, 4))
 	counter := 0
 
-	set.Iter()(func(element int) (stop bool) {
+	set.Iter()(func(element int) (next bool) {
 		counter++
 
 		return counter < 3

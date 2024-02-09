@@ -40,7 +40,7 @@ func (set intersection[T]) Complement() ImplicitSet[T] {
 
 func (set intersection[T]) Iter() (rangefunc func(yield func(element T) (next bool))) {
 	return func(yield func(element T) (next bool)) {
-		set.arg.Iter()(func(element T) (stop bool) {
+		set.arg.Iter()(func(element T) (next bool) {
 			for _, arg := range set.args {
 				if !arg.Contains(element) {
 					return true
@@ -55,7 +55,7 @@ func (set intersection[T]) Iter() (rangefunc func(yield func(element T) (next bo
 func (set intersection[T]) Size() int {
 	size := 0
 
-	set.Iter()(func(element T) (stop bool) {
+	set.Iter()(func(element T) (next bool) {
 		size++
 
 		return true

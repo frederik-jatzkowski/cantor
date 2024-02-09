@@ -38,7 +38,7 @@ func (set union[T]) Iter() (rangefunc func(yield func(element T) (next bool))) {
 		for i := 0; i < len(set.args); i++ {
 			arg := set.args[i]
 
-			arg.Iter()(func(element T) (stop bool) {
+			arg.Iter()(func(element T) (next bool) {
 				for i2 := 0; i2 < i; i2++ {
 					arg2 := set.args[i2]
 
@@ -56,7 +56,7 @@ func (set union[T]) Iter() (rangefunc func(yield func(element T) (next bool))) {
 func (set union[T]) Size() int {
 	size := 0
 
-	set.Iter()(func(element T) (stop bool) {
+	set.Iter()(func(element T) (next bool) {
 		size++
 
 		return true
