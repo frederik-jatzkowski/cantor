@@ -186,3 +186,14 @@ func TestExplicitSet_Evaluate(t *testing.T) {
 		t.Errorf("evaluate should create new independent sets")
 	}
 }
+
+func TestExplicitSet_String(t *testing.T) {
+	set := cantor.NewExplicitSet(1, 2)
+	str := set.String()
+
+	switch str {
+	case "{1, 2}", "{2, 1}":
+	default:
+		t.Errorf("invalid string: %s", str)
+	}
+}

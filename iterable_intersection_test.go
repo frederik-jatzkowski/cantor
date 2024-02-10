@@ -119,3 +119,14 @@ func Test_intersection_Evaluate(t *testing.T) {
 		}
 	}
 }
+
+func Test_intersection_String(t *testing.T) {
+	set := cantor.NewExplicitSet(0, 1, 2).Intersect(cantor.NewExplicitSet(1, 2, 3))
+	str := set.String()
+
+	switch str {
+	case "{1, 2}", "{2, 1}":
+	default:
+		t.Errorf("invalid string: %s", str)
+	}
+}

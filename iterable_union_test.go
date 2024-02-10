@@ -119,3 +119,14 @@ func Test_union_Evaluate(t *testing.T) {
 		}
 	}
 }
+
+func Test_union_String(t *testing.T) {
+	set := cantor.NewExplicitSet(1).Union(cantor.NewExplicitSet(2))
+	str := set.String()
+
+	switch str {
+	case "{1, 2}", "{2, 1}":
+	default:
+		t.Errorf("invalid string: %s", str)
+	}
+}
