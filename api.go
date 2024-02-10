@@ -16,6 +16,8 @@ type Container[T comparable] interface {
 // Iterable is implemented by [IterableSet] and [ExplicitSet].
 type Iterable[T comparable] interface {
 	// Iter returns a rangefunc (https://go.dev/wiki/RangefuncExperiment), which can be used to iterate over all elements.
+	// This rangefunc can be used to yield the elements of a set one by one.
+	// Iteration is stopped, if the yield function returns false.
 	Iter() (rangefunc func(yield func(element T) (next bool)))
 
 	// Size returns the number of elements to iterate over.
@@ -26,6 +28,7 @@ type Iterable[T comparable] interface {
 // Evaluator is implemented by [IterableSet] and [ExplicitSet].
 type Evaluator[T comparable] interface {
 	// Evaluate will evaluate the underlying structure into a new and independent ExplicitSet.
+	// It is guaranteed, that the result is not influenced by changes to the Evaluator or vice-versa.
 	Evaluate() ExplicitSet[T]
 }
 

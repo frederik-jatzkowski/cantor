@@ -2,7 +2,26 @@
 
 # Development Guide
 
+## Acceptance criteria for an issue
+- Tests are updated to include the described test cases.
+- All tests are passing.
+- No linter errors occur.
+- All changes to the public API are documented in go docs.
+- The release notes are updated.
+
 ## Commands
+
+Run tests using:
+
+```
+go test --cover ./...
+```
+
+Run godoc using:
+
+```
+godoc -http=:6060
+```
 
 Run the linter using:
 
