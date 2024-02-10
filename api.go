@@ -31,14 +31,16 @@ type Evaluator[T comparable] interface {
 
 // ImplicitSet represents a set, which is only defined by an arbitrary predicate, its Contains()-method.
 // Thus, an ImplicitSet can represent an infinite amount of elements without performance or memory overhead.
-// Due to the unconstrained nature, this type of set can only be used in places, where no enumeration of elements is required.
+// Due to the unconstrained nature, this type of set can only be used in places,
+// where no enumeration of elements is required.
 type ImplicitSet[T comparable] interface {
 	Container[T]
 
 	// Union provides the set union of this ImplicitSet and any other value with a Contains()-method as an ImplicitSet.
 	Union(other Container[T]) ImplicitSet[T]
 
-	// Intersect provides the set intersection of this ImplicitSet and any other value with a Contains()-method as an ImplicitSet.
+	// Intersect provides the set intersection of this ImplicitSet and any other value with a
+	// Contains()-method as an ImplicitSet.
 	Intersect(other Container[T]) ImplicitSet[T]
 
 	// Complement provides an ImplicitSet, which contains all elements that are not contained in this ImplicitSet.
@@ -58,7 +60,8 @@ type IterableSet[T comparable] interface {
 	// Union provides the set union of this IterableSet with another IterableSet.
 	Union(other IterableSet[T]) IterableSet[T]
 
-	// Intersect provides the set intersection of this IterableSet and any other value with a Contains()-method as a IterableSet.
+	// Intersect provides the set intersection of this IterableSet and any other value with a
+	// Contains()-method as a IterableSet.
 	Intersect(other Container[T]) IterableSet[T]
 
 	// Complement provides an ImplicitSet, which contains all elements that are not contained in this IterableSet.

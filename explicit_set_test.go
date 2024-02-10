@@ -182,6 +182,7 @@ func TestExplicitSet_Evaluate(t *testing.T) {
 	}
 
 	set2.Add(4)
+
 	if set1.Contains(4) {
 		t.Errorf("evaluate should create new independent sets")
 	}

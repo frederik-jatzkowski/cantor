@@ -11,7 +11,8 @@ import (
 
 // In cantor, a set can be derived from one or more other sets, eg. the union of multiple sets.
 // Without explicit evaluation, all method results are computed on demand and reflect changes made to their arguments.
-// This allows you to define views (somewhat similar to an SQL VIEW) on changing data, which are composable and usually very performant.
+// This allows you to define views (somewhat similar to an SQL VIEW) on changing data,
+// which are composable and usually very performant.
 // Sometimes, it might be good to evaluate such a view into a new ExplicitSet,
 // eg. for performance improvements or to decouple it from its arguments.
 func Example_lazyEvaluation() {
@@ -34,10 +35,12 @@ func Example_lazyEvaluation() {
 
 	// Lets search for "pig".
 	search = "pig"
+
 	fmt.Println(result) // {pigeon, pig}
 
 	// Since result.String() is evaluated on demand, changes in the search term are reflected in our derived set.
 	search = "g"
+
 	fmt.Println(result) // {giraffe, goldfish, guppy}
 
 	// We can evaluate the result into a new ExplicitSet.
@@ -45,50 +48,49 @@ func Example_lazyEvaluation() {
 
 	// Changes in the search term do not influence this new set.
 	search = "s"
+
 	fmt.Println(result)    // {swan, shark}
 	fmt.Println(evaluated) // {giraffe, goldfish, guppy}
 }
 
 func BenchmarkIterableSet_Contains(b *testing.B) {
-	// this benchmark should not exceed on a modern CPU:
-	// 50 ns/op
-	// 0 B/op
-	// 0 allocs/op
-
 	set := buildUnionOfIntersectionsOfDifferences(2, 2, 100000)
 	random := rand.Int()
 
 	b.ResetTimer()
+
+	// this benchmark should not exceed on a modern CPU:
+	// 50 ns/op
+	// 0 B/op
+	// 0 allocs/op
 	for i := 0; i < b.N; i++ {
 		set.Contains(random)
 	}
 }
 
 func BenchmarkIterableSet_Size(b *testing.B) {
-	// this benchmark should not exceed on a modern CPU:
-	// 25 ms/op
-	// 1000 B/op
-	// 20 allocs/op
-
 	set := buildUnionOfIntersectionsOfDifferences(2, 2, 100000)
 
 	b.ResetTimer()
 
+	// this benchmark should not exceed on a modern CPU:
+	// 25 ms/op
+	// 1000 B/op
+	// 20 allocs/op
 	for i := 0; i < b.N; i++ {
 		set.Size()
 	}
 }
 
 func BenchmarkIterableSet_Iter(b *testing.B) {
-	// this benchmark should not exceed on a modern CPU:
-	// 30 ms/op
-	// 1000 B/op
-	// 20 allocs/op
-
 	set := buildUnionOfIntersectionsOfDifferences(2, 2, 100000)
 
 	b.ResetTimer()
 
+	// this benchmark should not exceed on a modern CPU:
+	// 30 ms/op
+	// 1000 B/op
+	// 20 allocs/op
 	for i := 0; i < b.N; i++ {
 		set.Iter()(func(element int) (next bool) {
 			return true
@@ -97,15 +99,14 @@ func BenchmarkIterableSet_Iter(b *testing.B) {
 }
 
 func BenchmarkIterableSet_Evaluate(b *testing.B) {
-	// this benchmark should not exceed on a modern CPU:
-	// 30 ms/op
-	// 800000 B/op
-	// 750 allocs/op
-
 	set := buildUnionOfIntersectionsOfDifferences(2, 2, 100000)
 
 	b.ResetTimer()
 
+	// this benchmark should not exceed on a modern CPU:
+	// 30 ms/op
+	// 800000 B/op
+	// 750 allocs/op
 	for i := 0; i < b.N; i++ {
 		set.Evaluate()
 	}
