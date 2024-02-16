@@ -1,10 +1,16 @@
 package cantor
 
-type union[T comparable] struct {
+type iterableUnion[T comparable] struct {
 	args []IterableSet[T]
 }
 
-func (set union[T]) Contains(element T) bool {
+func newIterableUnion[T comparable](args ...IterableSet[T]) IterableSet[T] {
+	return iterableUnion[T]{
+		args: args,
+	}
+}
+
+func (set iterableUnion[T]) Contains(element T) bool {
 	for _, arg := range set.args {
 		if arg.Contains(element) {
 			return true
@@ -14,26 +20,19 @@ func (set union[T]) Contains(element T) bool {
 	return false
 }
 
-func (set union[T]) Union(other IterableSet[T]) IterableSet[T] {
-	return union[T]{
-		args: append(set.args, other),
-	}
+func (set iterableUnion[T]) Union(other IterableSet[T]) IterableSet[T] {
+	return newIterableUnion[T](append(set.args, other)...)
 }
 
-func (set union[T]) Intersect(other Container[T]) IterableSet[T] {
-	return intersection[T]{
-		arg:  set,
-		args: []Container[T]{other},
-	}
+func (set iterableUnion[T]) Intersect(other Container[T]) IterableSet[T] {
+	return newIterableIntersection[T](set, other)
 }
 
-func (set union[T]) Complement() ImplicitSet[T] {
-	return complement[T]{
-		inner: set,
-	}
+func (set iterableUnion[T]) Complement() ImplicitSet[T] {
+	return newComplement[T](set)
 }
 
-func (set union[T]) Iter() (rangefunc func(yield func(element T) (next bool))) {
+func (set iterableUnion[T]) Iter() (rangefunc func(yield func(element T) (next bool))) {
 	return func(yield func(element T) (next bool)) {
 		for i := 0; i < len(set.args); i++ {
 			arg := set.args[i]
@@ -53,7 +52,7 @@ func (set union[T]) Iter() (rangefunc func(yield func(element T) (next bool))) {
 	}
 }
 
-func (set union[T]) Size() int {
+func (set iterableUnion[T]) Size() int {
 	size := 0
 
 	set.Iter()(func(element T) (next bool) {
@@ -65,10 +64,10 @@ func (set union[T]) Size() int {
 	return size
 }
 
-func (set union[T]) Evaluate() ExplicitSet[T] {
+func (set iterableUnion[T]) Evaluate() ExplicitSet[T] {
 	return evaluate[T](set)
 }
 
-func (set union[T]) String() string {
+func (set iterableUnion[T]) String() string {
 	return toString[T](set)
 }

@@ -16,19 +16,13 @@ func (set implicitSet[T]) Contains(element T) bool {
 }
 
 func (set implicitSet[T]) Union(other Container[T]) ImplicitSet[T] {
-	return implicitUnion[T]{
-		args: []Container[T]{set, other},
-	}
+	return newImplicitUnion[T](set, other)
 }
 
 func (set implicitSet[T]) Intersect(other Container[T]) ImplicitSet[T] {
-	return implicitIntersection[T]{
-		args: []Container[T]{set, other},
-	}
+	return newImplicitIntersection[T](set, other)
 }
 
 func (set implicitSet[T]) Complement() ImplicitSet[T] {
-	return complement[T]{
-		inner: set,
-	}
+	return newComplement[T](set)
 }

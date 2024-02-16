@@ -37,22 +37,15 @@ func (set explicitSet[T]) Contains(element T) bool {
 }
 
 func (set explicitSet[T]) Union(other IterableSet[T]) IterableSet[T] {
-	return union[T]{
-		args: []IterableSet[T]{set, other},
-	}
+	return newIterableUnion[T](set, other)
 }
 
 func (set explicitSet[T]) Intersect(other Container[T]) IterableSet[T] {
-	return intersection[T]{
-		arg:  set,
-		args: []Container[T]{other},
-	}
+	return newIterableIntersection[T](set, other)
 }
 
 func (set explicitSet[T]) Complement() ImplicitSet[T] {
-	return complement[T]{
-		inner: set,
-	}
+	return newComplement[T](set)
 }
 
 func (set explicitSet[T]) Iter() (rangefunc func(yield func(element T) (next bool))) {

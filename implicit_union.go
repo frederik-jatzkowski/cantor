@@ -4,6 +4,12 @@ type implicitUnion[T comparable] struct {
 	args []Container[T]
 }
 
+func newImplicitUnion[T comparable](args ...Container[T]) ImplicitSet[T] {
+	return implicitUnion[T]{
+		args: args,
+	}
+}
+
 func (set implicitUnion[T]) Contains(element T) bool {
 	for _, arg := range set.args {
 		if arg.Contains(element) {
@@ -15,19 +21,13 @@ func (set implicitUnion[T]) Contains(element T) bool {
 }
 
 func (set implicitUnion[T]) Union(other Container[T]) ImplicitSet[T] {
-	return implicitUnion[T]{
-		args: append(set.args, other),
-	}
+	return newImplicitUnion[T](append(set.args, other)...)
 }
 
 func (set implicitUnion[T]) Intersect(other Container[T]) ImplicitSet[T] {
-	return implicitIntersection[T]{
-		args: []Container[T]{set, other},
-	}
+	return newImplicitIntersection[T](set, other)
 }
 
 func (set implicitUnion[T]) Complement() ImplicitSet[T] {
-	return complement[T]{
-		inner: set,
-	}
+	return newComplement[T](set)
 }

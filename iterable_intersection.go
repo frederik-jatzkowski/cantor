@@ -1,11 +1,18 @@
 package cantor
 
-type intersection[T comparable] struct {
+type iterableIntersection[T comparable] struct {
 	arg  IterableSet[T]
 	args []Container[T]
 }
 
-func (set intersection[T]) Contains(element T) bool {
+func newIterableIntersection[T comparable](arg IterableSet[T], args ...Container[T]) IterableSet[T] {
+	return iterableIntersection[T]{
+		arg:  arg,
+		args: args,
+	}
+}
+
+func (set iterableIntersection[T]) Contains(element T) bool {
 	if !set.arg.Contains(element) {
 		return false
 	}
@@ -19,26 +26,19 @@ func (set intersection[T]) Contains(element T) bool {
 	return true
 }
 
-func (set intersection[T]) Union(other IterableSet[T]) IterableSet[T] {
-	return union[T]{
-		args: []IterableSet[T]{set, other},
-	}
+func (set iterableIntersection[T]) Union(other IterableSet[T]) IterableSet[T] {
+	return newIterableUnion[T](set, other)
 }
 
-func (set intersection[T]) Intersect(other Container[T]) IterableSet[T] {
-	return intersection[T]{
-		arg:  set,
-		args: append(set.args, other),
-	}
+func (set iterableIntersection[T]) Intersect(other Container[T]) IterableSet[T] {
+	return newIterableIntersection[T](set.arg, append(set.args, other)...)
 }
 
-func (set intersection[T]) Complement() ImplicitSet[T] {
-	return complement[T]{
-		inner: set,
-	}
+func (set iterableIntersection[T]) Complement() ImplicitSet[T] {
+	return newComplement[T](set)
 }
 
-func (set intersection[T]) Iter() (rangefunc func(yield func(element T) (next bool))) {
+func (set iterableIntersection[T]) Iter() (rangefunc func(yield func(element T) (next bool))) {
 	return func(yield func(element T) (next bool)) {
 		set.arg.Iter()(func(element T) (next bool) {
 			for _, arg := range set.args {
@@ -52,7 +52,7 @@ func (set intersection[T]) Iter() (rangefunc func(yield func(element T) (next bo
 	}
 }
 
-func (set intersection[T]) Size() int {
+func (set iterableIntersection[T]) Size() int {
 	size := 0
 
 	set.Iter()(func(element T) (next bool) {
@@ -64,10 +64,10 @@ func (set intersection[T]) Size() int {
 	return size
 }
 
-func (set intersection[T]) Evaluate() ExplicitSet[T] {
+func (set iterableIntersection[T]) Evaluate() ExplicitSet[T] {
 	return evaluate[T](set)
 }
 
-func (set intersection[T]) String() string {
+func (set iterableIntersection[T]) String() string {
 	return toString[T](set)
 }
