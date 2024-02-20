@@ -1,11 +1,11 @@
 package cantor
 
 type iterableIntersection[T comparable] struct {
-	arg  ReadableSet[T]
+	arg  Set[T]
 	args []Container[T]
 }
 
-func newIterableIntersection[T comparable](arg ReadableSet[T], args ...Container[T]) ReadableSet[T] {
+func newIterableIntersection[T comparable](arg Set[T], args ...Container[T]) Set[T] {
 	return iterableIntersection[T]{
 		arg:  arg,
 		args: args,
@@ -26,21 +26,21 @@ func (set iterableIntersection[T]) Contains(element T) bool {
 	return true
 }
 
-func (set iterableIntersection[T]) Union(other ReadableSet[T]) ReadableSet[T] {
+func (set iterableIntersection[T]) Union(other Set[T]) DerivedSet[T] {
 	return newIterableUnion[T](set, other)
 }
 
-func (set iterableIntersection[T]) Intersect(other Container[T]) ReadableSet[T] {
+func (set iterableIntersection[T]) Intersect(other Container[T]) DerivedSet[T] {
 	return newIterableIntersection[T](set.arg, append(set.args, other)...)
 }
 
-func (set iterableIntersection[T]) Complement() ImplicitSet[T] {
+func (set iterableIntersection[T]) Complement() DerivedImplicitSet[T] {
 	return newComplement[T](set)
 }
 
-func (set iterableIntersection[T]) IterateDistinct() (rangefunc func(yield func(element T) (next bool))) {
+func (set iterableIntersection[T]) Iterator() FunctionIterator[T] {
 	return func(yield func(element T) (next bool)) {
-		set.arg.IterateDistinct()(func(element T) (next bool) {
+		set.arg.Iterator()(func(element T) (next bool) {
 			for _, arg := range set.args {
 				if !arg.Contains(element) {
 					return true
@@ -55,7 +55,7 @@ func (set iterableIntersection[T]) IterateDistinct() (rangefunc func(yield func(
 func (set iterableIntersection[T]) Size() int {
 	size := 0
 
-	set.IterateDistinct()(func(element T) (next bool) {
+	set.Iterator()(func(element T) (next bool) {
 		size++
 
 		return true
@@ -64,7 +64,7 @@ func (set iterableIntersection[T]) Size() int {
 	return size
 }
 
-func (set iterableIntersection[T]) Evaluate() Set[T] {
+func (set iterableIntersection[T]) Evaluate() HashSet[T] {
 	return evaluate[T](set)
 }
 

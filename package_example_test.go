@@ -13,7 +13,7 @@ import (
 // Sometimes, it might be good to evaluate such a derived set into a new Set.
 // During such evaluation, no intermediate sets must be stored, making the evaluation highly performant
 // and avoiding pressure on the garbage collector.
-func Example_lazyEvaluation() {
+func Example_derivedSets() {
 	birds := cantor.NewHashSet("eagle", "pigeon", "duck", "swan")
 	mammals := cantor.NewHashSet("lion", "pig", "tiger", "giraffe")
 	fishes := cantor.NewHashSet("shark", "barracuda", "goldfish", "guppy")
@@ -53,12 +53,14 @@ func Example_lazyEvaluation() {
 	fmt.Println(evaluated)    // {giraffe, goldfish, guppy}
 }
 
-// Before the implementation of go rangefuncs, you can use IterateDistinct like this:
-func ExampleDistinctIterator() {
+// Before the implementation of go rangefuncs, you can use a FunctionIterator like this.
+// Afterwards, it can be used in native range loops.
+func ExampleFunctionIterator() {
 	set := cantor.NewHashSet(1, 2, 2, 3)
+	iterate := set.Iterator()
 	sum := 0
 
-	set.IterateDistinct()(func(element int) (next bool) {
+	iterate(func(element int) (next bool) {
 		sum += element
 
 		return true

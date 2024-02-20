@@ -7,7 +7,7 @@ import (
 	"github.com/frederik-jatzkowski/cantor"
 )
 
-func BenchmarkReadableSet_Contains(b *testing.B) {
+func BenchmarkSet_Contains(b *testing.B) {
 	set := buildUnionOfIntersectionsOfDifferences(2, 2, 100000)
 	random := rand.Int()
 
@@ -22,7 +22,7 @@ func BenchmarkReadableSet_Contains(b *testing.B) {
 	}
 }
 
-func BenchmarkReadableSet_Size(b *testing.B) {
+func BenchmarkSet_Size(b *testing.B) {
 	set := buildUnionOfIntersectionsOfDifferences(2, 2, 100000)
 
 	b.ResetTimer()
@@ -36,7 +36,7 @@ func BenchmarkReadableSet_Size(b *testing.B) {
 	}
 }
 
-func BenchmarkReadableSet_Iter(b *testing.B) {
+func BenchmarkSet_Iter(b *testing.B) {
 	set := buildUnionOfIntersectionsOfDifferences(2, 2, 100000)
 
 	b.ResetTimer()
@@ -46,13 +46,13 @@ func BenchmarkReadableSet_Iter(b *testing.B) {
 	// 1000 B/op
 	// 20 allocs/op
 	for i := 0; i < b.N; i++ {
-		set.IterateDistinct()(func(element int) (next bool) {
+		set.Iterator()(func(element int) (next bool) {
 			return true
 		})
 	}
 }
 
-func BenchmarkReadableSet_Evaluate(b *testing.B) {
+func BenchmarkSet_Evaluate(b *testing.B) {
 	set := buildUnionOfIntersectionsOfDifferences(2, 2, 100000)
 
 	b.ResetTimer()
@@ -77,11 +77,11 @@ func buildUnionOfIntersectionsOfDifferences(
 	numberOfIntersections int,
 	numberOfDifferences int,
 	numberOfRandomSamplesPerInput int,
-) cantor.ReadableSet[int] {
-	intersections := make([]cantor.ReadableSet[int], 0, numberOfIntersections)
+) cantor.Set[int] {
+	intersections := make([]cantor.Set[int], 0, numberOfIntersections)
 
 	for iIntersection := 0; iIntersection < numberOfIntersections; iIntersection++ {
-		differences := make([]cantor.ReadableSet[int], 0, numberOfDifferences)
+		differences := make([]cantor.Set[int], 0, numberOfDifferences)
 
 		for iDifference := 0; iDifference < numberOfDifferences; iDifference++ {
 			set1 := cantor.NewHashSet[int]()

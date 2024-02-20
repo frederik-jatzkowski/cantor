@@ -44,46 +44,6 @@ func RunAllSetTests(constructor func(elements ...int) cantor.Set[int], t *testin
 		}
 	})
 
-	t.Run("Add", func(t *testing.T) {
-		set := constructor(1, 2, 3)
-
-		if set.Contains(4) {
-			t.Error("Contains(4) should return false")
-		}
-
-		if !set.Add(4) {
-			t.Error("Add(4) should return true")
-		}
-
-		if !set.Contains(4) {
-			t.Error("Contains(4) should return true now")
-		}
-
-		if set.Add(4) {
-			t.Error("Add(4) should return false now")
-		}
-	})
-
-	t.Run("Remove", func(t *testing.T) {
-		set := constructor(1, 2, 3)
-
-		if !set.Contains(3) {
-			t.Error("Contains(3) should return true")
-		}
-
-		if !set.Remove(3) {
-			t.Error("Remove(3) should return true")
-		}
-
-		if set.Contains(3) {
-			t.Error("Contains(3) should return false now")
-		}
-
-		if set.Remove(3) {
-			t.Error("Remove(3) should return false now")
-		}
-	})
-
 	t.Run("Union", func(t *testing.T) {
 		set1 := constructor(1, 2, 3)
 		set2 := constructor(3, 4, 5)
@@ -143,11 +103,11 @@ func RunAllSetTests(constructor func(elements ...int) cantor.Set[int], t *testin
 		}
 	})
 
-	t.Run("IterateDistinct", func(t *testing.T) {
+	t.Run("FunctionIterator", func(t *testing.T) {
 		reference := cantor.NewHashSet(1, 2, 3, 4, 5)
 		found := cantor.NewHashSet[int]()
 
-		constructor(1, 2, 3, 4, 5).IterateDistinct()(func(element int) (next bool) {
+		constructor(1, 2, 3, 4, 5).Iterator()(func(element int) (next bool) {
 			if !found.Add(element) {
 				t.Errorf("duplicate element: %d", element)
 			}
@@ -164,10 +124,10 @@ func RunAllSetTests(constructor func(elements ...int) cantor.Set[int], t *testin
 		}
 	})
 
-	t.Run("IterateDistinct with break", func(t *testing.T) {
+	t.Run("FunctionIterator with break", func(t *testing.T) {
 		counter := 0
 
-		cantor.NewHashSet(1, 2, 3, 4, 5).IterateDistinct()(func(element int) (next bool) {
+		cantor.NewHashSet(1, 2, 3, 4, 5).Iterator()(func(element int) (next bool) {
 			counter++
 
 			return counter < 3
