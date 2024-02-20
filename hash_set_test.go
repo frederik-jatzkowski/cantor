@@ -6,8 +6,8 @@ import (
 	"github.com/frederik-jatzkowski/cantor"
 )
 
-func TestNewExplicitSet(t *testing.T) {
-	set := cantor.NewExplicitSet(1, 2, 3)
+func TestNewHashSet(t *testing.T) {
+	set := cantor.NewHashSet(1, 2, 3)
 
 	{
 		expected := 3
@@ -30,8 +30,8 @@ func TestNewExplicitSet(t *testing.T) {
 	}
 }
 
-func TestExplicitSet_Contains(t *testing.T) {
-	set := cantor.NewExplicitSet(1, 2)
+func TestHashSet_Contains(t *testing.T) {
+	set := cantor.NewHashSet(1, 2)
 
 	if !set.Contains(2) {
 		t.Errorf("set should contain 2")
@@ -42,8 +42,8 @@ func TestExplicitSet_Contains(t *testing.T) {
 	}
 }
 
-func TestExplicitSet_Add(t *testing.T) {
-	set := cantor.NewExplicitSet(1, 2, 3)
+func TestHashSet_Add(t *testing.T) {
+	set := cantor.NewHashSet(1, 2, 3)
 
 	if set.Contains(4) {
 		t.Error("Contains(4) should return false")
@@ -62,8 +62,8 @@ func TestExplicitSet_Add(t *testing.T) {
 	}
 }
 
-func TestExplicitSet_Remove(t *testing.T) {
-	set := cantor.NewExplicitSet(1, 2, 3)
+func TestHashSet_Remove(t *testing.T) {
+	set := cantor.NewHashSet(1, 2, 3)
 
 	if !set.Contains(3) {
 		t.Error("Contains(3) should return true")
@@ -82,9 +82,9 @@ func TestExplicitSet_Remove(t *testing.T) {
 	}
 }
 
-func TestExplicitSet_Union(t *testing.T) {
-	set1 := cantor.NewExplicitSet(1, 2, 3)
-	set2 := cantor.NewExplicitSet(3, 4, 5)
+func TestHashSet_Union(t *testing.T) {
+	set1 := cantor.NewHashSet(1, 2, 3)
+	set2 := cantor.NewHashSet(3, 4, 5)
 
 	union := set1.Union(set2)
 
@@ -96,7 +96,7 @@ func TestExplicitSet_Union(t *testing.T) {
 		}
 	}
 
-	cantor.NewExplicitSet(1, 2, 3, 4, 5).Iter()(func(element int) (next bool) {
+	cantor.NewHashSet(1, 2, 3, 4, 5).Iter()(func(element int) (next bool) {
 		if !union.Contains(element) {
 			t.Errorf("union did not contain %d", element)
 		}
@@ -105,9 +105,9 @@ func TestExplicitSet_Union(t *testing.T) {
 	})
 }
 
-func TestExplicitSet_Intersection(t *testing.T) {
-	set1 := cantor.NewExplicitSet(1, 2, 3)
-	set2 := cantor.NewExplicitSet(2, 3, 4)
+func TestHashSet_Intersection(t *testing.T) {
+	set1 := cantor.NewHashSet(1, 2, 3)
+	set2 := cantor.NewHashSet(2, 3, 4)
 
 	intersection := set1.Intersect(set2)
 
@@ -119,7 +119,7 @@ func TestExplicitSet_Intersection(t *testing.T) {
 		}
 	}
 
-	cantor.NewExplicitSet(2, 3).Iter()(func(element int) (next bool) {
+	cantor.NewHashSet(2, 3).Iter()(func(element int) (next bool) {
 		if !intersection.Contains(element) {
 			t.Errorf("intersection did not contain %d", element)
 		}
@@ -128,8 +128,8 @@ func TestExplicitSet_Intersection(t *testing.T) {
 	})
 }
 
-func TestExplicitSet_Complement(t *testing.T) {
-	set := cantor.NewExplicitSet(1, 2, 3, 4, 5)
+func TestHashSet_Complement(t *testing.T) {
+	set := cantor.NewHashSet(1, 2, 3, 4, 5)
 	complement := set.Complement()
 
 	set.Iter()(func(element int) (next bool) {
@@ -141,10 +141,10 @@ func TestExplicitSet_Complement(t *testing.T) {
 	})
 }
 
-func TestExplicitSet_Iter(t *testing.T) {
+func TestHashSet_Iter(t *testing.T) {
 	counter := 0
 
-	cantor.NewExplicitSet(1, 2, 3, 4, 5).Iter()(func(element int) (next bool) {
+	cantor.NewHashSet(1, 2, 3, 4, 5).Iter()(func(element int) (next bool) {
 		counter++
 
 		return true
@@ -155,10 +155,10 @@ func TestExplicitSet_Iter(t *testing.T) {
 	}
 }
 
-func TestExplicitSet_IterBreak(t *testing.T) {
+func TestHashSet_IterBreak(t *testing.T) {
 	counter := 0
 
-	cantor.NewExplicitSet(1, 2, 3, 4, 5).Iter()(func(element int) (next bool) {
+	cantor.NewHashSet(1, 2, 3, 4, 5).Iter()(func(element int) (next bool) {
 		counter++
 
 		return counter < 3
@@ -169,8 +169,8 @@ func TestExplicitSet_IterBreak(t *testing.T) {
 	}
 }
 
-func TestExplicitSet_Evaluate(t *testing.T) {
-	set1 := cantor.NewExplicitSet(1, 2, 3)
+func TestHashSet_Evaluate(t *testing.T) {
+	set1 := cantor.NewHashSet(1, 2, 3)
 	set2 := set1.Evaluate()
 
 	{
@@ -188,8 +188,8 @@ func TestExplicitSet_Evaluate(t *testing.T) {
 	}
 }
 
-func TestExplicitSet_String(t *testing.T) {
-	set := cantor.NewExplicitSet(1, 2)
+func TestHashSet_String(t *testing.T) {
+	set := cantor.NewHashSet(1, 2)
 	str := set.String()
 
 	switch str {

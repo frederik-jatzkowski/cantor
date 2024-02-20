@@ -7,8 +7,8 @@ import (
 )
 
 func Test_union_Union(t *testing.T) {
-	set1 := cantor.NewExplicitSet(1, 2).Union(cantor.NewExplicitSet(3, 4))
-	set2 := cantor.NewExplicitSet(3, 4).Union(cantor.NewExplicitSet(5, 6))
+	set1 := cantor.NewHashSet(1, 2).Union(cantor.NewHashSet(3, 4))
+	set2 := cantor.NewHashSet(3, 4).Union(cantor.NewHashSet(5, 6))
 
 	union := set1.Union(set2)
 
@@ -20,7 +20,7 @@ func Test_union_Union(t *testing.T) {
 		}
 	}
 
-	cantor.NewExplicitSet(1, 2, 3, 4, 5, 6).Iter()(func(element int) (next bool) {
+	cantor.NewHashSet(1, 2, 3, 4, 5, 6).Iter()(func(element int) (next bool) {
 		if !union.Contains(element) {
 			t.Errorf("union did not contain %d", element)
 		}
@@ -30,7 +30,7 @@ func Test_union_Union(t *testing.T) {
 }
 
 func Test_union_Contains(t *testing.T) {
-	set := cantor.NewExplicitSet(1, 2).Union(cantor.NewExplicitSet(3, 4))
+	set := cantor.NewHashSet(1, 2).Union(cantor.NewHashSet(3, 4))
 
 	if !set.Contains(1) {
 		t.Errorf("set should contain 1")
@@ -42,8 +42,8 @@ func Test_union_Contains(t *testing.T) {
 }
 
 func Test_union_Intersection(t *testing.T) {
-	set1 := cantor.NewExplicitSet(1, 2).Union(cantor.NewExplicitSet(3, 4))
-	set2 := cantor.NewExplicitSet(3, 4).Union(cantor.NewExplicitSet(5, 6))
+	set1 := cantor.NewHashSet(1, 2).Union(cantor.NewHashSet(3, 4))
+	set2 := cantor.NewHashSet(3, 4).Union(cantor.NewHashSet(5, 6))
 
 	intersection := set1.Intersect(set2)
 
@@ -55,7 +55,7 @@ func Test_union_Intersection(t *testing.T) {
 		}
 	}
 
-	cantor.NewExplicitSet(3, 4).Iter()(func(element int) (next bool) {
+	cantor.NewHashSet(3, 4).Iter()(func(element int) (next bool) {
 		if !intersection.Contains(element) {
 			t.Errorf("intersection did not contain %d", element)
 		}
@@ -65,7 +65,7 @@ func Test_union_Intersection(t *testing.T) {
 }
 
 func Test_union_Complement(t *testing.T) {
-	set := cantor.NewExplicitSet(1, 2).Union(cantor.NewExplicitSet(3, 4))
+	set := cantor.NewHashSet(1, 2).Union(cantor.NewHashSet(3, 4))
 	complement := set.Complement()
 
 	set.Iter()(func(element int) (next bool) {
@@ -78,7 +78,7 @@ func Test_union_Complement(t *testing.T) {
 }
 
 func Test_union_Iter(t *testing.T) {
-	set := cantor.NewExplicitSet(1, 2).Union(cantor.NewExplicitSet(3, 4))
+	set := cantor.NewHashSet(1, 2).Union(cantor.NewHashSet(3, 4))
 	counter := 0
 
 	set.Iter()(func(element int) (next bool) {
@@ -93,7 +93,7 @@ func Test_union_Iter(t *testing.T) {
 }
 
 func Test_union_IterBreak(t *testing.T) {
-	set := cantor.NewExplicitSet(1, 2).Union(cantor.NewExplicitSet(3, 4))
+	set := cantor.NewHashSet(1, 2).Union(cantor.NewHashSet(3, 4))
 	counter := 0
 
 	set.Iter()(func(element int) (next bool) {
@@ -108,7 +108,7 @@ func Test_union_IterBreak(t *testing.T) {
 }
 
 func Test_union_Evaluate(t *testing.T) {
-	set := cantor.NewExplicitSet(1, 2).Union(cantor.NewExplicitSet(3, 4))
+	set := cantor.NewHashSet(1, 2).Union(cantor.NewHashSet(3, 4))
 	evaluated := set.Evaluate()
 
 	{
@@ -121,7 +121,7 @@ func Test_union_Evaluate(t *testing.T) {
 }
 
 func Test_union_String(t *testing.T) {
-	set := cantor.NewExplicitSet(1).Union(cantor.NewExplicitSet(2))
+	set := cantor.NewHashSet(1).Union(cantor.NewHashSet(2))
 	str := set.String()
 
 	switch str {

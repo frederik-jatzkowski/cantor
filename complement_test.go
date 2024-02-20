@@ -7,7 +7,7 @@ import (
 )
 
 func Test_complement_Contains(t *testing.T) {
-	set := cantor.NewExplicitSet(1, 2, 3).Complement()
+	set := cantor.NewHashSet(1, 2, 3).Complement()
 
 	if !set.Contains(0) {
 		t.Errorf("set should contain 0")
@@ -19,8 +19,8 @@ func Test_complement_Contains(t *testing.T) {
 }
 
 func Test_complement_Union(t *testing.T) {
-	set1 := cantor.NewExplicitSet(1, 2, 3).Complement()
-	set2 := cantor.NewExplicitSet(3, 4, 5).Complement()
+	set1 := cantor.NewHashSet(1, 2, 3).Complement()
+	set2 := cantor.NewHashSet(3, 4, 5).Complement()
 
 	union := set1.Union(set2)
 
@@ -34,8 +34,8 @@ func Test_complement_Union(t *testing.T) {
 }
 
 func Test_complement_Intersection(t *testing.T) {
-	set1 := cantor.NewExplicitSet(1, 2, 3).Complement()
-	set2 := cantor.NewExplicitSet(3, 4, 5).Complement()
+	set1 := cantor.NewHashSet(1, 2, 3).Complement()
+	set2 := cantor.NewHashSet(3, 4, 5).Complement()
 
 	intersection := set1.Intersect(set2)
 
@@ -53,7 +53,7 @@ func Test_complement_Intersection(t *testing.T) {
 }
 
 func Test_complement_Complement(t *testing.T) {
-	set := cantor.NewExplicitSet(1, 2, 3, 4, 5)
+	set := cantor.NewHashSet(1, 2, 3, 4, 5)
 	complementComplement := set.Complement().Complement()
 
 	set.Iter()(func(element int) (next bool) {

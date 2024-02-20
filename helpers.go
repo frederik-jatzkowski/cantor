@@ -6,7 +6,7 @@ import (
 )
 
 func evaluate[T comparable](set IterableSet[T]) ExplicitSet[T] {
-	result := explicitSet[T]{
+	result := HashSet[T]{
 		elements: make(map[T]struct{}),
 	}
 

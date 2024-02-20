@@ -3,7 +3,7 @@ package cantor
 import "testing"
 
 func Test_toString(t *testing.T) {
-	set := NewExplicitSet(1, 2)
+	set := NewHashSet(1, 2)
 	str := toString[int](set)
 
 	switch str {

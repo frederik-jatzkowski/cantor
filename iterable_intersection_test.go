@@ -7,8 +7,8 @@ import (
 )
 
 func Test_intersection_Union(t *testing.T) {
-	set1 := cantor.NewExplicitSet(1, 3).Intersect(cantor.NewExplicitSet(2, 3))
-	set2 := cantor.NewExplicitSet(4, 5).Intersect(cantor.NewExplicitSet(4, 6))
+	set1 := cantor.NewHashSet(1, 3).Intersect(cantor.NewHashSet(2, 3))
+	set2 := cantor.NewHashSet(4, 5).Intersect(cantor.NewHashSet(4, 6))
 
 	union := set1.Union(set2)
 
@@ -20,7 +20,7 @@ func Test_intersection_Union(t *testing.T) {
 		}
 	}
 
-	cantor.NewExplicitSet(3, 4).Iter()(func(element int) (next bool) {
+	cantor.NewHashSet(3, 4).Iter()(func(element int) (next bool) {
 		if !union.Contains(element) {
 			t.Errorf("union did not contain %d", element)
 		}
@@ -30,7 +30,7 @@ func Test_intersection_Union(t *testing.T) {
 }
 
 func Test_intersection_Contains(t *testing.T) {
-	set := cantor.NewExplicitSet(1, 2).Intersect(cantor.NewExplicitSet(2, 3))
+	set := cantor.NewHashSet(1, 2).Intersect(cantor.NewHashSet(2, 3))
 
 	if !set.Contains(2) {
 		t.Errorf("set should contain 2")
@@ -42,8 +42,8 @@ func Test_intersection_Contains(t *testing.T) {
 }
 
 func Test_intersection_Intersection(t *testing.T) {
-	set1 := cantor.NewExplicitSet(1, 2).Intersect(cantor.NewExplicitSet(2, 3))
-	set2 := cantor.NewExplicitSet(2, 5).Intersect(cantor.NewExplicitSet(2, 6))
+	set1 := cantor.NewHashSet(1, 2).Intersect(cantor.NewHashSet(2, 3))
+	set2 := cantor.NewHashSet(2, 5).Intersect(cantor.NewHashSet(2, 6))
 
 	intersection := set1.Intersect(set2)
 
@@ -55,7 +55,7 @@ func Test_intersection_Intersection(t *testing.T) {
 		}
 	}
 
-	cantor.NewExplicitSet(2).Iter()(func(element int) (next bool) {
+	cantor.NewHashSet(2).Iter()(func(element int) (next bool) {
 		if !intersection.Contains(element) {
 			t.Errorf("intersection did not contain %d", element)
 		}
@@ -65,7 +65,7 @@ func Test_intersection_Intersection(t *testing.T) {
 }
 
 func Test_intersection_Complement(t *testing.T) {
-	set := cantor.NewExplicitSet(1, 2).Intersect(cantor.NewExplicitSet(2, 3))
+	set := cantor.NewHashSet(1, 2).Intersect(cantor.NewHashSet(2, 3))
 	complement := set.Complement()
 
 	set.Iter()(func(element int) (next bool) {
@@ -78,7 +78,7 @@ func Test_intersection_Complement(t *testing.T) {
 }
 
 func Test_intersection_Iter(t *testing.T) {
-	set := cantor.NewExplicitSet(1, 2, 3).Intersect(cantor.NewExplicitSet(2, 3, 4))
+	set := cantor.NewHashSet(1, 2, 3).Intersect(cantor.NewHashSet(2, 3, 4))
 	counter := 0
 
 	set.Iter()(func(element int) (next bool) {
@@ -93,7 +93,7 @@ func Test_intersection_Iter(t *testing.T) {
 }
 
 func Test_intersection_IterBreak(t *testing.T) {
-	set := cantor.NewExplicitSet(1, 2, 3).Intersect(cantor.NewExplicitSet(2, 3, 4))
+	set := cantor.NewHashSet(1, 2, 3).Intersect(cantor.NewHashSet(2, 3, 4))
 	counter := 0
 
 	set.Iter()(func(element int) (next bool) {
@@ -108,7 +108,7 @@ func Test_intersection_IterBreak(t *testing.T) {
 }
 
 func Test_intersection_Evaluate(t *testing.T) {
-	set := cantor.NewExplicitSet(1, 2).Intersect(cantor.NewExplicitSet(3, 4))
+	set := cantor.NewHashSet(1, 2).Intersect(cantor.NewHashSet(3, 4))
 	evaluated := set.Evaluate()
 
 	{
@@ -121,7 +121,7 @@ func Test_intersection_Evaluate(t *testing.T) {
 }
 
 func Test_intersection_String(t *testing.T) {
-	set := cantor.NewExplicitSet(0, 1, 2).Intersect(cantor.NewExplicitSet(1, 2, 3))
+	set := cantor.NewHashSet(0, 1, 2).Intersect(cantor.NewHashSet(1, 2, 3))
 	str := set.String()
 
 	switch str {

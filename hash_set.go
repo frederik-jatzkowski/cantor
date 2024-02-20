@@ -1,11 +1,12 @@
 package cantor
 
-type explicitSet[T comparable] struct {
+// HashSet implements [ExplicitSet] using an underlying map.
+type HashSet[T comparable] struct {
 	elements map[T]struct{}
 }
 
-func NewExplicitSet[T comparable](elements ...T) ExplicitSet[T] {
-	result := explicitSet[T]{
+func NewHashSet[T comparable](elements ...T) HashSet[T] {
+	result := HashSet[T]{
 		elements: make(map[T]struct{}, len(elements)),
 	}
 
@@ -16,39 +17,40 @@ func NewExplicitSet[T comparable](elements ...T) ExplicitSet[T] {
 	return result
 }
 
-func (set explicitSet[T]) Add(element T) bool {
+// Add implements [HashSet.Add].
+func (set HashSet[T]) Add(element T) bool {
 	before := len(set.elements)
 	set.elements[element] = struct{}{}
 
 	return before < len(set.elements)
 }
 
-func (set explicitSet[T]) Remove(element T) bool {
+func (set HashSet[T]) Remove(element T) bool {
 	before := len(set.elements)
 	delete(set.elements, element)
 
 	return before > len(set.elements)
 }
 
-func (set explicitSet[T]) Contains(element T) bool {
+func (set HashSet[T]) Contains(element T) bool {
 	_, contains := set.elements[element]
 
 	return contains
 }
 
-func (set explicitSet[T]) Union(other IterableSet[T]) IterableSet[T] {
+func (set HashSet[T]) Union(other IterableSet[T]) IterableSet[T] {
 	return newIterableUnion[T](set, other)
 }
 
-func (set explicitSet[T]) Intersect(other Container[T]) IterableSet[T] {
+func (set HashSet[T]) Intersect(other Container[T]) IterableSet[T] {
 	return newIterableIntersection[T](set, other)
 }
 
-func (set explicitSet[T]) Complement() ImplicitSet[T] {
+func (set HashSet[T]) Complement() ImplicitSet[T] {
 	return newComplement[T](set)
 }
 
-func (set explicitSet[T]) Iter() (rangefunc func(yield func(element T) (next bool))) {
+func (set HashSet[T]) Iter() (rangefunc func(yield func(element T) (next bool))) {
 	return func(yield func(element T) (next bool)) {
 		for element := range set.elements {
 			if !yield(element) {
@@ -58,14 +60,14 @@ func (set explicitSet[T]) Iter() (rangefunc func(yield func(element T) (next boo
 	}
 }
 
-func (set explicitSet[T]) Size() int {
+func (set HashSet[T]) Size() int {
 	return len(set.elements)
 }
 
-func (set explicitSet[T]) Evaluate() ExplicitSet[T] {
+func (set HashSet[T]) Evaluate() ExplicitSet[T] {
 	return evaluate[T](set)
 }
 
-func (set explicitSet[T]) String() string {
+func (set HashSet[T]) String() string {
 	return toString[T](set)
 }

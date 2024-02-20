@@ -16,9 +16,9 @@ import (
 // During such evaluation, no intermediate sets must be stored, making the evaluation highly performant
 // and avoiding pressure on the garbage collector.
 func Example_lazyEvaluation() {
-	birds := cantor.NewExplicitSet("eagle", "pigeon", "duck", "swan")
-	mammals := cantor.NewExplicitSet("lion", "pig", "tiger", "giraffe")
-	fishes := cantor.NewExplicitSet("shark", "barracuda", "goldfish", "guppy")
+	birds := cantor.NewHashSet("eagle", "pigeon", "duck", "swan")
+	mammals := cantor.NewHashSet("lion", "pig", "tiger", "giraffe")
+	fishes := cantor.NewHashSet("shark", "barracuda", "goldfish", "guppy")
 
 	// We derive a set animals which contains all given birds, mammals and fishes.
 	animals := birds.Union(mammals).Union(fishes)
@@ -132,8 +132,8 @@ func buildUnionOfIntersectionsOfDifferences(
 		differences := make([]cantor.IterableSet[int], 0, numberOfDifferences)
 
 		for iDifference := 0; iDifference < numberOfDifferences; iDifference++ {
-			set1 := cantor.NewExplicitSet[int]()
-			set2 := cantor.NewExplicitSet[int]()
+			set1 := cantor.NewHashSet[int]()
+			set2 := cantor.NewHashSet[int]()
 
 			for iSample := 0; iSample < numberOfRandomSamplesPerInput; iSample++ {
 				set1.Add(rand.Intn(5 * numberOfRandomSamplesPerInput))
