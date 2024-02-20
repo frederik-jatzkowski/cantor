@@ -53,7 +53,8 @@ func (set HashSet[T]) Union(other Set[T]) DerivedSet[T] {
 	return newIterableUnion[T](set, other)
 }
 
-// Intersect returns a [DerivedSet] that contains any element e where set.Contains(e) and other.Contains(e) are both true.
+// Intersect returns a [DerivedSet] that contains any element e
+// where set.Contains(e) and other.Contains(e) are both true.
 //
 // Any changes made to the underlying [HashSet] or the other [Set] will be reflected in the result.
 func (set HashSet[T]) Intersect(other Container[T]) DerivedSet[T] {
