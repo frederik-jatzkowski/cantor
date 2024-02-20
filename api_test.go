@@ -143,7 +143,7 @@ func RunAllSetTests(constructor func(elements ...int) cantor.Set[int], t *testin
 		}
 	})
 
-	t.Run("Iter", func(t *testing.T) {
+	t.Run("IterateDistinct", func(t *testing.T) {
 		reference := cantor.NewHashSet(1, 2, 3, 4, 5)
 		found := cantor.NewHashSet[int]()
 
@@ -164,7 +164,7 @@ func RunAllSetTests(constructor func(elements ...int) cantor.Set[int], t *testin
 		}
 	})
 
-	t.Run("Iter with break", func(t *testing.T) {
+	t.Run("IterateDistinct with break", func(t *testing.T) {
 		counter := 0
 
 		cantor.NewHashSet(1, 2, 3, 4, 5).IterateDistinct()(func(element int) (next bool) {

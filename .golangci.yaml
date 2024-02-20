@@ -22,5 +22,11 @@ linters:
     - nakedret
     - ireturn
 
+issues:
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - cyclop
+
 run:
   timeout: 5m
