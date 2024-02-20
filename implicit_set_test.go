@@ -16,7 +16,7 @@ func Test_implicitSet_Union(t *testing.T) {
 
 	union := set1.Union(set2)
 
-	cantor.NewHashSet(2, 3, 4, 6).Iter()(func(element int) (next bool) {
+	cantor.NewHashSet(2, 3, 4, 6).IterateDistinct()(func(element int) (next bool) {
 		if !union.Contains(element) {
 			t.Errorf("union did not contain %d", element)
 		}

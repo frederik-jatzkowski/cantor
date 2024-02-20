@@ -5,12 +5,12 @@ import (
 	"strings"
 )
 
-func evaluate[T comparable](set IterableSet[T]) Set[T] {
+func evaluate[T comparable](set ReadableSet[T]) Set[T] {
 	result := HashSet[T]{
 		elements: make(map[T]struct{}),
 	}
 
-	set.Iter()(func(element T) (next bool) {
+	set.IterateDistinct()(func(element T) (next bool) {
 		result.elements[element] = struct{}{}
 
 		return true
@@ -19,10 +19,10 @@ func evaluate[T comparable](set IterableSet[T]) Set[T] {
 	return result
 }
 
-func toString[T comparable](set IterableSet[T]) string {
+func toString[T comparable](set ReadableSet[T]) string {
 	var elements []string
 
-	set.Iter()(func(element T) (next bool) {
+	set.IterateDistinct()(func(element T) (next bool) {
 		elements = append(elements, fmt.Sprint(element))
 
 		return true

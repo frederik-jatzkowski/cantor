@@ -55,7 +55,7 @@ func Example_lazyEvaluation() {
 	fmt.Println(evaluated)    // {giraffe, goldfish, guppy}
 }
 
-func BenchmarkIterableSet_Contains(b *testing.B) {
+func BenchmarkReadableSet_Contains(b *testing.B) {
 	set := buildUnionOfIntersectionsOfDifferences(2, 2, 100000)
 	random := rand.Int()
 
@@ -70,7 +70,7 @@ func BenchmarkIterableSet_Contains(b *testing.B) {
 	}
 }
 
-func BenchmarkIterableSet_Size(b *testing.B) {
+func BenchmarkReadableSet_Size(b *testing.B) {
 	set := buildUnionOfIntersectionsOfDifferences(2, 2, 100000)
 
 	b.ResetTimer()
@@ -84,7 +84,7 @@ func BenchmarkIterableSet_Size(b *testing.B) {
 	}
 }
 
-func BenchmarkIterableSet_Iter(b *testing.B) {
+func BenchmarkReadableSet_Iter(b *testing.B) {
 	set := buildUnionOfIntersectionsOfDifferences(2, 2, 100000)
 
 	b.ResetTimer()
@@ -94,13 +94,13 @@ func BenchmarkIterableSet_Iter(b *testing.B) {
 	// 1000 B/op
 	// 20 allocs/op
 	for i := 0; i < b.N; i++ {
-		set.Iter()(func(element int) (next bool) {
+		set.IterateDistinct()(func(element int) (next bool) {
 			return true
 		})
 	}
 }
 
-func BenchmarkIterableSet_Evaluate(b *testing.B) {
+func BenchmarkReadableSet_Evaluate(b *testing.B) {
 	set := buildUnionOfIntersectionsOfDifferences(2, 2, 100000)
 
 	b.ResetTimer()
@@ -125,11 +125,11 @@ func buildUnionOfIntersectionsOfDifferences(
 	numberOfIntersections int,
 	numberOfDifferences int,
 	numberOfRandomSamplesPerInput int,
-) cantor.IterableSet[int] {
-	intersections := make([]cantor.IterableSet[int], 0, numberOfIntersections)
+) cantor.ReadableSet[int] {
+	intersections := make([]cantor.ReadableSet[int], 0, numberOfIntersections)
 
 	for iIntersection := 0; iIntersection < numberOfIntersections; iIntersection++ {
-		differences := make([]cantor.IterableSet[int], 0, numberOfDifferences)
+		differences := make([]cantor.ReadableSet[int], 0, numberOfDifferences)
 
 		for iDifference := 0; iDifference < numberOfDifferences; iDifference++ {
 			set1 := cantor.NewHashSet[int]()

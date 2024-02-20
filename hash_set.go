@@ -1,6 +1,6 @@
 package cantor
 
-// HashSet implements [Set] using an underlying map.
+// [HashSet] implements [Set] using an underlying map.
 type HashSet[T comparable] struct {
 	elements map[T]struct{}
 }
@@ -38,11 +38,11 @@ func (set HashSet[T]) Contains(element T) bool {
 	return contains
 }
 
-func (set HashSet[T]) Union(other IterableSet[T]) IterableSet[T] {
+func (set HashSet[T]) Union(other ReadableSet[T]) ReadableSet[T] {
 	return newIterableUnion[T](set, other)
 }
 
-func (set HashSet[T]) Intersect(other Container[T]) IterableSet[T] {
+func (set HashSet[T]) Intersect(other Container[T]) ReadableSet[T] {
 	return newIterableIntersection[T](set, other)
 }
 
@@ -50,7 +50,7 @@ func (set HashSet[T]) Complement() ImplicitSet[T] {
 	return newComplement[T](set)
 }
 
-func (set HashSet[T]) Iter() (rangefunc func(yield func(element T) (next bool))) {
+func (set HashSet[T]) IterateDistinct() (rangefunc func(yield func(element T) (next bool))) {
 	return func(yield func(element T) (next bool)) {
 		for element := range set.elements {
 			if !yield(element) {

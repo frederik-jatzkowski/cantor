@@ -147,7 +147,7 @@ func RunAllSetTests(constructor func(elements ...int) cantor.Set[int], t *testin
 		reference := cantor.NewHashSet(1, 2, 3, 4, 5)
 		found := cantor.NewHashSet[int]()
 
-		constructor(1, 2, 3, 4, 5).Iter()(func(element int) (next bool) {
+		constructor(1, 2, 3, 4, 5).IterateDistinct()(func(element int) (next bool) {
 			if !found.Add(element) {
 				t.Errorf("duplicate element: %d", element)
 			}
@@ -167,7 +167,7 @@ func RunAllSetTests(constructor func(elements ...int) cantor.Set[int], t *testin
 	t.Run("Iter with break", func(t *testing.T) {
 		counter := 0
 
-		cantor.NewHashSet(1, 2, 3, 4, 5).Iter()(func(element int) (next bool) {
+		cantor.NewHashSet(1, 2, 3, 4, 5).IterateDistinct()(func(element int) (next bool) {
 			counter++
 
 			return counter < 3
