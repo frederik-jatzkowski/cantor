@@ -64,7 +64,7 @@ func (set iterableIntersection[T]) Size() int {
 	return size
 }
 
-func (set iterableIntersection[T]) Evaluate() ExplicitSet[T] {
+func (set iterableIntersection[T]) Evaluate() Set[T] {
 	return evaluate[T](set)
 }
 

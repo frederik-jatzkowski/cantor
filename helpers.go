@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func evaluate[T comparable](set IterableSet[T]) ExplicitSet[T] {
+func evaluate[T comparable](set IterableSet[T]) Set[T] {
 	result := HashSet[T]{
 		elements: make(map[T]struct{}),
 	}

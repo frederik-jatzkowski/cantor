@@ -12,7 +12,7 @@ import (
 // In cantor, a set can be derived from one or more other sets.
 // All methods on a derived set are computed just in time and reflect changes made to the underlying sets.
 // This allows you to define views on changing data, which are composable and usually very performant.
-// Sometimes, it might be good to evaluate such a derived set into a new ExplicitSet.
+// Sometimes, it might be good to evaluate such a derived set into a new Set.
 // During such evaluation, no intermediate sets must be stored, making the evaluation highly performant
 // and avoiding pressure on the garbage collector.
 func Example_lazyEvaluation() {
@@ -44,7 +44,7 @@ func Example_lazyEvaluation() {
 
 	fmt.Println(searchResult) // {giraffe, goldfish, guppy}
 
-	// We can evaluate the result into a new and independent ExplicitSet.
+	// We can evaluate the result into a new and independent Set.
 	evaluated := searchResult.Evaluate()
 
 	// Changes in the underlying sets of searchResult do not influence this new set.

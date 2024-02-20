@@ -1,6 +1,6 @@
 package cantor
 
-// HashSet implements [ExplicitSet] using an underlying map.
+// HashSet implements [Set] using an underlying map.
 type HashSet[T comparable] struct {
 	elements map[T]struct{}
 }
@@ -64,7 +64,7 @@ func (set HashSet[T]) Size() int {
 	return len(set.elements)
 }
 
-func (set HashSet[T]) Evaluate() ExplicitSet[T] {
+func (set HashSet[T]) Evaluate() Set[T] {
 	return evaluate[T](set)
 }
 

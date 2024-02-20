@@ -64,7 +64,7 @@ func (set iterableUnion[T]) Size() int {
 	return size
 }
 
-func (set iterableUnion[T]) Evaluate() ExplicitSet[T] {
+func (set iterableUnion[T]) Evaluate() Set[T] {
 	return evaluate[T](set)
 }
 

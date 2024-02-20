@@ -6,14 +6,14 @@ package cantor
 import "fmt"
 
 // Container represents any structure, which can implicitly or explicity contain elements.
-// Container is extended by [ImplicitSet], [IterableSet] and [ExplicitSet].
+// Container is extended by [ImplicitSet], [IterableSet] and [Set].
 type Container[T comparable] interface {
 	// Contains must be a deterministic predicate and must not create side effects.
 	Contains(element T) bool
 }
 
 // Iterable represents any structure, which can iterate over a predetermined number of elements.
-// Iterable is extended by [IterableSet] and [ExplicitSet].
+// Iterable is extended by [IterableSet] and [Set].
 type Iterable[T comparable] interface {
 	// Iter returns a rangefunc (https://go.dev/wiki/RangefuncExperiment), which can be used to iterate over all elements.
 	// This rangefunc can be used to yield the elements of a set one by one.
@@ -24,12 +24,12 @@ type Iterable[T comparable] interface {
 	Size() int
 }
 
-// Evaluator represents any structure, that can be evaluated into an [ExplicitSet].
-// Evaluator is extended by [IterableSet] and [ExplicitSet].
+// Evaluator represents any structure, that can be evaluated into an [Set].
+// Evaluator is extended by [IterableSet] and [Set].
 type Evaluator[T comparable] interface {
-	// Evaluate will evaluate the underlying structure into a new and independent ExplicitSet.
+	// Evaluate will evaluate the underlying structure into a new and independent Set.
 	// It is guaranteed, that the result is not influenced by changes to the Evaluator or vice-versa.
-	Evaluate() ExplicitSet[T]
+	Evaluate() Set[T]
 }
 
 // ImplicitSet represents a set, which is only defined by an arbitrary predicate, its Contains()-method.
@@ -50,10 +50,10 @@ type ImplicitSet[T comparable] interface {
 	Complement() ImplicitSet[T]
 }
 
-// IterableSet can be understood as an intermediate between [ImplicitSet] and [ExplicitSet].
+// IterableSet can be understood as an intermediate between [ImplicitSet] and [Set].
 // While the exact size of the set is known and its elements can be enumerated, it does not allow modification.
 // One real world example of this are intervals over integer numbers.
-// IterableSet is extended by [ExplicitSet].
+// IterableSet is extended by [Set].
 type IterableSet[T comparable] interface {
 	Container[T]
 	Iterable[T]
@@ -72,11 +72,11 @@ type IterableSet[T comparable] interface {
 	Complement() ImplicitSet[T]
 }
 
-// ExplicitSet represents sets as collections of arbitrary elements of type T.
+// Set represents sets as collections of arbitrary elements of type T.
 // This freedom usually requires, that all elements are stored in memory.
 // Operations on this type of set are usually very quick.
-// ExplicitSet is implemented by [HashSet].
-type ExplicitSet[T comparable] interface {
+// Set is implemented by [HashSet].
+type Set[T comparable] interface {
 	IterableSet[T]
 
 	// After set.Add(e) was called, set.Contains(e) must return true.
