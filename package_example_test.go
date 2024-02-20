@@ -52,3 +52,19 @@ func Example_lazyEvaluation() {
 	fmt.Println(searchResult) // {giraffe, golden retriever, goldfish, guppy}
 	fmt.Println(evaluated)    // {giraffe, goldfish, guppy}
 }
+
+// Before the implementation of go rangefuncs, you can use IterateDistinct like this:
+func ExampleDistinctIterator() {
+	set := cantor.NewHashSet(1, 2, 2, 3)
+	sum := 0
+
+	set.IterateDistinct()(func(element int) (next bool) {
+		sum += element
+
+		return true
+	})
+
+	fmt.Println(sum) // 6
+	// Output:
+	// 6
+}
