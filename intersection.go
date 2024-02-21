@@ -1,18 +1,18 @@
 package cantor
 
-type iterableIntersection[T comparable] struct {
+type intersection[T comparable] struct {
 	arg  IterableContainer[T]
 	args []Container[T]
 }
 
-func newIterableIntersection[T comparable](arg IterableContainer[T], args ...Container[T]) DerivedSet[T] {
-	return iterableIntersection[T]{
+func newIntersection[T comparable](arg IterableContainer[T], args ...Container[T]) DerivedSet[T] {
+	return intersection[T]{
 		arg:  arg,
 		args: args,
 	}
 }
 
-func (set iterableIntersection[T]) Contains(element T) bool {
+func (set intersection[T]) Contains(element T) bool {
 	if !set.arg.Contains(element) {
 		return false
 	}
@@ -26,19 +26,19 @@ func (set iterableIntersection[T]) Contains(element T) bool {
 	return true
 }
 
-func (set iterableIntersection[T]) Union(other IterableContainer[T]) DerivedSet[T] {
-	return newIterableUnion[T](set, other)
+func (set intersection[T]) Union(other IterableContainer[T]) DerivedSet[T] {
+	return newUnion[T](set, other)
 }
 
-func (set iterableIntersection[T]) Intersect(other Container[T]) DerivedSet[T] {
-	return newIterableIntersection[T](set.arg, append(set.args, other)...)
+func (set intersection[T]) Intersect(other Container[T]) DerivedSet[T] {
+	return newIntersection[T](set.arg, append(set.args, other)...)
 }
 
-func (set iterableIntersection[T]) Complement() ImplicitSet[T] {
+func (set intersection[T]) Complement() ImplicitSet[T] {
 	return newComplement[T](set)
 }
 
-func (set iterableIntersection[T]) Iterator() FunctionIterator[T] {
+func (set intersection[T]) Iterator() FunctionIterator[T] {
 	return func(yield func(element T) (next bool)) {
 		set.arg.Iterator()(func(element T) (next bool) {
 			for _, arg := range set.args {
@@ -52,10 +52,10 @@ func (set iterableIntersection[T]) Iterator() FunctionIterator[T] {
 	}
 }
 
-func (set iterableIntersection[T]) IntoHashSet() HashSet[T] {
+func (set intersection[T]) IntoHashSet() HashSet[T] {
 	return evaluate[T](set)
 }
 
-func (set iterableIntersection[T]) String() string {
+func (set intersection[T]) String() string {
 	return toString[T](set)
 }

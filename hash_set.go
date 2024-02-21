@@ -53,14 +53,14 @@ func (set HashSet[T]) Contains(element T) bool {
 //
 // Any future changes made to the underlying [HashSet] or the other [Set] will be reflected in the result.
 func (set HashSet[T]) Union(other IterableContainer[T]) DerivedSet[T] {
-	return newIterableUnion[T](set, other)
+	return newUnion[T](set, other)
 }
 
 // Intersect returns a DerivedSet representing the set intersection of this set and the argument.
 //
 // Any changes made to the underlying [HashSet] or the other [Set] will be reflected in the result.
 func (set HashSet[T]) Intersect(other Container[T]) DerivedSet[T] {
-	return newIterableIntersection[T](set, other)
+	return newIntersection[T](set, other)
 }
 
 // Complement returns a [ImplicitSet], representing all element not contained in this set.
