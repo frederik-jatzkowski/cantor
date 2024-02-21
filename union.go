@@ -53,15 +53,7 @@ func (set iterableUnion[T]) Iterator() FunctionIterator[T] {
 }
 
 func (set iterableUnion[T]) Size() int {
-	size := 0
-
-	set.Iterator()(func(element T) (next bool) {
-		size++
-
-		return true
-	})
-
-	return size
+	return sizeOf[T](set)
 }
 
 func (set iterableUnion[T]) Evaluate() HashSet[T] {

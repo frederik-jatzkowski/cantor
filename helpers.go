@@ -30,3 +30,13 @@ func toString[T comparable](set Set[T]) string {
 
 	return fmt.Sprintf("{%s}", strings.Join(elements, ", "))
 }
+
+func sizeOf[T comparable](set Set[T]) (size int) {
+	set.Iterator()(func(element T) (next bool) {
+		size++
+
+		return true
+	})
+
+	return size
+}

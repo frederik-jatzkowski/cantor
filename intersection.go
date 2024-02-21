@@ -53,15 +53,7 @@ func (set iterableIntersection[T]) Iterator() FunctionIterator[T] {
 }
 
 func (set iterableIntersection[T]) Size() int {
-	size := 0
-
-	set.Iterator()(func(element T) (next bool) {
-		size++
-
-		return true
-	})
-
-	return size
+	return sizeOf[T](set)
 }
 
 func (set iterableIntersection[T]) Evaluate() HashSet[T] {
