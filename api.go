@@ -1,4 +1,5 @@
-// Package cantor provides a comprehensive implementation of set operations, only constrained by computational practicality.
+// Package cantor provides a comprehensive implementation of set operations,
+// only constrained by computational practicality.
 // In addition to basic set data structures, it  features performant lazy evaluation,
 // infinite sets and set comprehension, exposed through a type safe, generic and extensible api.
 package cantor
@@ -37,7 +38,8 @@ type FunctionIterator[T comparable] func(yield func(element T) (next bool))
 // [DerivedSet] represents a set derived from other sets via set expressions.
 // Method calls on a [DerivedSet] are computed just in time and
 // subsequent calls will reflect changes made to the underlying sets.
-// This requires underlying evaluation, which might be more computationally expensive than equivalent calls on a [HashSet].
+// This requires underlying evaluation, which might be more computationally expensive than
+// equivalent calls on a [HashSet].
 // Since a [DerivedSet] is not fully evaluated, it supports less operations than a [Set].
 //
 // To obtain a [Set] from a [DerivedSet], use the IntoHashSet-method.

@@ -9,7 +9,7 @@ import (
 // In cantor, a set can be derived from one or more other sets.
 // All methods on a derived set are computed just in time and reflect changes made to the underlying sets.
 // This allows you to define real time views on changing data, which are composable and usually very performant.
-func ExampleDerivedSet_1() {
+func ExampleDerivedSet() {
 	var (
 		birds                             = cantor.NewHashSet("eagle", "pigeon")
 		mammals                           = cantor.NewHashSet("lion", "giraffe")
@@ -29,7 +29,7 @@ func ExampleDerivedSet_1() {
 // During such evaluation, no intermediate sets must be stored, making the evaluation highly performant
 // and avoiding pressure on the garbage collector.
 // This is possible due to evaluation of boolean expressions under the hood.
-func ExampleDerivedSet_2() {
+func ExampleDerivedSet_intoHashSet() {
 	var (
 		birds   = cantor.NewHashSet("eagle", "pigeon")
 		mammals = cantor.NewHashSet("lion", "giraffe")
