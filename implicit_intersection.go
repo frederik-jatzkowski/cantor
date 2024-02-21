@@ -4,7 +4,7 @@ type implicitIntersection[T comparable] struct {
 	args []Container[T]
 }
 
-func newImplicitIntersection[T comparable](args ...Container[T]) DerivedImplicitSet[T] {
+func newImplicitIntersection[T comparable](args ...Container[T]) ImplicitSet[T] {
 	return implicitIntersection[T]{
 		args: args,
 	}
@@ -20,14 +20,14 @@ func (set implicitIntersection[T]) Contains(element T) bool {
 	return true
 }
 
-func (set implicitIntersection[T]) Union(other Container[T]) DerivedImplicitSet[T] {
+func (set implicitIntersection[T]) Union(other Container[T]) ImplicitSet[T] {
 	return newImplicitUnion[T](set, other)
 }
 
-func (set implicitIntersection[T]) Intersect(other Container[T]) DerivedImplicitSet[T] {
+func (set implicitIntersection[T]) Intersect(other Container[T]) ImplicitSet[T] {
 	return newImplicitIntersection[T](append(set.args, other)...)
 }
 
-func (set implicitIntersection[T]) Complement() DerivedImplicitSet[T] {
+func (set implicitIntersection[T]) Complement() ImplicitSet[T] {
 	return newComplement[T](set)
 }

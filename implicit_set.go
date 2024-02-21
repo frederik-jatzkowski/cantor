@@ -17,14 +17,14 @@ func (set implicitSet[T]) Contains(element T) bool {
 	return set.predicate(element)
 }
 
-func (set implicitSet[T]) Union(other Container[T]) DerivedImplicitSet[T] {
+func (set implicitSet[T]) Union(other Container[T]) ImplicitSet[T] {
 	return newImplicitUnion[T](set, other)
 }
 
-func (set implicitSet[T]) Intersect(other Container[T]) DerivedImplicitSet[T] {
+func (set implicitSet[T]) Intersect(other Container[T]) ImplicitSet[T] {
 	return newImplicitIntersection[T](set, other)
 }
 
-func (set implicitSet[T]) Complement() DerivedImplicitSet[T] {
+func (set implicitSet[T]) Complement() ImplicitSet[T] {
 	return newComplement[T](set)
 }

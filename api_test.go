@@ -52,7 +52,7 @@ func RunAllSetTests(constructor func(elements ...int) cantor.Set[int], t *testin
 
 		{
 			expected := 5
-			actual := union.Size()
+			actual := union.IntoHashSet().Size()
 			if expected != actual {
 				t.Errorf("expected size to be %d but was %d", expected, actual)
 			}
@@ -73,7 +73,7 @@ func RunAllSetTests(constructor func(elements ...int) cantor.Set[int], t *testin
 
 		{
 			expected := 2
-			actual := intersection.Size()
+			actual := intersection.IntoHashSet().Size()
 			if expected != actual {
 				t.Errorf("expected size to be %d but was %d", expected, actual)
 			}
@@ -138,9 +138,9 @@ func RunAllSetTests(constructor func(elements ...int) cantor.Set[int], t *testin
 		}
 	})
 
-	t.Run("Evaluate", func(t *testing.T) {
+	t.Run("IntoHashSet", func(t *testing.T) {
 		set1 := constructor(1, 2, 3)
-		set2 := set1.Evaluate()
+		set2 := set1.IntoHashSet()
 
 		{
 			expected := set1.Size()

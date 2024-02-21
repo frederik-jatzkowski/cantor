@@ -22,20 +22,6 @@ func BenchmarkSet_Contains(b *testing.B) {
 	}
 }
 
-func BenchmarkSet_Size(b *testing.B) {
-	set := buildUnionOfIntersectionsOfDifferences(2, 2, 100000)
-
-	b.ResetTimer()
-
-	// this benchmark should not exceed on a modern CPU:
-	// 25 ms/op
-	// 1000 B/op
-	// 20 allocs/op
-	for i := 0; i < b.N; i++ {
-		set.Size()
-	}
-}
-
 func BenchmarkSet_Iter(b *testing.B) {
 	set := buildUnionOfIntersectionsOfDifferences(2, 2, 100000)
 
@@ -52,7 +38,7 @@ func BenchmarkSet_Iter(b *testing.B) {
 	}
 }
 
-func BenchmarkSet_Evaluate(b *testing.B) {
+func BenchmarkSet_IntoHashSet(b *testing.B) {
 	set := buildUnionOfIntersectionsOfDifferences(2, 2, 100000)
 
 	b.ResetTimer()
@@ -62,7 +48,7 @@ func BenchmarkSet_Evaluate(b *testing.B) {
 	// 800000 B/op
 	// 750 allocs/op
 	for i := 0; i < b.N; i++ {
-		set.Evaluate()
+		set.IntoHashSet()
 	}
 }
 
@@ -77,11 +63,11 @@ func buildUnionOfIntersectionsOfDifferences(
 	numberOfIntersections int,
 	numberOfDifferences int,
 	numberOfRandomSamplesPerInput int,
-) cantor.Set[int] {
-	intersections := make([]cantor.Set[int], 0, numberOfIntersections)
+) cantor.DerivedSet[int] {
+	intersections := make([]cantor.DerivedSet[int], 0, numberOfIntersections)
 
 	for iIntersection := 0; iIntersection < numberOfIntersections; iIntersection++ {
-		differences := make([]cantor.Set[int], 0, numberOfDifferences)
+		differences := make([]cantor.DerivedSet[int], 0, numberOfDifferences)
 
 		for iDifference := 0; iDifference < numberOfDifferences; iDifference++ {
 			set1 := cantor.NewHashSet[int]()

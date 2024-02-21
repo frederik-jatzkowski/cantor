@@ -1,11 +1,11 @@
 package cantor
 
 type iterableIntersection[T comparable] struct {
-	arg  Set[T]
+	arg  IterableContainer[T]
 	args []Container[T]
 }
 
-func newIterableIntersection[T comparable](arg Set[T], args ...Container[T]) Set[T] {
+func newIterableIntersection[T comparable](arg IterableContainer[T], args ...Container[T]) DerivedSet[T] {
 	return iterableIntersection[T]{
 		arg:  arg,
 		args: args,
@@ -26,7 +26,7 @@ func (set iterableIntersection[T]) Contains(element T) bool {
 	return true
 }
 
-func (set iterableIntersection[T]) Union(other Set[T]) DerivedSet[T] {
+func (set iterableIntersection[T]) Union(other IterableContainer[T]) DerivedSet[T] {
 	return newIterableUnion[T](set, other)
 }
 
@@ -34,7 +34,7 @@ func (set iterableIntersection[T]) Intersect(other Container[T]) DerivedSet[T] {
 	return newIterableIntersection[T](set.arg, append(set.args, other)...)
 }
 
-func (set iterableIntersection[T]) Complement() DerivedImplicitSet[T] {
+func (set iterableIntersection[T]) Complement() ImplicitSet[T] {
 	return newComplement[T](set)
 }
 
@@ -52,11 +52,7 @@ func (set iterableIntersection[T]) Iterator() FunctionIterator[T] {
 	}
 }
 
-func (set iterableIntersection[T]) Size() int {
-	return sizeOf[T](set)
-}
-
-func (set iterableIntersection[T]) Evaluate() HashSet[T] {
+func (set iterableIntersection[T]) IntoHashSet() HashSet[T] {
 	return evaluate[T](set)
 }
 

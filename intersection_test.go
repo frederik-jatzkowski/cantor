@@ -14,7 +14,7 @@ func Test_intersection_Union(t *testing.T) {
 
 	{
 		expected := 2
-		actual := union.Size()
+		actual := union.IntoHashSet().Size()
 		if expected != actual {
 			t.Errorf("expected size to be %d but was %d", expected, actual)
 		}
@@ -49,7 +49,7 @@ func Test_intersection_Intersection(t *testing.T) {
 
 	{
 		expected := 1
-		actual := intersection.Size()
+		actual := intersection.IntoHashSet().Size()
 		if expected != actual {
 			t.Errorf("expected size to be %d but was %d", expected, actual)
 		}
@@ -107,12 +107,12 @@ func Test_intersection_IterBreak(t *testing.T) {
 	}
 }
 
-func Test_intersection_Evaluate(t *testing.T) {
+func Test_intersection_IntoHashSet(t *testing.T) {
 	set := cantor.NewHashSet(1, 2).Intersect(cantor.NewHashSet(3, 4))
-	evaluated := set.Evaluate()
+	evaluated := set.IntoHashSet()
 
 	{
-		expected := set.Size()
+		expected := set.IntoHashSet().Size()
 		actual := evaluated.Size()
 		if expected != actual {
 			t.Errorf("expected size to be %d but was %d", expected, actual)

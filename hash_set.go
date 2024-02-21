@@ -1,6 +1,7 @@
 package cantor
 
 // [HashSet] implements [Set] using an underlying hash map.
+// This allows constant average time complexity for [HashSet.Add], [HashSet.Remove] and [HashSet.Contains].
 type HashSet[T comparable] struct {
 	elements map[T]struct{}
 }
@@ -19,7 +20,8 @@ func NewHashSet[T comparable](elements ...T) HashSet[T] {
 	return result
 }
 
-// Add adds element and returns wether this actually changed the [HashSet].
+// Add adds element and returns true if this operation actually changed the [HashSet].
+// If the element was already contained, this leaves the set unchanged and returns false.
 //
 // This change will be reflected in sets, which are derived from this set.
 func (set HashSet[T]) Add(element T) (wasAdded bool) {
@@ -29,7 +31,8 @@ func (set HashSet[T]) Add(element T) (wasAdded bool) {
 	return before < len(set.elements)
 }
 
-// Remove removes element and returns wether this actually changed the [HashSet].
+// Remove removes element and returns true if this operation actually changed the [HashSet].
+// If the element was not in the set, this leaves the set unchanged and returns false.
 //
 // This change will be reflected in sets, which are derived from this set.
 func (set HashSet[T]) Remove(element T) (wasRemoved bool) {
@@ -39,32 +42,32 @@ func (set HashSet[T]) Remove(element T) (wasRemoved bool) {
 	return before > len(set.elements)
 }
 
-// Contains returns wether the element is contained in this [HashSet].
+// Contains returns whether the element is contained in this [HashSet].
 func (set HashSet[T]) Contains(element T) bool {
 	_, contains := set.elements[element]
 
 	return contains
 }
 
-// Union returns a [DerivedSet] that contains any element e where set.Contains(e) or other.Contains(e) is true.
+// Union returns a DerivedSet representing the set union of this set and the argument.
 //
 // Any future changes made to the underlying [HashSet] or the other [Set] will be reflected in the result.
-func (set HashSet[T]) Union(other Set[T]) DerivedSet[T] {
+func (set HashSet[T]) Union(other IterableContainer[T]) DerivedSet[T] {
 	return newIterableUnion[T](set, other)
 }
 
-// Intersect returns a [DerivedSet] that contains any element e
-// where set.Contains(e) and other.Contains(e) are both true.
+// Intersect returns a DerivedSet representing the set intersection of this set and the argument.
 //
 // Any changes made to the underlying [HashSet] or the other [Set] will be reflected in the result.
 func (set HashSet[T]) Intersect(other Container[T]) DerivedSet[T] {
 	return newIterableIntersection[T](set, other)
 }
 
-// Complement returns a [DerivedImplicitSet], which contains any element e, where set.Contains(e) is false.
+// Complement returns a [ImplicitSet], representing all element not contained in this set.
+// This might represent infinitely many elements.
 //
 // Any changes made to the underlying [HashSet] will be reflected in the result.
-func (set HashSet[T]) Complement() DerivedImplicitSet[T] {
+func (set HashSet[T]) Complement() ImplicitSet[T] {
 	return newComplement[T](set)
 }
 
@@ -86,8 +89,8 @@ func (set HashSet[T]) Size() int {
 	return len(set.elements)
 }
 
-// Evaluate copies this [HashSet] and is needed to implement [Set].
-func (set HashSet[T]) Evaluate() HashSet[T] {
+// IntoHashSet copies this [HashSet] and is needed to implement [Set].
+func (set HashSet[T]) IntoHashSet() HashSet[T] {
 	return evaluate[T](set)
 }
 

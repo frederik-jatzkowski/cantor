@@ -43,7 +43,7 @@ func Example_derivedSets() {
 	fmt.Println(searchResult) // {giraffe, goldfish, guppy}
 
 	// We can evaluate the result into a new and independent Set.
-	evaluated := searchResult.Evaluate()
+	evaluated := searchResult.IntoHashSet()
 
 	// Changes in the underlying sets of searchResult do not influence this new set.
 	// Additionally, operations on the evaluated set are more performant.

@@ -1,73 +1,30 @@
-// Package cantor provides a comprehensive implementation of set theory, only constrained by computational practicality.
+// Package cantor provides a comprehensive implementation of set operations, only constrained by computational practicality.
 // In addition to basic set data structures, it  features performant lazy evaluation,
 // infinite sets and set comprehension, exposed through a type safe, generic and extensible api.
 package cantor
 
 import "fmt"
 
-// [Container] represents any structure, which can implicitly or explicity contain elements.
+// [Container] represents any structure, which can implicitly or explicitly contain elements.
+//
+// [Container] is extended by [ImplicitSet] and [IterableContainer].
 type Container[T comparable] interface {
 	// Contains must be a deterministic predicate and must not create side effects.
 	Contains(element T) bool
 }
 
-// [ImplicitSet] represents a set, which is only defined by an arbitrary predicate, its Contains-method.
-// Thus, an [ImplicitSet] can represent an infinite amount of elements without performance or memory overhead.
-// Due to the unconstrained nature, this type of set can only be used in places,
-// where no enumeration of elements is required.
-type ImplicitSet[T comparable] interface {
-	Container[T]
-
-	// Union provides the set union of this ImplicitSet and any other value with a Contains-method as a DerivedImplicitSet.
-	Union(other Container[T]) DerivedImplicitSet[T]
-
-	// Intersect provides the set intersection of this ImplicitSet and any other value with a
-	// Contains-method as a DerivedImplicitSet.
-	Intersect(other Container[T]) DerivedImplicitSet[T]
-
-	// Complement provides a DerivedImplicitSet, which contains all elements that are not contained in this ImplicitSet.
-	Complement() DerivedImplicitSet[T]
-}
-
-// [Set] represents a collection of unique and enumerable elements, which has a limited, known size.
+// [IterableContainer] is a [Container] whose elements can be iterated.
+// For use in cantor set expressions, all iterated elements must be deduplicated.
 //
-// [Set] is implemented by [HashSet].
-type Set[T comparable] interface {
+// [IterableContainer] is extended by [DerivedSet].
+type IterableContainer[T comparable] interface {
 	Container[T]
-	fmt.Stringer
-
-	// Size returns the number of unique elements in this set.
-	Size() int
 
 	// Iterator returns a function iterator (https://go.dev/wiki/RangefuncExperiment), which can be used for iteration.
 	// This function iterator can be used to yield the elements of a set one by one.
 	// Iteration is stopped, if the yield function returns false.
 	Iterator() FunctionIterator[T]
-
-	// Union returns a DerivedSet containing the set union of two Sets.
-	Union(other Set[T]) DerivedSet[T]
-
-	// Intersect returns a DerivedSet containing the set intersection of this Set and a Container.
-	Intersect(other Container[T]) DerivedSet[T]
-
-	// Complement provides a DerivedImplicitSet, which contains all elements that are not contained in this Set.
-	// Since the result might be infinite, its elements cannot be enumerated anymore and is only implicit.
-	Complement() DerivedImplicitSet[T]
-
-	// Evaluate will evaluate the underlying Set into a new and independent HashSet.
-	// It is guaranteed, that the result is not influenced by changes to the Evaluator or vice-versa.
-	Evaluate() HashSet[T]
 }
-
-// [DerivedSet] is an alias to [Set].
-// It indicates that this set is derived from other sets and will reflect changes made to those underlying sets.
-// Additionally, methods on a [DerivedSet] might require underlying evaluation,
-// that is more expensive than calling the same methods on an evaluated [HashSet] directly.
-type DerivedSet[T comparable] Set[T]
-
-// [DerivedImplicitSet] is an alias to [ImplicitSet].
-// It indicates that this set is derived from other sets and will reflect changes made to those underlying sets.
-type DerivedImplicitSet[T comparable] ImplicitSet[T]
 
 // [FunctionIterator] is a function that can be used to iterate over elements.
 // Iteration will be started by calling the iterator with a yield callback.
@@ -76,3 +33,58 @@ type DerivedImplicitSet[T comparable] ImplicitSet[T]
 //
 // This interface is inspired by the rangefunc experiment: https://go.dev/wiki/RangefuncExperiment.
 type FunctionIterator[T comparable] func(yield func(element T) (next bool))
+
+// [DerivedSet] represents a set derived from other sets via set expressions.
+// Method calls on a [DerivedSet] are computed just in time and
+// subsequent calls will reflect changes made to the underlying sets.
+// This requires underlying evaluation, which might be more computationally expensive than equivalent calls on a [HashSet].
+// Since a [DerivedSet] is not fully evaluated, it supports less operations than a [Set].
+//
+// To obtain a [Set] from a [DerivedSet], use the IntoHashSet-method.
+//
+// [DerivedSet] is extended by [Set].
+type DerivedSet[T comparable] interface {
+	IterableContainer[T]
+	fmt.Stringer
+
+	// Union returns a DerivedSet representing the set union of its arguments.
+	Union(other IterableContainer[T]) DerivedSet[T]
+
+	// Intersect returns a DerivedSet representing the set intersection its arguments.
+	Intersect(other Container[T]) DerivedSet[T]
+
+	// Complement provides an ImplicitSet, which represents all elements that are not contained in this Set.
+	// This result might be infinite, thus its elements cannot be iterated and it can only be defined implicitly.
+	Complement() ImplicitSet[T]
+
+	// IntoHashSet will create an independent HashSet from the elements of this DerivedSet.
+	IntoHashSet() HashSet[T]
+}
+
+// [Set] represents a collection of unique and enumerable elements, which has a limited, known size.
+// As a [Set] is fully evaluated, it supports more operations than a [DerivedSet].
+//
+// [Set] is implemented by [HashSet].
+type Set[T comparable] interface {
+	DerivedSet[T]
+
+	// Size returns the number of unique elements in this Set.
+	Size() int
+}
+
+// [ImplicitSet] represents a set, which is only defined by an arbitrary predicate, its Contains-method.
+// Thus, an [ImplicitSet] can represent an infinite amount of elements without performance or memory overhead.
+// Due to its unconstrained nature, this type of set can only be used in places,
+// where no iteration of elements is required.
+type ImplicitSet[T comparable] interface {
+	Container[T]
+
+	// Union returns an Implicit set representing the set union of its arguments.
+	Union(other Container[T]) ImplicitSet[T]
+
+	// Intersect returns an Implicit set representing the set intersection of its arguments.
+	Intersect(other Container[T]) ImplicitSet[T]
+
+	// Complement returns an ImplicitSet, that contains all elements where set.Contains() is false.
+	Complement() ImplicitSet[T]
+}

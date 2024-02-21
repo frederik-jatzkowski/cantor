@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func evaluate[T comparable](set Set[T]) HashSet[T] {
+func evaluate[T comparable](set IterableContainer[T]) HashSet[T] {
 	result := HashSet[T]{
 		elements: make(map[T]struct{}),
 	}
@@ -19,7 +19,7 @@ func evaluate[T comparable](set Set[T]) HashSet[T] {
 	return result
 }
 
-func toString[T comparable](set Set[T]) string {
+func toString[T comparable](set IterableContainer[T]) string {
 	var elements []string
 
 	set.Iterator()(func(element T) (next bool) {
@@ -29,14 +29,4 @@ func toString[T comparable](set Set[T]) string {
 	})
 
 	return fmt.Sprintf("{%s}", strings.Join(elements, ", "))
-}
-
-func sizeOf[T comparable](set Set[T]) (size int) {
-	set.Iterator()(func(element T) (next bool) {
-		size++
-
-		return true
-	})
-
-	return size
 }

@@ -1,10 +1,10 @@
 package cantor
 
 type iterableUnion[T comparable] struct {
-	args []Set[T]
+	args []IterableContainer[T]
 }
 
-func newIterableUnion[T comparable](args ...Set[T]) Set[T] {
+func newIterableUnion[T comparable](args ...IterableContainer[T]) DerivedSet[T] {
 	return iterableUnion[T]{
 		args: args,
 	}
@@ -20,7 +20,7 @@ func (set iterableUnion[T]) Contains(element T) bool {
 	return false
 }
 
-func (set iterableUnion[T]) Union(other Set[T]) DerivedSet[T] {
+func (set iterableUnion[T]) Union(other IterableContainer[T]) DerivedSet[T] {
 	return newIterableUnion[T](append(set.args, other)...)
 }
 
@@ -28,7 +28,7 @@ func (set iterableUnion[T]) Intersect(other Container[T]) DerivedSet[T] {
 	return newIterableIntersection[T](set, other)
 }
 
-func (set iterableUnion[T]) Complement() DerivedImplicitSet[T] {
+func (set iterableUnion[T]) Complement() ImplicitSet[T] {
 	return newComplement[T](set)
 }
 
@@ -52,11 +52,7 @@ func (set iterableUnion[T]) Iterator() FunctionIterator[T] {
 	}
 }
 
-func (set iterableUnion[T]) Size() int {
-	return sizeOf[T](set)
-}
-
-func (set iterableUnion[T]) Evaluate() HashSet[T] {
+func (set iterableUnion[T]) IntoHashSet() HashSet[T] {
 	return evaluate[T](set)
 }
 
