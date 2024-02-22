@@ -17,12 +17,15 @@ func ExampleDerivedSet() {
 		animals cantor.DerivedSet[string] = birds.Union(mammals).Union(fishes)
 	)
 
-	fmt.Println(animals) // {pigeon, eagle, lion, giraffe, goldfish, shark}
+	fmt.Println(animals.Contains("dog")) // false
 
 	mammals.Add("dog")
 
 	// The derived set animals reflects the change of the underlying set mammals.
-	fmt.Println(animals) // {pigeon, eagle, lion, giraffe, dog, shark, goldfish}
+	fmt.Println(animals.Contains("dog")) // true
+	// Output:
+	// false
+	// true
 }
 
 // Sometimes, it might be beneficial to evaluate such a DerivedSet into an independent Set.
@@ -37,12 +40,16 @@ func ExampleDerivedSet_intoHashSet() {
 		animals = birds.Union(mammals).Union(fishes).IntoHashSet()
 	)
 
-	fmt.Println(animals) // {pigeon, eagle, lion, giraffe, goldfish, shark}
+	fmt.Println(animals.Contains("dog")) // false
 
 	mammals.Add("dog")
 
-	// Since we evaluated all animals into a hash set, changes to the set mammals are not reflected anymore.
-	fmt.Println(animals) // {pigeon, eagle, lion, giraffe, goldfish, shark}
+	// Since we evaluated all animals into a HashSet, changes to the set mammals are not reflected anymore.
+	// This effectively took a snapshot at the time of the evaluation.
+	fmt.Println(animals.Contains("dog")) // false
+	// Output:
+	// false
+	// false
 }
 
 // Before the implementation of go rangefuncs, you can use a FunctionIterator like this.
