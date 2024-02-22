@@ -37,7 +37,7 @@ func vote(person Person, inFavor bool) error {
 
 // Set operations can be used to implement business logic.
 // In this example, sets are used to control access during an election and keep track of people, who already voted.
-func Example_realWorldApplication() {
+func Example_accessControl() {
 	// Mary and Jeff can without any issue.
 	fmt.Println(vote(Person{"Mary", 48}, true))
 	fmt.Println(vote(Person{"Jeff", 21}, false))
