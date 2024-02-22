@@ -1,13 +1,13 @@
 package cantor
 
 type implicitSet[T comparable] struct {
-	predicate func(element T) bool
+	predicate Predicate[T]
 }
 
-// NewImplicitSet returns an [ImplicitSet] representing all elements e where predicate(e) is true.
+// NewImplicitSet returns an [ImplicitSet] representing all elements e where the given [Predicate] returns true.
 // By using closures, the behaviour of the predicate might change, effectively changing this set.
 // Such changes might be reflected in sets derived from this one.
-func NewImplicitSet[T comparable](predicate func(element T) bool) ImplicitSet[T] {
+func NewImplicitSet[T comparable](predicate Predicate[T]) ImplicitSet[T] {
 	return implicitSet[T]{
 		predicate: predicate,
 	}

@@ -14,6 +14,9 @@ type Container[T comparable] interface {
 	Contains(element T) bool
 }
 
+// [Predicate] is a type of function that receives an element and returns a boolean value, indicating set membership.
+type Predicate[T comparable] func(element T) bool
+
 // [IterableContainer] is a [Container] whose elements can be iterated.
 // For use in cantor set expressions, all iterated elements must be deduplicated.
 //
