@@ -23,7 +23,7 @@ var canVote = citizen.Intersect(offAge).Intersect(hasVoted.Complement())
 
 func vote(person Person, inFavor bool) error {
 	if !canVote.Contains(person) {
-		return fmt.Errorf("%v cannot vote", person)
+		return fmt.Errorf("invalid vote by %v", person)
 	}
 
 	if inFavor {
@@ -52,13 +52,12 @@ func Example_accessControl() {
 	fmt.Println(vote(Person{"Bob", 17}, false))
 
 	fmt.Printf("%d out of %d valid votes were in favor\n", votesInFavor, hasVoted.Size())
-
 	// Output:
 	// <nil>
 	// <nil>
-	// {Charles 19} cannot vote
-	// {Jeff 21} cannot vote
-	// {Bob 17} cannot vote
+	// invalid vote by {Charles 19}
+	// invalid vote by {Jeff 21}
+	// invalid vote by {Bob 17}
 	// 1 out of 2 valid votes were in favor
 }
 

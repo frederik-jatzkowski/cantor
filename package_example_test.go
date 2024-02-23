@@ -84,7 +84,6 @@ func Example_deltaOfDatasets() {
 	fmt.Println("added:", added)
 	fmt.Println("removed:", removed)
 	fmt.Println("unchanged:", unchanged)
-
 	// Output:
 	// added: {Bob}
 	// removed: {Charles}
