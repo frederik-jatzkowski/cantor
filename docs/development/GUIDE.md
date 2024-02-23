@@ -1,4 +1,4 @@
-[<- back](../DOCS.md)
+[<- README](../../README.md#development-guide)
 
 # Development Guide
 
