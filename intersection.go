@@ -38,9 +38,9 @@ func (set intersection[T]) Complement() ImplicitSet[T] {
 	return newComplement[T](set)
 }
 
-func (set intersection[T]) Iterator() FunctionIterator[T] {
+func (set intersection[T]) UniqueElements() ElementIterator[T] {
 	return func(yield func(element T) (next bool)) {
-		set.arg.Iterator()(func(element T) (next bool) {
+		set.arg.UniqueElements()(func(element T) (next bool) {
 			for _, arg := range set.args {
 				if !arg.Contains(element) {
 					return true

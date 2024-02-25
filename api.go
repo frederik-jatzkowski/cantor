@@ -24,19 +24,19 @@ type Predicate[T comparable] func(element T) bool
 type IterableContainer[T comparable] interface {
 	Container[T]
 
-	// Iterator returns a function iterator (https://go.dev/wiki/RangefuncExperiment), which can be used for iteration.
-	// This function iterator can be used to yield the elements of a set one by one.
+	// UniqueElements returns an [ElementIterator] (https://go.dev/wiki/RangefuncExperiment).
+	// This [ElementIterator] can be used to yield the elements of a set one by one.
 	// Iteration is stopped, if the yield function returns false.
-	Iterator() FunctionIterator[T]
+	UniqueElements() ElementIterator[T]
 }
 
-// [FunctionIterator] is a function that can be used to iterate over elements.
+// [ElementIterator] is a function that can be used to iterate over elements.
 // Iteration will be started by calling the iterator with a yield callback.
 // This callback will be run for each element.
 // Once the yield function returns false, iteration is stopped, just like a break-statement in a loop.
 //
 // This interface is inspired by the rangefunc experiment: https://go.dev/wiki/RangefuncExperiment.
-type FunctionIterator[T comparable] func(yield func(element T) (next bool))
+type ElementIterator[T comparable] func(yield func(element T) (next bool))
 
 // [DerivedSet] represents a set derived from other sets via set expressions.
 // Method calls on a [DerivedSet] are computed just in time and

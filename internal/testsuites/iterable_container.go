@@ -16,7 +16,7 @@ func RunTestsForIterableContainer(t *testing.T, constructor Constructor[byte, ca
 	})
 
 	t.Run("iterator on empty set", func(t *testing.T) {
-		constructor().Iterator()(func(element byte) bool {
+		constructor().UniqueElements()(func(element byte) bool {
 			t.Errorf("unexpected element during iteration: %d", element)
 
 			return true
@@ -29,7 +29,7 @@ func RunTestsForIterableContainer(t *testing.T, constructor Constructor[byte, ca
 
 		found := cantor.NewHashSet[byte]()
 
-		container.Iterator()(func(element byte) bool {
+		container.UniqueElements()(func(element byte) bool {
 			if found.Contains(element) {
 				t.Errorf("duplicate element: %d", element)
 			}
@@ -54,7 +54,7 @@ func RunTestsForIterableContainer(t *testing.T, constructor Constructor[byte, ca
 
 		found := cantor.NewHashSet[byte]()
 
-		container.Iterator()(func(element byte) bool {
+		container.UniqueElements()(func(element byte) bool {
 			if found.Contains(element) {
 				t.Errorf("duplicate element: %d", element)
 			}
@@ -78,7 +78,7 @@ func RunTestsForIterableContainer(t *testing.T, constructor Constructor[byte, ca
 
 		sum := 0
 		limit := 100
-		container.Iterator()(func(element byte) bool {
+		container.UniqueElements()(func(element byte) bool {
 			if sum > limit {
 				t.Errorf("element yielded after break: %d", element)
 			}
@@ -102,7 +102,7 @@ func RunTestsForIterableContainer(t *testing.T, constructor Constructor[byte, ca
 		container := constructor(expected...)
 
 		found := cantor.NewHashSet[byte]()
-		container.Iterator()(func(element byte) bool {
+		container.UniqueElements()(func(element byte) bool {
 			if found.Contains(element) {
 				t.Errorf("duplicate element: %d", element)
 			}
