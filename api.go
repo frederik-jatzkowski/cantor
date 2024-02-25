@@ -8,7 +8,7 @@ import "fmt"
 
 // [Container] represents any structure, which can implicitly or explicitly contain elements.
 //
-// [Container] is extended by [ImplicitSet] and [IterableContainer].
+// [Container] is extended by [ImplicitSet] and [DeduplicatingIterableContainer].
 type Container[T comparable] interface {
 	// Contains must be a deterministic predicate and must not create side effects.
 	Contains(element T) bool
@@ -17,11 +17,11 @@ type Container[T comparable] interface {
 // [Predicate] is a type of function that receives an element and returns a boolean value, indicating set membership.
 type Predicate[T comparable] func(element T) bool
 
-// [IterableContainer] is a [Container] whose elements can be iterated.
-// For use in cantor set expressions, all iterated elements must be deduplicated.
+// [DeduplicatingIterableContainer] is a [Container] whose elements can be iterated.
+// All iterated elements must be deduplicated and thus be pairwise unequal.
 //
-// [IterableContainer] is extended by [DerivedSet].
-type IterableContainer[T comparable] interface {
+// [DeduplicatingIterableContainer] is extended by [DerivedSet].
+type DeduplicatingIterableContainer[T comparable] interface {
 	Container[T]
 
 	// UniqueElements returns an [ElementIterator] (https://go.dev/wiki/RangefuncExperiment).
@@ -49,11 +49,11 @@ type ElementIterator[T comparable] func(yield func(element T) (next bool))
 //
 // [DerivedSet] is extended by [Set].
 type DerivedSet[T comparable] interface {
-	IterableContainer[T]
+	DeduplicatingIterableContainer[T]
 	fmt.Stringer
 
 	// Union returns a DerivedSet representing the set union of its arguments.
-	Union(other IterableContainer[T]) DerivedSet[T]
+	Union(other DeduplicatingIterableContainer[T]) DerivedSet[T]
 
 	// Intersect returns a DerivedSet representing the set intersection its arguments.
 	Intersect(other Container[T]) DerivedSet[T]

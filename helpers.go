@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func evaluate[T comparable](set IterableContainer[T]) HashSet[T] {
+func evaluate[T comparable](set DeduplicatingIterableContainer[T]) HashSet[T] {
 	result := HashSet[T]{
 		elements: make(map[T]struct{}),
 	}
@@ -19,7 +19,7 @@ func evaluate[T comparable](set IterableContainer[T]) HashSet[T] {
 	return result
 }
 
-func toString[T comparable](set IterableContainer[T]) string {
+func toString[T comparable](set DeduplicatingIterableContainer[T]) string {
 	var elements []string
 
 	set.UniqueElements()(func(element T) (next bool) {

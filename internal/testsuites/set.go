@@ -9,7 +9,7 @@ import (
 // RunTestsForSet runs a test suite to check correct implementation of
 // [pkg/github.com/frederik-jatzkowski/cantor.Set].
 func RunTestsForSet(t *testing.T, constructor Constructor[byte, cantor.Set[byte]]) {
-	t.Run("IterableContainer", func(t *testing.T) {
+	t.Run("DeduplicatingIterableContainer", func(t *testing.T) {
 		RunTestsForDerivedSet(t, func(elements ...byte) cantor.DerivedSet[byte] {
 			return constructor(elements...)
 		})

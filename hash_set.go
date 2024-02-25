@@ -52,7 +52,7 @@ func (set HashSet[T]) Contains(element T) bool {
 // Union returns a DerivedSet representing the set union of this set and the argument.
 //
 // Any future changes made to the underlying [HashSet] or the other [Set] will be reflected in the result.
-func (set HashSet[T]) Union(other IterableContainer[T]) DerivedSet[T] {
+func (set HashSet[T]) Union(other DeduplicatingIterableContainer[T]) DerivedSet[T] {
 	return newUnion[T](set, other)
 }
 

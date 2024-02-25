@@ -6,9 +6,9 @@ import (
 	"github.com/frederik-jatzkowski/cantor"
 )
 
-// RunTestsForIterableContainer runs a test suite to check correct implementation of
-// [pkg/github.com/frederik-jatzkowski/cantor.IterableContainer].
-func RunTestsForIterableContainer(t *testing.T, constructor Constructor[byte, cantor.IterableContainer[byte]]) {
+// RunTestsForDeduplicatingIterableContainer runs a test suite to check correct implementation of
+// [pkg/github.com/frederik-jatzkowski/cantor.DeduplicatingIterableContainer].
+func RunTestsForDeduplicatingIterableContainer(t *testing.T, constructor Constructor[byte, cantor.DeduplicatingIterableContainer[byte]]) {
 	t.Run("Container", func(t *testing.T) {
 		RunTestsForContainer(t, func(elements ...byte) cantor.Container[byte] {
 			return constructor(elements...)

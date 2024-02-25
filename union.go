@@ -1,10 +1,10 @@
 package cantor
 
 type union[T comparable] struct {
-	args []IterableContainer[T]
+	args []DeduplicatingIterableContainer[T]
 }
 
-func newUnion[T comparable](args ...IterableContainer[T]) DerivedSet[T] {
+func newUnion[T comparable](args ...DeduplicatingIterableContainer[T]) DerivedSet[T] {
 	return union[T]{
 		args: args,
 	}
@@ -20,7 +20,7 @@ func (set union[T]) Contains(element T) bool {
 	return false
 }
 
-func (set union[T]) Union(other IterableContainer[T]) DerivedSet[T] {
+func (set union[T]) Union(other DeduplicatingIterableContainer[T]) DerivedSet[T] {
 	return newUnion[T](append(set.args, other)...)
 }
 

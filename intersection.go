@@ -1,11 +1,11 @@
 package cantor
 
 type intersection[T comparable] struct {
-	arg  IterableContainer[T]
+	arg  DeduplicatingIterableContainer[T]
 	args []Container[T]
 }
 
-func newIntersection[T comparable](arg IterableContainer[T], args ...Container[T]) DerivedSet[T] {
+func newIntersection[T comparable](arg DeduplicatingIterableContainer[T], args ...Container[T]) DerivedSet[T] {
 	return intersection[T]{
 		arg:  arg,
 		args: args,
@@ -26,7 +26,7 @@ func (set intersection[T]) Contains(element T) bool {
 	return true
 }
 
-func (set intersection[T]) Union(other IterableContainer[T]) DerivedSet[T] {
+func (set intersection[T]) Union(other DeduplicatingIterableContainer[T]) DerivedSet[T] {
 	return newUnion[T](set, other)
 }
 
