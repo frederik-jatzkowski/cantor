@@ -32,12 +32,12 @@ func (set union[T]) Complement() ImplicitSet[T] {
 	return newComplement[T](set)
 }
 
-func (set union[T]) UniqueElements() ElementIterator[T] {
+func (set union[T]) UniqueKeys() Iterator[T] {
 	return func(yield func(element T) (next bool)) {
 		for i := 0; i < len(set.args); i++ {
 			arg := set.args[i]
 
-			arg.UniqueElements()(func(element T) (next bool) {
+			arg.UniqueKeys()(func(element T) (next bool) {
 				for i2 := 0; i2 < i; i2++ {
 					arg2 := set.args[i2]
 

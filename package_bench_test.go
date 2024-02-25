@@ -32,7 +32,7 @@ func BenchmarkSet_Iter(b *testing.B) {
 	// 1000 B/op
 	// 20 allocs/op
 	for i := 0; i < b.N; i++ {
-		set.UniqueElements()(func(element int) (next bool) {
+		set.UniqueKeys()(func(element int) (next bool) {
 			return true
 		})
 	}

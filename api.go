@@ -9,13 +9,13 @@ import "fmt"
 // [Container] represents any structure, which can implicitly or explicitly contain elements.
 //
 // [Container] is extended by [ImplicitSet] and [DeduplicatingIterableContainer].
-type Container[T comparable] interface {
+type Container[T any] interface {
 	// Contains must be a deterministic predicate and must not create side effects.
 	Contains(element T) bool
 }
 
 // [Predicate] is a type of function that receives an element and returns a boolean value, indicating set membership.
-type Predicate[T comparable] func(element T) bool
+type Predicate[T any] func(element T) bool
 
 // [DeduplicatingIterableContainer] is a [Container] whose elements can be iterated.
 // All iterated elements must be deduplicated and thus be pairwise unequal.
@@ -24,19 +24,19 @@ type Predicate[T comparable] func(element T) bool
 type DeduplicatingIterableContainer[T comparable] interface {
 	Container[T]
 
-	// UniqueElements returns an [ElementIterator] (https://go.dev/wiki/RangefuncExperiment).
-	// This [ElementIterator] can be used to yield the elements of a set one by one.
+	// UniqueKeys returns an [Iterator] (https://go.dev/wiki/RangefuncExperiment).
+	// This [Iterator] can be used to yield the elements of a set one by one.
 	// Iteration is stopped, if the yield function returns false.
-	UniqueElements() ElementIterator[T]
+	UniqueKeys() Iterator[T]
 }
 
-// [ElementIterator] is a function that can be used to iterate over elements.
+// [Iterator] is a function that can be used to iterate over elements.
 // Iteration starts when the iterator is called with a yield callback.
 // This callback will be run for each element.
 // Once the yield callback returns false, iteration is stopped, just like a break-statement in a loop.
 //
 // This interface is inspired by the rangefunc experiment: https://go.dev/wiki/RangefuncExperiment.
-type ElementIterator[T comparable] func(yield func(element T) (next bool))
+type Iterator[T any] func(yield func(element T) (next bool))
 
 // [DerivedSet] represents a set derived from other sets via set expressions.
 // Method calls on a [DerivedSet] are computed just in time and

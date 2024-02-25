@@ -71,10 +71,10 @@ func (set HashSet[T]) Complement() ImplicitSet[T] {
 	return newComplement[T](set)
 }
 
-// UniqueElements returns an [ElementIterator] (https://go.dev/wiki/RangefuncExperiment).
-// This [ElementIterator] can be used to yield the elements of a set one by one.
+// UniqueKeys returns an [Iterator] (https://go.dev/wiki/RangefuncExperiment).
+// This [Iterator] can be used to yield the elements of a set one by one.
 // Iteration is stopped, if the yield function returns false.
-func (set HashSet[T]) UniqueElements() ElementIterator[T] {
+func (set HashSet[T]) UniqueKeys() Iterator[T] {
 	return func(yield func(element T) (next bool)) {
 		for element := range set.elements {
 			if !yield(element) {

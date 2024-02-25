@@ -52,11 +52,11 @@ func ExampleDerivedSet_intoHashSet() {
 	// false
 }
 
-// Before the implementation of go rangefuncs, you can use an ElementIterator like this.
+// Before the implementation of go rangefuncs, you can use an Iterator like this.
 // Afterwards, it can be used in native range loops.
-func ExampleElementIterator() {
+func ExampleIterator() {
 	set := cantor.NewHashSet(1, 2, 2, 3)
-	iterate := set.UniqueElements()
+	iterate := set.UniqueKeys()
 	sum := 0
 
 	iterate(func(element int) (next bool) {
