@@ -24,6 +24,7 @@ The following diagram represents the public facing API of `cantor`.
 Here you will find a list of the release notes for all versions.
 
 - [v0.1.0](docs/releases/v0.1.0.md)
+- [v0.2.0](docs/releases/v0.2.0.md)
 
 A list of ideas for future releases can be found [here](docs/roadmap/ideas.md).
 
