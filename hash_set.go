@@ -40,7 +40,7 @@ func NewHashSetFromIterator[T comparable](iterator Iterator[T]) HashSet[T] {
 // If the element was already contained, this leaves the set unchanged and returns false.
 //
 // This change will be reflected in sets, which are derived from this set.
-func (set HashSet[T]) Add(element T) (wasAdded bool) {
+func (set HashSet[T]) Add(element T) (setChanged bool) {
 	before := len(set.elements)
 	set.elements[element] = struct{}{}
 
@@ -51,7 +51,7 @@ func (set HashSet[T]) Add(element T) (wasAdded bool) {
 // If the element was not in the set, this leaves the set unchanged and returns false.
 //
 // This change will be reflected in sets, which are derived from this set.
-func (set HashSet[T]) Remove(element T) (wasRemoved bool) {
+func (set HashSet[T]) Remove(element T) (setChanged bool) {
 	before := len(set.elements)
 	delete(set.elements, element)
 

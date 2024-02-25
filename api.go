@@ -62,14 +62,32 @@ type DerivedSet[T comparable] interface {
 }
 
 // [Set] represents a collection of unique and enumerable elements, which has a limited, known size.
-// As a [Set] is fully evaluated, it supports more operations than a [DerivedSet].
 //
-// [Set] is implemented by [HashSet].
+// [Set] is extended by [MutableSet].
 type Set[T comparable] interface {
 	DerivedSet[T]
 
 	// Size returns the number of unique elements in this Set.
 	Size() int
+}
+
+// [MutableSet] represents a collection of unique and enumerable elements, which can freely be added or removed.
+//
+// [MutableSet] is implemented by [HashSet].
+type MutableSet[T comparable] interface {
+	Set[T]
+
+	// Add adds element and returns true if this operation actually changed the MutableSet.
+	// If the element was already contained, this leaves the set unchanged and returns false.
+	//
+	// This change will be reflected in sets, which are derived from this set.
+	Add(element T) (setChanged bool)
+
+	// Remove removes element and returns true if this operation actually changed the [HashSet].
+	// If the element was not in the set, this leaves the set unchanged and returns false.
+	//
+	// This change will be reflected in sets, which are derived from this set.
+	Remove(element T) (setChanged bool)
 }
 
 // [ImplicitSet] represents a set, which is only defined by an arbitrary predicate, its Contains-method.
