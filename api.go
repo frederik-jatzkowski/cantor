@@ -1,7 +1,7 @@
 // Package cantor provides a comprehensive implementation of set operations,
 // only constrained by computational practicality.
-// In addition to basic set data structures, it  features performant lazy evaluation,
-// infinite sets and set comprehension, exposed through a type safe, generic and extensible api.
+// In addition to basic set data structures, it  features performant lazy-evaluation,
+// infinite sets and set comprehension, exposed through a type-safe, generic, and extensible API.
 package cantor
 
 import "fmt"
@@ -31,9 +31,9 @@ type DeduplicatingIterableContainer[T comparable] interface {
 }
 
 // [ElementIterator] is a function that can be used to iterate over elements.
-// Iteration will be started by calling the iterator with a yield callback.
+// Iteration starts when the iterator is called with a yield callback.
 // This callback will be run for each element.
-// Once the yield function returns false, iteration is stopped, just like a break-statement in a loop.
+// Once the yield callback returns false, iteration is stopped, just like a break-statement in a loop.
 //
 // This interface is inspired by the rangefunc experiment: https://go.dev/wiki/RangefuncExperiment.
 type ElementIterator[T comparable] func(yield func(element T) (next bool))
@@ -55,7 +55,7 @@ type DerivedSet[T comparable] interface {
 	// Union returns a DerivedSet representing the set union of its arguments.
 	Union(other DeduplicatingIterableContainer[T]) DerivedSet[T]
 
-	// Intersect returns a DerivedSet representing the set intersection its arguments.
+	// Intersect returns a DerivedSet representing the set intersection of its arguments.
 	Intersect(other Container[T]) DerivedSet[T]
 
 	// Complement provides an ImplicitSet, which represents all elements that are not contained in this Set.
