@@ -19,18 +19,7 @@ func RunTestsForContainer(t *testing.T, constructor Constructor[byte, cantor.Con
 		}
 	})
 
-	t.Run("full", func(t *testing.T) {
-		expected := allBytes()
-		actual := constructor(expected...)
-
-		for _, i := range expected {
-			if !actual.Contains(i) {
-				t.Errorf("did not contain %d", i)
-			}
-		}
-	})
-
-	t.Run("some elements", func(t *testing.T) {
+	t.Run("some", func(t *testing.T) {
 		expected := []byte{2, 5, 8, 123}
 		actual := constructor(expected...)
 
@@ -41,6 +30,17 @@ func RunTestsForContainer(t *testing.T, constructor Constructor[byte, cantor.Con
 
 			if !SliceContains(i, expected) && actual.Contains(i) {
 				t.Errorf("contained %d but should not", i)
+			}
+		}
+	})
+
+	t.Run("full", func(t *testing.T) {
+		expected := allBytes()
+		actual := constructor(expected...)
+
+		for _, i := range expected {
+			if !actual.Contains(i) {
+				t.Errorf("did not contain %d", i)
 			}
 		}
 	})

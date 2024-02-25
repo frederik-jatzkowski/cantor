@@ -4,15 +4,13 @@ import (
 	"testing"
 
 	"github.com/frederik-jatzkowski/cantor"
+	"github.com/frederik-jatzkowski/cantor/internal/testsuites"
 )
 
-func TestHashSet(t *testing.T) {
-	RunAllSetTests(
-		func(elements ...int) cantor.Set[int] {
-			return cantor.NewHashSet[int](elements...)
-		},
-		t,
-	)
+func TestHashSet_Set(t *testing.T) {
+	testsuites.RunTestsForSet(t, func(elements ...byte) cantor.Set[byte] {
+		return cantor.NewHashSet(elements...)
+	})
 }
 
 func TestHashSet_Add(t *testing.T) {

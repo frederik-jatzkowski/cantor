@@ -6,10 +6,10 @@ import (
 	"github.com/frederik-jatzkowski/cantor"
 )
 
-// RunTestsForImplicitSet_Complement runs a test suite to check correct implementation of the Complement method on
-// [pkg/github.com/frederik-jatzkowski/cantor.ImplicitSet].
-func RunTestsForImplicitSet_Complement(t *testing.T, constructor Constructor[byte, cantor.ImplicitSet[byte]]) {
-	t.Run("Complement", func(t *testing.T) {
+// RunTestsForDerivedSet_Complement runs a test suite to check correct implementation of the Complement method on
+// [pkg/github.com/frederik-jatzkowski/cantor.DerivedSet].
+func RunTestsForDerivedSet_Complement(t *testing.T, constructor Constructor[byte, cantor.DerivedSet[byte]]) {
+	t.Run("Intersection", func(t *testing.T) {
 		t.Run("empty", func(t *testing.T) {
 			unexpected := []byte{}
 			actual := constructor(unexpected...).Complement()
