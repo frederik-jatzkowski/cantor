@@ -79,7 +79,11 @@ func RunTestsForIterableContainer(t *testing.T, constructor Constructor[byte, ca
 		sum := 0
 		limit := 100
 		container.Iterator()(func(element byte) bool {
-			if sum+int(element) > 100 {
+			if sum > limit {
+				t.Errorf("element yielded after break: %d", element)
+			}
+
+			if sum+int(element) > limit {
 				return false
 			}
 
@@ -88,7 +92,7 @@ func RunTestsForIterableContainer(t *testing.T, constructor Constructor[byte, ca
 			return true
 		})
 
-		if sum >= limit {
+		if sum > limit {
 			t.Errorf("iteration did not stop when the yield function returned false")
 		}
 	})
