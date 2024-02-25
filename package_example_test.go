@@ -32,7 +32,7 @@ func ExampleDerivedSet() {
 // During such evaluation, no intermediate sets must be stored, making the evaluation highly performant
 // and avoiding pressure on the garbage collector.
 // This is possible due to evaluation of boolean expressions under the hood.
-func ExampleDerivedSet_intoHashSet() {
+func ExampleDerivedSet_evaluateIntoHashSet() {
 	var (
 		birds   = cantor.NewHashSet("eagle", "pigeon")
 		mammals = cantor.NewHashSet("lion", "giraffe")
