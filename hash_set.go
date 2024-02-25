@@ -20,6 +20,22 @@ func NewHashSet[T comparable](elements ...T) HashSet[T] {
 	return result
 }
 
+// [NewHashSetFromIterator] evaluates the entire iterator, adding all elements to the resulting [HashSet].
+// The given elements are deduplicated.
+func NewHashSetFromIterator[T comparable](iterator Iterator[T]) HashSet[T] {
+	result := HashSet[T]{
+		elements: make(map[T]struct{}),
+	}
+
+	iterator(func(element T) bool {
+		result.elements[element] = struct{}{}
+
+		return true
+	})
+
+	return result
+}
+
 // Add adds element and returns true if this operation actually changed the [HashSet].
 // If the element was already contained, this leaves the set unchanged and returns false.
 //
@@ -87,11 +103,6 @@ func (set HashSet[T]) UniqueKeys() Iterator[T] {
 // Size returns the number of unique elements contained in this [HashSet].
 func (set HashSet[T]) Size() int {
 	return len(set.elements)
-}
-
-// IntoHashSet copies this [HashSet] and is needed to implement [Set].
-func (set HashSet[T]) IntoHashSet() HashSet[T] {
-	return evaluate[T](set)
 }
 
 func (set HashSet[T]) String() string {

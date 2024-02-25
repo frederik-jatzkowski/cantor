@@ -37,7 +37,9 @@ func ExampleDerivedSet_intoHashSet() {
 		birds   = cantor.NewHashSet("eagle", "pigeon")
 		mammals = cantor.NewHashSet("lion", "giraffe")
 		fishes  = cantor.NewHashSet("shark", "goldfish")
-		animals = birds.Union(mammals).Union(fishes).IntoHashSet()
+		animals = cantor.NewHashSetFromIterator(
+			birds.Union(mammals).Union(fishes).UniqueKeys(),
+		)
 	)
 
 	fmt.Println(animals.Contains("dog")) // false

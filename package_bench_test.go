@@ -48,7 +48,7 @@ func BenchmarkSet_IntoHashSet(b *testing.B) {
 	// 800000 B/op
 	// 750 allocs/op
 	for i := 0; i < b.N; i++ {
-		set.IntoHashSet()
+		cantor.NewHashSetFromIterator(set.UniqueKeys())
 	}
 }
 

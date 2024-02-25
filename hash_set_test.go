@@ -13,6 +13,18 @@ func TestHashSet_Set(t *testing.T) {
 	})
 }
 
+func TestNewHashSetFromIterator(t *testing.T) {
+	testsuites.RunTestsForContainer(t, func(elements ...byte) cantor.Container[byte] {
+		return cantor.NewHashSetFromIterator(func(yield func(element byte) (next bool)) {
+			for _, element := range elements {
+				if !yield(element) {
+					break
+				}
+			}
+		})
+	})
+}
+
 func TestHashSet_Add(t *testing.T) {
 	set := cantor.NewHashSet(1, 2, 3)
 

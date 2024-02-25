@@ -45,8 +45,6 @@ type Iterator[T any] func(yield func(element T) (next bool))
 // equivalent calls on a [HashSet].
 // Since a [DerivedSet] is not fully evaluated, it supports less operations than a [Set].
 //
-// To obtain a [Set] from a [DerivedSet], use the IntoHashSet-method.
-//
 // [DerivedSet] is extended by [Set].
 type DerivedSet[T comparable] interface {
 	DeduplicatingIterableContainer[T]
@@ -61,9 +59,6 @@ type DerivedSet[T comparable] interface {
 	// Complement provides an ImplicitSet, which represents all elements that are not contained in this Set.
 	// This result might be infinite, thus its elements cannot be iterated and it can only be defined implicitly.
 	Complement() ImplicitSet[T]
-
-	// IntoHashSet will create an independent HashSet from the elements of this DerivedSet.
-	IntoHashSet() HashSet[T]
 }
 
 // [Set] represents a collection of unique and enumerable elements, which has a limited, known size.

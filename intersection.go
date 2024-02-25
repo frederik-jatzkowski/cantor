@@ -52,10 +52,6 @@ func (set intersection[T]) UniqueKeys() Iterator[T] {
 	}
 }
 
-func (set intersection[T]) IntoHashSet() HashSet[T] {
-	return evaluate[T](set)
-}
-
 func (set intersection[T]) String() string {
 	return toString[T](set)
 }

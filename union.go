@@ -52,10 +52,6 @@ func (set union[T]) UniqueKeys() Iterator[T] {
 	}
 }
 
-func (set union[T]) IntoHashSet() HashSet[T] {
-	return evaluate[T](set)
-}
-
 func (set union[T]) String() string {
 	return toString[T](set)
 }
