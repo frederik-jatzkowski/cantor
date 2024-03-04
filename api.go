@@ -89,20 +89,3 @@ type MutableSet[T comparable] interface {
 	// This change will be reflected in sets, which are derived from this set.
 	Remove(element T) (setChanged bool)
 }
-
-// [ImplicitSet] represents a set, which is only defined by an arbitrary predicate, its Contains-method.
-// Thus, an [ImplicitSet] can represent an infinite amount of elements without performance or memory overhead.
-// Due to its unconstrained nature, this type of set can only be used in places,
-// where no iteration of elements is required.
-type ImplicitSet[T comparable] interface {
-	Container[T]
-
-	// Union returns an Implicit set representing the set union of its arguments.
-	Union(other Container[T]) ImplicitSet[T]
-
-	// Intersect returns an Implicit set representing the set intersection of its arguments.
-	Intersect(other Container[T]) ImplicitSet[T]
-
-	// Complement returns an ImplicitSet, that contains all elements where set.Contains() is false.
-	Complement() ImplicitSet[T]
-}

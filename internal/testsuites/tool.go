@@ -14,7 +14,7 @@ func SliceContains[T comparable](e T, elements []T) bool {
 	return false
 }
 
-func allBytes() (result []byte) {
+func AllBytes() (result []byte) {
 	for i := 0; i <= 255; i++ {
 		result = append(result, byte(i))
 	}

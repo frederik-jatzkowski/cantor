@@ -37,7 +37,7 @@ func RunTestsForContainer(t *testing.T, constructor Constructor[byte, cantor.Con
 			})
 
 			t.Run("full", func(t *testing.T) {
-				expected := allBytes()
+				expected := AllBytes()
 				actual := constructor(expected...)
 
 				for _, i := range expected {

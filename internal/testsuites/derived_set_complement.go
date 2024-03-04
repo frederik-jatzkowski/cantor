@@ -41,7 +41,7 @@ func RunTestsForDerivedSet_Complement(t *testing.T, constructor Constructor[byte
 		})
 
 		t.Run("full", func(t *testing.T) {
-			unexpected := allBytes()
+			unexpected := AllBytes()
 			actual := constructor(unexpected...).Complement()
 
 			for i := byte(0); i < 255; i++ {

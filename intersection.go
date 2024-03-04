@@ -35,7 +35,9 @@ func (set intersection[T]) Intersect(other Container[T]) DerivedSet[T] {
 }
 
 func (set intersection[T]) Complement() ImplicitSet[T] {
-	return newComplement[T](set)
+	return NewImplicitSet(func(element T) bool {
+		return !set.Contains(element)
+	})
 }
 
 func (set intersection[T]) UniqueKeys() Iterator[T] {

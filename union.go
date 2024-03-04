@@ -29,7 +29,9 @@ func (set union[T]) Intersect(other Container[T]) DerivedSet[T] {
 }
 
 func (set union[T]) Complement() ImplicitSet[T] {
-	return newComplement[T](set)
+	return NewImplicitSet(func(element T) bool {
+		return !set.Contains(element)
+	})
 }
 
 func (set union[T]) UniqueKeys() Iterator[T] {

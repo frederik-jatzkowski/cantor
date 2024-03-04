@@ -24,7 +24,7 @@ func RunTestsForDeduplicatingIterableContainer(t *testing.T, constructor Constru
 			})
 
 			t.Run("universe", func(t *testing.T) {
-				expected := allBytes()
+				expected := AllBytes()
 				container := constructor(expected...)
 
 				found := cantor.NewHashSet[byte]()
@@ -74,7 +74,7 @@ func RunTestsForDeduplicatingIterableContainer(t *testing.T, constructor Constru
 			})
 
 			t.Run("iteration with break", func(t *testing.T) {
-				container := constructor(allBytes()...)
+				container := constructor(AllBytes()...)
 
 				sum := 0
 				limit := 100

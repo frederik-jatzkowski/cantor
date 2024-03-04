@@ -35,7 +35,7 @@ func RunTestsForSet(t *testing.T, constructor Constructor[byte, cantor.Set[byte]
 
 			t.Run("full", func(t *testing.T) {
 				expected := 256
-				actual := constructor(allBytes()...).Size()
+				actual := constructor(AllBytes()...).Size()
 
 				if actual != expected {
 					t.Errorf("expected size %d but got %d", expected, actual)

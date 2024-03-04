@@ -84,7 +84,9 @@ func (set HashSet[T]) Intersect(other Container[T]) DerivedSet[T] {
 //
 // Any changes made to the underlying [HashSet] will be reflected in the result.
 func (set HashSet[T]) Complement() ImplicitSet[T] {
-	return newComplement[T](set)
+	return NewImplicitSet(func(element T) bool {
+		return !set.Contains(element)
+	})
 }
 
 // UniqueKeys returns an [Iterator] (https://go.dev/wiki/RangefuncExperiment).

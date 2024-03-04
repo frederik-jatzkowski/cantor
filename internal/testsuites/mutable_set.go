@@ -50,7 +50,7 @@ func RunTestsForMutableSet(t *testing.T, constructor Constructor[byte, cantor.Mu
 			})
 
 			t.Run("full", func(t *testing.T) {
-				set := constructor(allBytes()...)
+				set := constructor(AllBytes()...)
 
 				for i := byte(0); i < 255; i++ {
 					changed := set.Add(i)
@@ -105,7 +105,7 @@ func RunTestsForMutableSet(t *testing.T, constructor Constructor[byte, cantor.Mu
 			})
 
 			t.Run("full", func(t *testing.T) {
-				set := constructor(allBytes()...)
+				set := constructor(AllBytes()...)
 
 				for i := byte(0); i < 255; i++ {
 					changed := set.Remove(i)
