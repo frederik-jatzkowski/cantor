@@ -10,7 +10,7 @@ import (
 // [pkg/github.com/frederik-jatzkowski/cantor.MutableSet].
 func RunTestsForMutableSet(t *testing.T, constructor Constructor[byte, cantor.MutableSet[byte]]) {
 	t.Run("MutableSet", func(t *testing.T) {
-		RunTestsForSet(t, func(elements ...byte) cantor.Set[byte] {
+		RunTestsForSet(t, func(elements ...byte) cantor.IterableSet[byte] {
 			return constructor(elements...)
 		})
 

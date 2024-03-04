@@ -8,27 +8,15 @@ import "fmt"
 
 // [Container] represents any structure, which can implicitly or explicitly contain elements.
 //
-// [Container] is extended by [ImplicitSet] and [DeduplicatingIterableContainer].
+// [Container] is implemented by [ImplicitSet] and extended by [IterableSet].
 type Container[T any] interface {
 	// Contains must be a deterministic predicate and must not create side effects.
 	Contains(element T) bool
 }
 
-// [Predicate] is a type of function that receives an element and returns a boolean value, indicating set membership.
+// [Predicate] is a type of function that receives an element and returns a boolean value.
+// It can be used to define an [ImplicitSet].
 type Predicate[T any] func(element T) bool
-
-// [DeduplicatingIterableContainer] is a [Container] whose elements can be iterated.
-// All iterated elements must be deduplicated and thus be pairwise unequal.
-//
-// [DeduplicatingIterableContainer] is extended by [DerivedSet].
-type DeduplicatingIterableContainer[T comparable] interface {
-	Container[T]
-
-	// UniqueKeys returns an [Iterator] (https://go.dev/wiki/RangefuncExperiment).
-	// This [Iterator] can be used to yield the elements of a set one by one.
-	// Iteration is stopped, if the yield function returns false.
-	UniqueKeys() Iterator[T]
-}
 
 // [Iterator] is a function that can be used to iterate over elements.
 // Iteration starts when the iterator is called with a yield callback.
@@ -38,44 +26,35 @@ type DeduplicatingIterableContainer[T comparable] interface {
 // This interface is inspired by the rangefunc experiment: https://go.dev/wiki/RangefuncExperiment.
 type Iterator[T any] func(yield func(element T) (next bool))
 
-// [DerivedSet] represents a set derived from other sets via set expressions.
-// Method calls on a [DerivedSet] are computed just in time and
-// subsequent calls will reflect changes made to the underlying sets.
-// This requires underlying evaluation, which might be more computationally expensive than
-// equivalent calls on a [HashSet].
-// Since a [DerivedSet] is not fully evaluated, it supports less operations than a [Set].
+// [IterableSet] represents a collection of unique and enumerable elements, which has a limited, known size.
+// The elements can be iterated using an [Iterator].
 //
-// [DerivedSet] is extended by [Set].
-type DerivedSet[T comparable] interface {
-	DeduplicatingIterableContainer[T]
+// [IterableSet] is extended by [MutableSet].
+type IterableSet[T comparable] interface {
+	Container[T]
 	fmt.Stringer
 
-	// Union returns a DerivedSet representing the set union of its arguments.
-	Union(other DeduplicatingIterableContainer[T]) DerivedSet[T]
+	// Elements returns an Iterator over the elements of this IterableSet.
+	Elements() Iterator[T]
 
-	// Intersect returns a DerivedSet representing the set intersection of its arguments.
-	Intersect(other Container[T]) DerivedSet[T]
+	// Size returns the number of unique elements in this IterableSet.
+	Size() int
+
+	// Union returns an IterableSet representing the set union of its arguments.
+	Union(other IterableSet[T]) IterableSet[T]
+
+	// Intersect returns a IterableSet representing the set intersection of its arguments.
+	Intersect(other Container[T]) IterableSet[T]
 
 	// Complement provides an ImplicitSet, which represents all elements that are not contained in this Set.
-	// This result might be infinite, thus its elements cannot be iterated and it can only be defined implicitly.
 	Complement() ImplicitSet[T]
 }
 
-// [Set] represents a collection of unique and enumerable elements, which has a limited, known size.
-//
-// [Set] is extended by [MutableSet].
-type Set[T comparable] interface {
-	DerivedSet[T]
-
-	// Size returns the number of unique elements in this Set.
-	Size() int
-}
-
-// [MutableSet] represents a collection of unique and enumerable elements, which can freely be added or removed.
+// [MutableSet] represents an [IterableSet], where elements can freely be added or removed.
 //
 // [MutableSet] is implemented by [HashSet].
 type MutableSet[T comparable] interface {
-	Set[T]
+	IterableSet[T]
 
 	// Add adds element and returns true if this operation actually changed the MutableSet.
 	// If the element was already contained, this leaves the set unchanged and returns false.
@@ -83,7 +62,7 @@ type MutableSet[T comparable] interface {
 	// This change will be reflected in sets, which are derived from this set.
 	Add(element T) (setChanged bool)
 
-	// Remove removes element and returns true if this operation actually changed the [HashSet].
+	// Remove removes element and returns true if this operation actually changed the MutableSet.
 	// If the element was not in the set, this leaves the set unchanged and returns false.
 	//
 	// This change will be reflected in sets, which are derived from this set.

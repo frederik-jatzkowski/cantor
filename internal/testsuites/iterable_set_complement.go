@@ -6,9 +6,9 @@ import (
 	"github.com/frederik-jatzkowski/cantor"
 )
 
-// RunTestsForDerivedSet_Complement runs a test suite to check correct implementation of the Complement method on
-// [pkg/github.com/frederik-jatzkowski/cantor.DerivedSet].
-func RunTestsForDerivedSet_Complement(t *testing.T, constructor Constructor[byte, cantor.DerivedSet[byte]]) {
+// RunTestsForIterableSet_Complement runs a test suite to check correct implementation of the Complement method on
+// [pkg/github.com/frederik-jatzkowski/cantor.IterableSet].
+func RunTestsForIterableSet_Complement(t *testing.T, constructor Constructor[byte, cantor.IterableSet[byte]]) {
 	t.Run("Intersection", func(t *testing.T) {
 		t.Run("empty", func(t *testing.T) {
 			unexpected := []byte{}

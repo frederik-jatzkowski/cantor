@@ -6,9 +6,9 @@ import (
 	"github.com/frederik-jatzkowski/cantor"
 )
 
-// RunTestsForDerivedSet_Union runs a test suite to check correct implementation of the Union method on
-// [pkg/github.com/frederik-jatzkowski/cantor.DerivedSet].
-func RunTestsForDerivedSet_Union(t *testing.T, constructor Constructor[byte, cantor.DerivedSet[byte]]) {
+// RunTestsForIterableSet_Union runs a test suite to check correct implementation of the Union method on
+// [pkg/github.com/frederik-jatzkowski/cantor.IterableSet].
+func RunTestsForIterableSet_Union(t *testing.T, constructor Constructor[byte, cantor.IterableSet[byte]]) {
 	t.Run("Union", func(t *testing.T) {
 		t.Run("both empty", func(t *testing.T) {
 			a := constructor()

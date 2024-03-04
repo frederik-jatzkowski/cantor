@@ -7,8 +7,8 @@ import (
 	"github.com/frederik-jatzkowski/cantor/internal/testsuites"
 )
 
-func Test_intersection_DerivedSet(t *testing.T) {
-	testsuites.RunTestsForDerivedSet(t, func(elements ...byte) cantor.DerivedSet[byte] {
+func Test_intersection_IterableSet(t *testing.T) {
+	testsuites.RunTestsForIterableSet(t, func(elements ...byte) cantor.IterableSet[byte] {
 		a := cantor.NewHashSet(elements...)
 		b := cantor.NewHashSet(elements...)
 

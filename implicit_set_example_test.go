@@ -18,7 +18,7 @@ var offAge = cantor.NewImplicitSet(func(person Person) bool {
 })
 
 // Finally, we can derive a set with all people who can vote.
-// This DerivedSet will act as a real time view and reflect changes made to underlying sets.
+// This IterableSet will act as a real time view and reflect changes made to underlying sets.
 var canVote = citizen.Intersect(offAge).Intersect(hasVoted.Complement())
 
 func vote(person Person, inFavor bool) error {

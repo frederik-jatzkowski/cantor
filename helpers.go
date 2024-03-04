@@ -5,14 +5,24 @@ import (
 	"strings"
 )
 
-func toString[T comparable](set DeduplicatingIterableContainer[T]) string {
+func toString[T comparable](set IterableSet[T]) string {
 	var elements []string
 
-	set.UniqueKeys()(func(element T) (next bool) {
+	set.Elements()(func(element T) (next bool) {
 		elements = append(elements, fmt.Sprint(element))
 
 		return true
 	})
 
 	return fmt.Sprintf("{%s}", strings.Join(elements, ", "))
+}
+
+func count[T comparable](iterator Iterator[T]) (result int) {
+	iterator(func(element T) (next bool) {
+		result++
+
+		return true
+	})
+
+	return result
 }

@@ -1,6 +1,6 @@
 package cantor
 
-// [HashSet] implements [Set] using an underlying hash map.
+// [HashSet] implements [MutableSet] using an underlying hash map.
 // This allows constant average time complexity for [HashSet.Add], [HashSet.Remove] and [HashSet.Contains].
 type HashSet[T comparable] struct {
 	elements map[T]struct{}
@@ -65,21 +65,21 @@ func (set HashSet[T]) Contains(element T) bool {
 	return contains
 }
 
-// Union returns a DerivedSet representing the set union of this set and the argument.
+// Union returns an [IterableSet] representing the set union of this set and the argument.
 //
-// Any future changes made to the underlying [HashSet] or the other [Set] will be reflected in the result.
-func (set HashSet[T]) Union(other DeduplicatingIterableContainer[T]) DerivedSet[T] {
+// Any future changes made to the underlying [HashSet] or the other [IterableSet] will be reflected in the result.
+func (set HashSet[T]) Union(other IterableSet[T]) IterableSet[T] {
 	return newUnion[T](set, other)
 }
 
-// Intersect returns a DerivedSet representing the set intersection of this set and the argument.
+// Intersect returns an [IterableSet] representing the set intersection of this set and the argument.
 //
-// Any changes made to the underlying [HashSet] or the other [Set] will be reflected in the result.
-func (set HashSet[T]) Intersect(other Container[T]) DerivedSet[T] {
+// Any changes made to the underlying [HashSet] or the other [Container] will be reflected in the result.
+func (set HashSet[T]) Intersect(other Container[T]) IterableSet[T] {
 	return newIntersection[T](set, other)
 }
 
-// Complement returns a [ImplicitSet], representing all element not contained in this set.
+// Complement returns an [ImplicitSet], representing all element not contained in this set.
 // This might represent infinitely many elements.
 //
 // Any changes made to the underlying [HashSet] will be reflected in the result.
@@ -89,10 +89,10 @@ func (set HashSet[T]) Complement() ImplicitSet[T] {
 	})
 }
 
-// UniqueKeys returns an [Iterator] (https://go.dev/wiki/RangefuncExperiment).
+// Elements returns an [Iterator] (https://go.dev/wiki/RangefuncExperiment).
 // This [Iterator] can be used to yield the elements of a set one by one.
 // Iteration is stopped, if the yield function returns false.
-func (set HashSet[T]) UniqueKeys() Iterator[T] {
+func (set HashSet[T]) Elements() Iterator[T] {
 	return func(yield func(element T) (next bool)) {
 		for element := range set.elements {
 			if !yield(element) {

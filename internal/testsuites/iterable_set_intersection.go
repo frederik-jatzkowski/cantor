@@ -6,9 +6,9 @@ import (
 	"github.com/frederik-jatzkowski/cantor"
 )
 
-// RunTestsForDerivedSet_Intersection runs a test suite to check correct implementation of the Intersection method on
-// [pkg/github.com/frederik-jatzkowski/cantor.DerivedSet].
-func RunTestsForDerivedSet_Intersection(t *testing.T, constructor Constructor[byte, cantor.DerivedSet[byte]]) {
+// RunTestsForIterableSet_Intersection runs a test suite to check correct implementation of the Intersection method on
+// [pkg/github.com/frederik-jatzkowski/cantor.IterableSet].
+func RunTestsForIterableSet_Intersection(t *testing.T, constructor Constructor[byte, cantor.IterableSet[byte]]) {
 	t.Run("Intersection", func(t *testing.T) {
 		t.Run("one empty", func(t *testing.T) {
 			a := constructor()

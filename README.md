@@ -7,27 +7,24 @@ The `cantor` package is the most comprehensive toolkit for set operations for th
 
 The `cantor` package stands out for its implementation of set theory concepts in a way that is both accessible and powerful, providing developers with the tools needed to handle complex data structures and operations efficiently. Whether for managing and combining collections of data, performing complex set operations, or implementing business logic that requires dynamic data views, `cantor` offers a robust solution.
 
-> DISCLAIMER: The folllowing documentation might describe features, that are not yet fully developed.
-
 Features:
 
-- **Basic and Advanced set Operations**:
+- **Basic and Advanced Set Operations**:
 
   - [Union](<https://en.wikipedia.org/wiki/Union_(set_theory)>)
   - [Intersection](<https://en.wikipedia.org/wiki/Intersection_(set_theory)>)
   - [Complement](<https://en.wikipedia.org/wiki/Complement_(set_theory)>)
-  - [Difference](<https://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement>)
-  - [Symmetric Difference](https://en.wikipedia.org/wiki/Symmetric_difference)
-  - [Equality](https://proofwiki.org/wiki/Definition:Set_Equality) and [Comparisons](https://en.wikipedia.org/wiki/Subset)
+  <!-- - [Difference](<https://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement>) -->
+  <!-- - [Symmetric Difference](https://en.wikipedia.org/wiki/Symmetric_difference)
+  - [Equality](https://proofwiki.org/wiki/Definition:Set_Equality) and [Comparisons](https://en.wikipedia.org/wiki/Subset) -->
 
 - **Infinite, Implicit Sets**:
-  In addition to [HashSet](https://go.dev/blog/maps) and [TreeSet](https://en.wikipedia.org/wiki/AVL_tree) data structures, you can implicitly define sets using a [Predicate](https://proofwiki.org/wiki/Definition:Set/Definition_by_Predicate).
+  In addition to [HashSets](https://go.dev/blog/maps), you can implicitly define sets using a [Predicate](https://proofwiki.org/wiki/Definition:Set/Definition_by_Predicate).
   Such sets can represent infinitely many elements and be used together with other types of sets.
 
 - **Dynamic Data Views**:
-  In `cantor`, you can derive sets from other sets, without doing any evaluation upfront.
-  Instead, this defines a dynamic view on the underlying sets.
-  Such a `DerivedSet` can be used for lookups, iteration or be evaluated on demand.
+  If you use set operations in `cantor`, you will define a dynamic data view on the underlying sets without doing any evaluation upfront.
+  Such a derived set can be used for lookups, iteration or be used to construct new HashSets.
 
 - **Performance by Design**:
   Due to the powerful yet simple [lazy evaluation](https://en.wikipedia.org/wiki/Lazy_evaluation) using boolean expressions, no intermediate results have to be allocated.
@@ -38,13 +35,13 @@ Features:
 
 - **Stability and Confidence**:
 
-  - An ever-growing test suite including more than `180` tests.
+  - An ever-growing test suite including more than `175` tests.
   - `100%` code coverage enforced by `CI`.
   - High code quality, enforced by `golangci-lint`.
   - Guaranteed compatibility with Go `v1.18` onwards.
 
-- **Extensibility**:
-The exposed interfaces can be implemented 
+<!-- - **Extensibility**:
+The exposed interfaces can be implemented  -->
 
 ## Architecture
 
