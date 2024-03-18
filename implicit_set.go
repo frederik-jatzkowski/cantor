@@ -6,38 +6,34 @@ package cantor
 // where no iteration of elements is required.
 //
 // [ImplicitSet] implements [Container].
-type ImplicitSet[T comparable] struct {
-	predicate Predicate[T]
-}
+type ImplicitSet[T comparable] Predicate[T]
 
 // [NewImplicitSet] returns an [ImplicitSet] representing all elements e where the given [Predicate] returns true.
 func NewImplicitSet[T comparable](predicate Predicate[T]) ImplicitSet[T] {
-	return ImplicitSet[T]{
-		predicate: predicate,
-	}
+	return ImplicitSet[T](predicate)
 }
 
-func (set ImplicitSet[T]) Contains(element T) bool {
-	return set.predicate(element)
+func (predicate ImplicitSet[T]) Contains(element T) bool {
+	return predicate(element)
 }
 
 // Union returns an [ImplicitSet] set representing the set union of its arguments.
-func (set ImplicitSet[T]) Union(other Container[T]) ImplicitSet[T] {
-	return NewImplicitSet(func(element T) bool {
-		return set.Contains(element) || other.Contains(element)
-	})
+func (predicate ImplicitSet[T]) Union(other Container[T]) ImplicitSet[T] {
+	return func(element T) bool {
+		return predicate(element) || other.Contains(element)
+	}
 }
 
 // Intersect returns an [ImplicitSet] set representing the set intersection of its arguments.
-func (set ImplicitSet[T]) Intersect(other Container[T]) ImplicitSet[T] {
-	return NewImplicitSet(func(element T) bool {
-		return set.Contains(element) && other.Contains(element)
-	})
+func (predicate ImplicitSet[T]) Intersect(other Container[T]) ImplicitSet[T] {
+	return func(element T) bool {
+		return predicate(element) && other.Contains(element)
+	}
 }
 
 // Complement returns an [ImplicitSet], that contains all elements where set.Contains() is false.
-func (set ImplicitSet[T]) Complement() ImplicitSet[T] {
-	return NewImplicitSet(func(element T) bool {
-		return !set.Contains(element)
-	})
+func (predicate ImplicitSet[T]) Complement() ImplicitSet[T] {
+	return func(element T) bool {
+		return !predicate.Contains(element)
+	}
 }
