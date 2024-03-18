@@ -8,13 +8,13 @@ import (
 )
 
 func TestNewHashSet(t *testing.T) {
-	testsuites.RunTestsForMutableSet(t, func(elements ...byte) cantor.MutableSet[byte] {
+	testsuites.RunTestsForSet(t, func(elements ...byte) cantor.Set[byte] {
 		return cantor.NewHashSet(elements...)
 	})
 }
 
 func TestNewHashSetFromIterator(t *testing.T) {
-	testsuites.RunTestsForMutableSet(t, func(elements ...byte) cantor.MutableSet[byte] {
+	testsuites.RunTestsForSet(t, func(elements ...byte) cantor.Set[byte] {
 		return cantor.NewHashSetFromIterator(func(yield func(element byte) (next bool)) {
 			for _, element := range elements {
 				if !yield(element) {

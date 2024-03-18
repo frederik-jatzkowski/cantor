@@ -1,6 +1,6 @@
 package cantor
 
-// [HashSet] implements [MutableSet] using an underlying hash map.
+// [HashSet] implements [Set] using an underlying hash map.
 // This allows constant average time complexity for [HashSet.Add], [HashSet.Remove] and [HashSet.Contains].
 type HashSet[T comparable] struct {
 	elements map[T]struct{}

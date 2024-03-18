@@ -29,7 +29,7 @@ type Iterator[T any] func(yield func(element T) (next bool))
 // [ReadableSet] represents a collection of unique and enumerable elements, which has a limited, known size.
 // The elements can be iterated using an [Iterator].
 //
-// [ReadableSet] is extended by [MutableSet].
+// [ReadableSet] is extended by [Set].
 type ReadableSet[T comparable] interface {
 	Container[T]
 	fmt.Stringer
@@ -50,19 +50,19 @@ type ReadableSet[T comparable] interface {
 	Complement() ImplicitSet[T]
 }
 
-// [MutableSet] represents a [ReadableSet], where elements can freely be added or removed.
+// [Set] represents a [ReadableSet], where elements can freely be added or removed.
 //
-// [MutableSet] is implemented by [HashSet].
-type MutableSet[T comparable] interface {
+// [Set] is implemented by [HashSet].
+type Set[T comparable] interface {
 	ReadableSet[T]
 
-	// Add adds element and returns true if this operation actually changed the MutableSet.
+	// Add adds element and returns true if this operation actually changed the Set.
 	// If the element was already contained, this leaves the set unchanged and returns false.
 	//
 	// This change will be reflected in sets, which are derived from this set.
 	Add(element T) (setChanged bool)
 
-	// Remove removes element and returns true if this operation actually changed the MutableSet.
+	// Remove removes element and returns true if this operation actually changed the Set.
 	// If the element was not in the set, this leaves the set unchanged and returns false.
 	//
 	// This change will be reflected in sets, which are derived from this set.
