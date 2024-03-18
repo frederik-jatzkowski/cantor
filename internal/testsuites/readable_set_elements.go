@@ -6,9 +6,9 @@ import (
 	"github.com/frederik-jatzkowski/cantor"
 )
 
-// RunTestsForIterableSet_Elements runs a test suite to check correct implementation of the Elements method on
-// [pkg/github.com/frederik-jatzkowski/cantor.IterableSet].
-func RunTestsForIterableSet_Elements(t *testing.T, constructor Constructor[byte, cantor.IterableSet[byte]]) {
+// RunTestsForReadableSet_Elements runs a test suite to check correct implementation of the Elements method on
+// [pkg/github.com/frederik-jatzkowski/cantor.ReadableSet].
+func RunTestsForReadableSet_Elements(t *testing.T, constructor Constructor[byte, cantor.ReadableSet[byte]]) {
 	t.Run("Elements", func(t *testing.T) {
 		t.Run("empty set", func(t *testing.T) {
 			constructor().Elements()(func(element byte) bool {

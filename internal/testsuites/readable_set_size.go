@@ -6,9 +6,9 @@ import (
 	"github.com/frederik-jatzkowski/cantor"
 )
 
-// RunTestsForIterableSet_Size runs a test suite to check correct implementation of the Size method on
-// [pkg/github.com/frederik-jatzkowski/cantor.IterableSet].
-func RunTestsForIterableSet_Size(t *testing.T, constructor Constructor[byte, cantor.IterableSet[byte]]) {
+// RunTestsForReadableSet_Size runs a test suite to check correct implementation of the Size method on
+// [pkg/github.com/frederik-jatzkowski/cantor.ReadableSet].
+func RunTestsForReadableSet_Size(t *testing.T, constructor Constructor[byte, cantor.ReadableSet[byte]]) {
 	t.Run("Size", func(t *testing.T) {
 		t.Run("empty", func(t *testing.T) {
 			expected := 0

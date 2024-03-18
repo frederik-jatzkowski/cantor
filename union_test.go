@@ -7,8 +7,8 @@ import (
 	"github.com/frederik-jatzkowski/cantor/internal/testsuites"
 )
 
-func Test_union_IterableSet(t *testing.T) {
-	testsuites.RunTestsForIterableSet(t, func(elements ...byte) cantor.IterableSet[byte] {
+func Test_union_ReadableSet(t *testing.T) {
+	testsuites.RunTestsForReadableSet(t, func(elements ...byte) cantor.ReadableSet[byte] {
 		a := cantor.NewHashSet(elements[:len(elements)/2]...)
 		b := cantor.NewHashSet(elements[len(elements)/2:]...)
 

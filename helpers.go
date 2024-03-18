@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func toString[T comparable](set IterableSet[T]) string {
+func toString[T comparable](set ReadableSet[T]) string {
 	var elements []string
 
 	set.Elements()(func(element T) (next bool) {

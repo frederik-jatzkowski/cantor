@@ -1,10 +1,10 @@
 package cantor
 
 type union[T comparable] struct {
-	args []IterableSet[T]
+	args []ReadableSet[T]
 }
 
-func newUnion[T comparable](args ...IterableSet[T]) IterableSet[T] {
+func newUnion[T comparable](args ...ReadableSet[T]) ReadableSet[T] {
 	return union[T]{
 		args: args,
 	}
@@ -20,11 +20,11 @@ func (set union[T]) Contains(element T) bool {
 	return false
 }
 
-func (set union[T]) Union(other IterableSet[T]) IterableSet[T] {
+func (set union[T]) Union(other ReadableSet[T]) ReadableSet[T] {
 	return newUnion[T](append(set.args, other)...)
 }
 
-func (set union[T]) Intersect(other Container[T]) IterableSet[T] {
+func (set union[T]) Intersect(other Container[T]) ReadableSet[T] {
 	return newIntersection[T](set, other)
 }
 

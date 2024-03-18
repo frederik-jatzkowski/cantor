@@ -8,7 +8,7 @@ import "fmt"
 
 // [Container] represents any structure, which can implicitly or explicitly contain elements.
 //
-// [Container] is implemented by [ImplicitSet] and extended by [IterableSet].
+// [Container] is implemented by [ImplicitSet] and extended by [ReadableSet].
 type Container[T any] interface {
 	// Contains must be a deterministic predicate and must not create side effects.
 	Contains(element T) bool
@@ -26,35 +26,35 @@ type Predicate[T any] func(element T) bool
 // This interface is inspired by the rangefunc experiment: https://go.dev/wiki/RangefuncExperiment.
 type Iterator[T any] func(yield func(element T) (next bool))
 
-// [IterableSet] represents a collection of unique and enumerable elements, which has a limited, known size.
+// [ReadableSet] represents a collection of unique and enumerable elements, which has a limited, known size.
 // The elements can be iterated using an [Iterator].
 //
-// [IterableSet] is extended by [MutableSet].
-type IterableSet[T comparable] interface {
+// [ReadableSet] is extended by [MutableSet].
+type ReadableSet[T comparable] interface {
 	Container[T]
 	fmt.Stringer
 
-	// Elements returns an Iterator over the elements of this IterableSet.
+	// Elements returns an Iterator over the elements of this ReadableSet.
 	Elements() Iterator[T]
 
-	// Size returns the number of unique elements in this IterableSet.
+	// Size returns the number of unique elements in this ReadableSet.
 	Size() int
 
-	// Union returns an IterableSet representing the set union of its arguments.
-	Union(other IterableSet[T]) IterableSet[T]
+	// Union returns a ReadableSet representing the set union of its arguments.
+	Union(other ReadableSet[T]) ReadableSet[T]
 
-	// Intersect returns a IterableSet representing the set intersection of its arguments.
-	Intersect(other Container[T]) IterableSet[T]
+	// Intersect returns a ReadableSet representing the set intersection of its arguments.
+	Intersect(other Container[T]) ReadableSet[T]
 
 	// Complement provides an ImplicitSet, which represents all elements that are not contained in this Set.
 	Complement() ImplicitSet[T]
 }
 
-// [MutableSet] represents an [IterableSet], where elements can freely be added or removed.
+// [MutableSet] represents a [ReadableSet], where elements can freely be added or removed.
 //
 // [MutableSet] is implemented by [HashSet].
 type MutableSet[T comparable] interface {
-	IterableSet[T]
+	ReadableSet[T]
 
 	// Add adds element and returns true if this operation actually changed the MutableSet.
 	// If the element was already contained, this leaves the set unchanged and returns false.

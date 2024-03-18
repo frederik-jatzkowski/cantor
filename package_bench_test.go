@@ -63,11 +63,11 @@ func buildUnionOfIntersectionsOfDifferences(
 	numberOfIntersections int,
 	numberOfDifferences int,
 	numberOfRandomSamplesPerInput int,
-) cantor.IterableSet[int] {
-	intersections := make([]cantor.IterableSet[int], 0, numberOfIntersections)
+) cantor.ReadableSet[int] {
+	intersections := make([]cantor.ReadableSet[int], 0, numberOfIntersections)
 
 	for iIntersection := 0; iIntersection < numberOfIntersections; iIntersection++ {
-		differences := make([]cantor.IterableSet[int], 0, numberOfDifferences)
+		differences := make([]cantor.ReadableSet[int], 0, numberOfDifferences)
 
 		for iDifference := 0; iDifference < numberOfDifferences; iDifference++ {
 			set1 := cantor.NewHashSet[int]()

@@ -9,12 +9,12 @@ import (
 // In cantor, a set can be derived from one or more other sets.
 // All methods on a derived set are computed just in time and reflect changes made to the underlying sets.
 // This allows you to define real time views on changing data, which are composable and usually very performant.
-func ExampleIterableSet() {
+func ExampleReadableSet() {
 	var (
 		birds                              = cantor.NewHashSet("eagle", "pigeon")
 		mammals                            = cantor.NewHashSet("lion", "giraffe")
 		fishes                             = cantor.NewHashSet("shark", "goldfish")
-		animals cantor.IterableSet[string] = birds.Union(mammals).Union(fishes)
+		animals cantor.ReadableSet[string] = birds.Union(mammals).Union(fishes)
 	)
 
 	fmt.Println(animals.Contains("dog")) // false
@@ -28,11 +28,11 @@ func ExampleIterableSet() {
 	// true
 }
 
-// Sometimes, it might be beneficial to evaluate such a IterableSet into an independent Set.
+// Sometimes, it might be beneficial to evaluate such a ReadableSet into an independent Set.
 // During such evaluation, no intermediate sets must be stored, making the evaluation highly performant
 // and avoiding pressure on the garbage collector.
 // This is possible due to evaluation of boolean expressions under the hood.
-func ExampleIterableSet_evaluateIntoHashSet() {
+func ExampleReadableSet_evaluateIntoHashSet() {
 	var (
 		birds   = cantor.NewHashSet("eagle", "pigeon")
 		mammals = cantor.NewHashSet("lion", "giraffe")

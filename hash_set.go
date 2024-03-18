@@ -65,17 +65,17 @@ func (set HashSet[T]) Contains(element T) bool {
 	return contains
 }
 
-// Union returns an [IterableSet] representing the set union of this set and the argument.
+// Union returns a [ReadableSet] representing the set union of this set and the argument.
 //
-// Any future changes made to the underlying [HashSet] or the other [IterableSet] will be reflected in the result.
-func (set HashSet[T]) Union(other IterableSet[T]) IterableSet[T] {
+// Any future changes made to the underlying [HashSet] or the other [ReadableSet] will be reflected in the result.
+func (set HashSet[T]) Union(other ReadableSet[T]) ReadableSet[T] {
 	return newUnion[T](set, other)
 }
 
-// Intersect returns an [IterableSet] representing the set intersection of this set and the argument.
+// Intersect returns a [ReadableSet] representing the set intersection of this set and the argument.
 //
 // Any changes made to the underlying [HashSet] or the other [Container] will be reflected in the result.
-func (set HashSet[T]) Intersect(other Container[T]) IterableSet[T] {
+func (set HashSet[T]) Intersect(other Container[T]) ReadableSet[T] {
 	return newIntersection[T](set, other)
 }
 
