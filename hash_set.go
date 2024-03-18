@@ -2,19 +2,15 @@ package cantor
 
 // [HashSet] implements [Set] using an underlying hash map.
 // This allows constant average time complexity for [HashSet.Add], [HashSet.Remove] and [HashSet.Contains].
-type HashSet[T comparable] struct {
-	elements map[T]struct{}
-}
+type HashSet[T comparable] map[T]struct{}
 
 // [NewHashSet] returns an initialized [HashSet] containing all provided elements.
 // The given elements are deduplicated.
 func NewHashSet[T comparable](elements ...T) HashSet[T] {
-	result := HashSet[T]{
-		elements: make(map[T]struct{}, len(elements)),
-	}
+	result := make(map[T]struct{}, len(elements))
 
 	for _, element := range elements {
-		result.elements[element] = struct{}{}
+		result[element] = struct{}{}
 	}
 
 	return result
@@ -23,12 +19,10 @@ func NewHashSet[T comparable](elements ...T) HashSet[T] {
 // [NewHashSetFromIterator] evaluates the entire iterator, adding all elements to the resulting [HashSet].
 // The given elements are deduplicated.
 func NewHashSetFromIterator[T comparable](iterator Iterator[T]) HashSet[T] {
-	result := HashSet[T]{
-		elements: make(map[T]struct{}),
-	}
+	result := make(map[T]struct{})
 
 	iterator(func(element T) bool {
-		result.elements[element] = struct{}{}
+		result[element] = struct{}{}
 
 		return true
 	})
@@ -41,10 +35,10 @@ func NewHashSetFromIterator[T comparable](iterator Iterator[T]) HashSet[T] {
 //
 // This change will be reflected in sets, which are derived from this set.
 func (set HashSet[T]) Add(element T) (setChanged bool) {
-	before := len(set.elements)
-	set.elements[element] = struct{}{}
+	before := len(set)
+	set[element] = struct{}{}
 
-	return before < len(set.elements)
+	return before < len(set)
 }
 
 // Remove removes element and returns true if this operation actually changed the [HashSet].
@@ -52,15 +46,15 @@ func (set HashSet[T]) Add(element T) (setChanged bool) {
 //
 // This change will be reflected in sets, which are derived from this set.
 func (set HashSet[T]) Remove(element T) (setChanged bool) {
-	before := len(set.elements)
-	delete(set.elements, element)
+	before := len(set)
+	delete(set, element)
 
-	return before > len(set.elements)
+	return before > len(set)
 }
 
 // Contains returns whether the element is contained in this [HashSet].
 func (set HashSet[T]) Contains(element T) bool {
-	_, contains := set.elements[element]
+	_, contains := set[element]
 
 	return contains
 }
@@ -94,7 +88,7 @@ func (set HashSet[T]) Complement() ImplicitSet[T] {
 // Iteration is stopped, if the yield function returns false.
 func (set HashSet[T]) Elements() Iterator[T] {
 	return func(yield func(element T) (next bool)) {
-		for element := range set.elements {
+		for element := range set {
 			if !yield(element) {
 				break
 			}
@@ -104,7 +98,7 @@ func (set HashSet[T]) Elements() Iterator[T] {
 
 // Size returns the number of unique elements contained in this [HashSet].
 func (set HashSet[T]) Size() int {
-	return len(set.elements)
+	return len(set)
 }
 
 func (set HashSet[T]) String() string {
