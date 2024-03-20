@@ -10,7 +10,6 @@ import (
 // Set operations can be used to implement business logic.
 // In this example, sets are used to control access during an election and keep track of people, who already voted.
 func Example_election() {
-
 	var (
 		// Let's define some people.
 		jeff    = testsuites.Person{Id: 1, Name: "Jeff", Age: 21}
