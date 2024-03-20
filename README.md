@@ -5,8 +5,6 @@
 
 The `cantor` package is the most comprehensive toolkit for set operations for the Go Programming Language.
 
-The `cantor` package stands out for its implementation of set theory concepts in a way that is both accessible and powerful, providing developers with the tools needed to handle complex data structures and operations efficiently. Whether for managing and combining collections of data, performing complex set operations, or implementing business logic that requires dynamic data views, `cantor` offers a robust solution.
-
 Features:
 
 - **Basic and Advanced Set Operations**:
