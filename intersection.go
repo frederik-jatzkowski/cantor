@@ -1,11 +1,11 @@
 package cantor
 
 type intersection[T comparable] struct {
-	arg  IterableContainer[T]
+	arg  ReadableSet[T]
 	args []Container[T]
 }
 
-func newIntersection[T comparable](arg IterableContainer[T], args ...Container[T]) DerivedSet[T] {
+func newIntersection[T comparable](arg ReadableSet[T], args ...Container[T]) ReadableSet[T] {
 	return intersection[T]{
 		arg:  arg,
 		args: args,
@@ -26,21 +26,23 @@ func (set intersection[T]) Contains(element T) bool {
 	return true
 }
 
-func (set intersection[T]) Union(other IterableContainer[T]) DerivedSet[T] {
+func (set intersection[T]) Union(other ReadableSet[T]) ReadableSet[T] {
 	return newUnion[T](set, other)
 }
 
-func (set intersection[T]) Intersect(other Container[T]) DerivedSet[T] {
+func (set intersection[T]) Intersect(other Container[T]) ReadableSet[T] {
 	return newIntersection[T](set.arg, append(set.args, other)...)
 }
 
 func (set intersection[T]) Complement() ImplicitSet[T] {
-	return newComplement[T](set)
+	return NewImplicitSet(func(element T) bool {
+		return !set.Contains(element)
+	})
 }
 
-func (set intersection[T]) Iterator() FunctionIterator[T] {
+func (set intersection[T]) Elements() Iterator[T] {
 	return func(yield func(element T) (next bool)) {
-		set.arg.Iterator()(func(element T) (next bool) {
+		set.arg.Elements()(func(element T) (next bool) {
 			for _, arg := range set.args {
 				if !arg.Contains(element) {
 					return true
@@ -52,10 +54,10 @@ func (set intersection[T]) Iterator() FunctionIterator[T] {
 	}
 }
 
-func (set intersection[T]) IntoHashSet() HashSet[T] {
-	return evaluate[T](set)
-}
-
 func (set intersection[T]) String() string {
 	return toString[T](set)
+}
+
+func (set intersection[T]) Size() int {
+	return count(set.Elements())
 }

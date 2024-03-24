@@ -32,7 +32,7 @@ func BenchmarkSet_Iter(b *testing.B) {
 	// 1000 B/op
 	// 20 allocs/op
 	for i := 0; i < b.N; i++ {
-		set.Iterator()(func(element int) (next bool) {
+		set.Elements()(func(element int) (next bool) {
 			return true
 		})
 	}
@@ -48,7 +48,7 @@ func BenchmarkSet_IntoHashSet(b *testing.B) {
 	// 800000 B/op
 	// 750 allocs/op
 	for i := 0; i < b.N; i++ {
-		set.IntoHashSet()
+		cantor.NewHashSetFromIterator(set.Elements())
 	}
 }
 
@@ -63,11 +63,11 @@ func buildUnionOfIntersectionsOfDifferences(
 	numberOfIntersections int,
 	numberOfDifferences int,
 	numberOfRandomSamplesPerInput int,
-) cantor.DerivedSet[int] {
-	intersections := make([]cantor.DerivedSet[int], 0, numberOfIntersections)
+) cantor.ReadableSet[int] {
+	intersections := make([]cantor.ReadableSet[int], 0, numberOfIntersections)
 
 	for iIntersection := 0; iIntersection < numberOfIntersections; iIntersection++ {
-		differences := make([]cantor.DerivedSet[int], 0, numberOfDifferences)
+		differences := make([]cantor.ReadableSet[int], 0, numberOfDifferences)
 
 		for iDifference := 0; iDifference < numberOfDifferences; iDifference++ {
 			set1 := cantor.NewHashSet[int]()

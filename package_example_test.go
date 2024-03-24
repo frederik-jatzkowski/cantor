@@ -9,12 +9,12 @@ import (
 // In cantor, a set can be derived from one or more other sets.
 // All methods on a derived set are computed just in time and reflect changes made to the underlying sets.
 // This allows you to define real time views on changing data, which are composable and usually very performant.
-func ExampleDerivedSet() {
+func ExampleReadableSet() {
 	var (
-		birds                             = cantor.NewHashSet("eagle", "pigeon")
-		mammals                           = cantor.NewHashSet("lion", "giraffe")
-		fishes                            = cantor.NewHashSet("shark", "goldfish")
-		animals cantor.DerivedSet[string] = birds.Union(mammals).Union(fishes)
+		birds                              = cantor.NewHashSet("eagle", "pigeon")
+		mammals                            = cantor.NewHashSet("lion", "giraffe")
+		fishes                             = cantor.NewHashSet("shark", "goldfish")
+		animals cantor.ReadableSet[string] = birds.Union(mammals).Union(fishes)
 	)
 
 	fmt.Println(animals.Contains("dog")) // false
@@ -28,16 +28,18 @@ func ExampleDerivedSet() {
 	// true
 }
 
-// Sometimes, it might be beneficial to evaluate such a DerivedSet into an independent Set.
+// Sometimes, it might be beneficial to evaluate such a ReadableSet into an independent Set.
 // During such evaluation, no intermediate sets must be stored, making the evaluation highly performant
 // and avoiding pressure on the garbage collector.
 // This is possible due to evaluation of boolean expressions under the hood.
-func ExampleDerivedSet_intoHashSet() {
+func ExampleReadableSet_evaluateIntoHashSet() {
 	var (
 		birds   = cantor.NewHashSet("eagle", "pigeon")
 		mammals = cantor.NewHashSet("lion", "giraffe")
 		fishes  = cantor.NewHashSet("shark", "goldfish")
-		animals = birds.Union(mammals).Union(fishes).IntoHashSet()
+		animals = cantor.NewHashSetFromIterator(
+			birds.Union(mammals).Union(fishes).Elements(),
+		)
 	)
 
 	fmt.Println(animals.Contains("dog")) // false
@@ -52,11 +54,11 @@ func ExampleDerivedSet_intoHashSet() {
 	// false
 }
 
-// Before the implementation of go rangefuncs, you can use a FunctionIterator like this.
+// Before the implementation of go rangefuncs, you can use an Iterator like this.
 // Afterwards, it can be used in native range loops.
-func ExampleFunctionIterator() {
+func ExampleIterator() {
 	set := cantor.NewHashSet(1, 2, 2, 3)
-	iterate := set.Iterator()
+	iterate := set.Elements()
 	sum := 0
 
 	iterate(func(element int) (next bool) {
