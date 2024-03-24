@@ -3,7 +3,7 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/frederik-jatzkowski/cantor.svg)](https://pkg.go.dev/github.com/frederik-jatzkowski/cantor)
 [![Go Report Card](https://goreportcard.com/badge/github.com/frederik-jatzkowski/cantor)](https://goreportcard.com/report/github.com/frederik-jatzkowski/cantor)
 
-The `cantor` package is the most comprehensive toolkit for set operations for the Go Programming Language.
+The `cantor` package is a comprehensive toolkit for set operations for the Go Programming Language.
 
 Features:
 
@@ -18,7 +18,7 @@ Features:
 
 - **Infinite, Implicit Sets**:
   In addition to [HashSets](https://go.dev/blog/maps), you can implicitly define sets using a [Predicate](https://proofwiki.org/wiki/Definition:Set/Definition_by_Predicate).
-  Such sets can represent infinitely many elements and be used together with other types of sets.
+  Such sets can represent infinitely many elements and be used within certain limitations together with other types of sets.
 
 - **Dynamic Data Views**:
   If you use set operations in `cantor`, you will define a dynamic data view on the underlying sets without doing any evaluation upfront.
@@ -53,8 +53,6 @@ Here you will find a list of the release notes for all versions.
 
 - [v0.1.0](docs/releases/v0.1.0.md)
 - [v0.2.0](docs/releases/v0.2.0.md)
-
-A list of ideas for future releases can be found [here](docs/roadmap/ideas.md).
 
 ## Development Guide
 

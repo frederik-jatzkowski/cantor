@@ -1,7 +1,6 @@
 package cantor
 
 // [HashSet] implements [Set] using an underlying hash map.
-// This allows constant average time complexity for [HashSet.Add], [HashSet.Remove] and [HashSet.Contains].
 type HashSet[T comparable] map[T]struct{}
 
 // [NewHashSet] returns an initialized [HashSet] containing all provided elements.
@@ -16,7 +15,7 @@ func NewHashSet[T comparable](elements ...T) HashSet[T] {
 	return result
 }
 
-// [NewHashSetFromIterator] evaluates the entire iterator, adding all elements to the resulting [HashSet].
+// [NewHashSetFromIterator] evaluates the iterator and adds all elements to the resulting [HashSet].
 // The given elements are deduplicated.
 func NewHashSetFromIterator[T comparable](iterator Iterator[T]) HashSet[T] {
 	result := make(map[T]struct{})
@@ -33,7 +32,9 @@ func NewHashSetFromIterator[T comparable](iterator Iterator[T]) HashSet[T] {
 // Add adds element and returns true if this operation actually changed the [HashSet].
 // If the element was already contained, this leaves the set unchanged and returns false.
 //
-// This change will be reflected in sets, which are derived from this set.
+// Derived data views will reflect this change.
+//
+// The time complexity of this method is O(1).
 func (set HashSet[T]) Add(element T) (setChanged bool) {
 	before := len(set)
 	set[element] = struct{}{}
@@ -44,7 +45,9 @@ func (set HashSet[T]) Add(element T) (setChanged bool) {
 // Remove removes element and returns true if this operation actually changed the [HashSet].
 // If the element was not in the set, this leaves the set unchanged and returns false.
 //
-// This change will be reflected in sets, which are derived from this set.
+// Derived data views will reflect this change.
+//
+// The time complexity of this method is O(1).
 func (set HashSet[T]) Remove(element T) (setChanged bool) {
 	before := len(set)
 	delete(set, element)
@@ -53,6 +56,8 @@ func (set HashSet[T]) Remove(element T) (setChanged bool) {
 }
 
 // Contains returns whether the element is contained in this [HashSet].
+//
+// The time complexity of this method is O(1).
 func (set HashSet[T]) Contains(element T) bool {
 	_, contains := set[element]
 
@@ -61,14 +66,14 @@ func (set HashSet[T]) Contains(element T) bool {
 
 // Union returns a [ReadableSet] representing the set union of this set and the argument.
 //
-// Any future changes made to the underlying [HashSet] or the other [ReadableSet] will be reflected in the result.
+// The result is a data view and will reflect future changes of the underlying structures.
 func (set HashSet[T]) Union(other ReadableSet[T]) ReadableSet[T] {
 	return newUnion[T](set, other)
 }
 
 // Intersect returns a [ReadableSet] representing the set intersection of this set and the argument.
 //
-// Any changes made to the underlying [HashSet] or the other [Container] will be reflected in the result.
+// The result is a data view and will reflect future changes of the underlying structures.
 func (set HashSet[T]) Intersect(other Container[T]) ReadableSet[T] {
 	return newIntersection[T](set, other)
 }
@@ -76,7 +81,7 @@ func (set HashSet[T]) Intersect(other Container[T]) ReadableSet[T] {
 // Complement returns an [ImplicitSet], representing all element not contained in this set.
 // This might represent infinitely many elements.
 //
-// Any changes made to the underlying [HashSet] will be reflected in the result.
+// The result is a data view and will reflect future changes of the underlying structures.
 func (set HashSet[T]) Complement() ImplicitSet[T] {
 	return NewImplicitSet(func(element T) bool {
 		return !set.Contains(element)
@@ -101,6 +106,7 @@ func (set HashSet[T]) Size() int {
 	return len(set)
 }
 
+// String implements [fmt.Stringer] for this [HashSet].
 func (set HashSet[T]) String() string {
 	return toString[T](set)
 }

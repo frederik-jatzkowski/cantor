@@ -1,16 +1,16 @@
 // Package cantor provides a comprehensive implementation of set operations,
 // only constrained by computational practicality.
 // In addition to basic set data structures, it  features performant lazy-evaluation,
-// infinite sets and set comprehension, exposed through a type-safe, generic, and extensible API.
+// infinite sets and set comprehension, exposed through a type-safe and generic API.
 package cantor
 
 import "fmt"
 
 // [Container] represents any structure, which can implicitly or explicitly contain elements.
+// The Contains method must be a deterministic predicate and must not create side effects.
 //
-// [Container] is implemented by [ImplicitSet] and extended by [ReadableSet].
+// [Container] is directly implemented by [ImplicitSet] and extended by [ReadableSet].
 type Container[T any] interface {
-	// Contains must be a deterministic predicate and must not create side effects.
 	Contains(element T) bool
 }
 
@@ -41,30 +41,36 @@ type ReadableSet[T comparable] interface {
 	Size() int
 
 	// Union returns a ReadableSet representing the set union of its arguments.
+	//
+	// The result is a data view and will reflect future changes of the underlying structures.
 	Union(other ReadableSet[T]) ReadableSet[T]
 
 	// Intersect returns a ReadableSet representing the set intersection of its arguments.
+	//
+	// The result is a data view and will reflect future changes of the underlying structures.
 	Intersect(other Container[T]) ReadableSet[T]
 
 	// Complement provides an ImplicitSet, which represents all elements that are not contained in this Set.
+	//
+	// The result is a data view and will reflect future changes of the underlying structures.
 	Complement() ImplicitSet[T]
 }
 
 // [Set] represents a [ReadableSet], where elements can freely be added or removed.
 //
-// [Set] is implemented by [HashSet].
+// [Set] is directly implemented by [HashSet].
 type Set[T comparable] interface {
 	ReadableSet[T]
 
 	// Add adds element and returns true if this operation actually changed the Set.
 	// If the element was already contained, this leaves the set unchanged and returns false.
 	//
-	// This change will be reflected in sets, which are derived from this set.
+	// Derived data views will reflect this change.
 	Add(element T) (setChanged bool)
 
 	// Remove removes element and returns true if this operation actually changed the Set.
 	// If the element was not in the set, this leaves the set unchanged and returns false.
 	//
-	// This change will be reflected in sets, which are derived from this set.
+	// Derived data views will reflect this change.
 	Remove(element T) (setChanged bool)
 }

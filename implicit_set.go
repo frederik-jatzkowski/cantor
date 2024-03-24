@@ -2,8 +2,7 @@ package cantor
 
 // [ImplicitSet] represents a set, which is only defined by an arbitrary [Predicate].
 // Thus, an [ImplicitSet] can represent an infinite amount of elements without performance or memory overhead.
-// Due to its unconstrained nature, this type of set can only be used in places,
-// where no iteration of elements is required.
+// Due to its unconstrained nature, this type of set can only be used for lookups.
 //
 // [ImplicitSet] implements [Container].
 type ImplicitSet[T comparable] Predicate[T]
@@ -18,6 +17,8 @@ func (predicate ImplicitSet[T]) Contains(element T) bool {
 }
 
 // Union returns an [ImplicitSet] set representing the set union of its arguments.
+//
+// The result is a data view and will reflect future changes of the underlying structures.
 func (predicate ImplicitSet[T]) Union(other Container[T]) ImplicitSet[T] {
 	return func(element T) bool {
 		return predicate(element) || other.Contains(element)
