@@ -50,6 +50,18 @@ func (set intersection[T]) SymmetricDifference(other ReadableSet[T]) ReadableSet
 	return set.Difference(other).Union(other.Difference(set))
 }
 
+func (set intersection[T]) Subset(other Container[T]) bool {
+	return set.Difference(other).Size() == 0
+}
+
+func (set intersection[T]) StrictSubset(other ReadableSet[T]) bool {
+	return set.Difference(other).Size() == 0 && other.Difference(set).Size() > 0
+}
+
+func (set intersection[T]) Equals(other ReadableSet[T]) bool {
+	return set.SymmetricDifference(other).Size() == 0
+}
+
 func (set intersection[T]) Elements() Iterator[T] {
 	return func(yield func(element T) (next bool)) {
 		set.arg.Elements()(func(element T) (next bool) {

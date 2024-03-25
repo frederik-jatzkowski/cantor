@@ -54,6 +54,16 @@ type ReadableSet[T comparable] interface {
 	//
 	// The result is a data view and will reflect future changes of the underlying structures.
 	SymmetricDifference(other ReadableSet[T]) ReadableSet[T]
+
+	// Subset returns true, if all elements of this set are contained in the other container.
+	Subset(other Container[T]) bool
+
+	// StrictSubset returns true, if all elements of this set are contained in the other set
+	// and the sets are not equal.
+	StrictSubset(other ReadableSet[T]) bool
+
+	// Equals returns true, if this set and the other set represent exactly the same elements.
+	Equals(other ReadableSet[T]) bool
 }
 
 // [Set] represents a [ReadableSet], where elements can freely be added or removed.
@@ -66,11 +76,11 @@ type Set[T comparable] interface {
 	// If the element was already contained, this leaves the set unchanged and returns false.
 	//
 	// Derived data views will reflect this change.
-	Add(element T) (setChanged bool)
+	Add(element T) (modified bool)
 
 	// Remove removes element and returns true if this operation actually changed the Set.
 	// If the element was not in the set, this leaves the set unchanged and returns false.
 	//
 	// Derived data views will reflect this change.
-	Remove(element T) (setChanged bool)
+	Remove(element T) (modified bool)
 }

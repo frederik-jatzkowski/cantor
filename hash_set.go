@@ -35,7 +35,7 @@ func NewHashSetFromIterator[T comparable](iterator Iterator[T]) HashSet[T] {
 // Derived data views will reflect this change.
 //
 // The time complexity of this method is O(1).
-func (set HashSet[T]) Add(element T) (setChanged bool) {
+func (set HashSet[T]) Add(element T) (modified bool) {
 	before := len(set)
 	set[element] = struct{}{}
 
@@ -48,7 +48,7 @@ func (set HashSet[T]) Add(element T) (setChanged bool) {
 // Derived data views will reflect this change.
 //
 // The time complexity of this method is O(1).
-func (set HashSet[T]) Remove(element T) (setChanged bool) {
+func (set HashSet[T]) Remove(element T) (modified bool) {
 	before := len(set)
 	delete(set, element)
 
@@ -104,6 +104,22 @@ func (set HashSet[T]) Difference(other Container[T]) ReadableSet[T] {
 // The result is a data view and will reflect future changes of the underlying structures.
 func (set HashSet[T]) SymmetricDifference(other ReadableSet[T]) ReadableSet[T] {
 	return set.Difference(other).Union(other.Difference(set))
+}
+
+// Equals returns true, if this [HashSet] and the other [ReadableSet] represent exactly the same elements.
+func (set HashSet[T]) Equals(other ReadableSet[T]) bool {
+	return set.SymmetricDifference(other).Size() == 0
+}
+
+// Subset returns true, if all elements of this [HashSet] are contained in the other [Container].
+func (set HashSet[T]) Subset(other Container[T]) bool {
+	return set.Difference(other).Size() == 0
+}
+
+// StrictSubset returns true, if all elements of this [HashSet] are contained in the other [ReadableSet]
+// and the sets are not equal.
+func (set HashSet[T]) StrictSubset(other ReadableSet[T]) bool {
+	return set.Difference(other).Size() == 0 && other.Difference(set).Size() > 0
 }
 
 // Elements returns an [Iterator] (https://go.dev/wiki/RangefuncExperiment).

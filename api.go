@@ -1,7 +1,7 @@
 // Package cantor provides a comprehensive implementation of set operations,
 // only constrained by computational practicality.
 // In addition to basic set data structures, it  features performant lazy-evaluation,
-// infinite sets and set comprehension, exposed through a type-safe and generic API.
+// infinite sets exposed through a type-safe and generic API.
 package cantor
 
 // [Container] represents any structure, which can implicitly or explicitly contain elements.

@@ -14,7 +14,7 @@ Features:
   - [Complement](<https://en.wikipedia.org/wiki/Complement_(set_theory)>)
   - [Difference](<https://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement>)
   - [Symmetric Difference](https://en.wikipedia.org/wiki/Symmetric_difference)
-  <!-- - [Equality](https://proofwiki.org/wiki/Definition:Set_Equality) and [Comparisons](https://en.wikipedia.org/wiki/Subset) -->
+  - [Equality](https://proofwiki.org/wiki/Definition:Set_Equality) and [Comparisons](https://en.wikipedia.org/wiki/Subset)
 
 - **Infinite, Implicit Sets**:
   In addition to [HashSets](https://go.dev/blog/maps), you can implicitly define sets using a [Predicate](https://proofwiki.org/wiki/Definition:Set/Definition_by_Predicate).
