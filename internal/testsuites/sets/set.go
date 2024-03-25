@@ -1,9 +1,10 @@
-package testsuites
+package sets
 
 import (
 	"testing"
 
 	"github.com/frederik-jatzkowski/cantor"
+	"github.com/frederik-jatzkowski/cantor/internal/testsuites/testutils"
 )
 
 // RunTestsForSet runs a test suite to check correct implementation of
@@ -35,11 +36,11 @@ func RunTestsForSet(t *testing.T, constructor Constructor[byte, cantor.Set[byte]
 
 				for i := byte(0); i < 255; i++ {
 					changed := set.Add(i)
-					if changed && SliceContains(i, initial) {
+					if changed && testutils.SliceContains(i, initial) {
 						t.Errorf("set should not have changed when adding %d", i)
 					}
 
-					if !changed && !SliceContains(i, initial) {
+					if !changed && !testutils.SliceContains(i, initial) {
 						t.Errorf("set should have changed when adding %d", i)
 					}
 
@@ -50,7 +51,7 @@ func RunTestsForSet(t *testing.T, constructor Constructor[byte, cantor.Set[byte]
 			})
 
 			t.Run("full", func(t *testing.T) {
-				set := constructor(AllBytes()...)
+				set := constructor(testutils.AllBytes()...)
 
 				for i := byte(0); i < 255; i++ {
 					changed := set.Add(i)
@@ -90,11 +91,11 @@ func RunTestsForSet(t *testing.T, constructor Constructor[byte, cantor.Set[byte]
 
 				for i := byte(0); i < 255; i++ {
 					changed := set.Remove(i)
-					if !changed && SliceContains(i, initial) {
+					if !changed && testutils.SliceContains(i, initial) {
 						t.Errorf("set should have changed when removing %d", i)
 					}
 
-					if changed && !SliceContains(i, initial) {
+					if changed && !testutils.SliceContains(i, initial) {
 						t.Errorf("set should not have changed when removing %d", i)
 					}
 
@@ -105,7 +106,7 @@ func RunTestsForSet(t *testing.T, constructor Constructor[byte, cantor.Set[byte]
 			})
 
 			t.Run("full", func(t *testing.T) {
-				set := constructor(AllBytes()...)
+				set := constructor(testutils.AllBytes()...)
 
 				for i := byte(0); i < 255; i++ {
 					changed := set.Remove(i)

@@ -1,4 +1,4 @@
-package testsuites
+package sets
 
 import (
 	"testing"

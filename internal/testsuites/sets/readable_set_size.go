@@ -1,9 +1,10 @@
-package testsuites
+package sets
 
 import (
 	"testing"
 
 	"github.com/frederik-jatzkowski/cantor"
+	"github.com/frederik-jatzkowski/cantor/internal/testsuites/testutils"
 )
 
 // RunTestsForReadableSet_Size runs a test suite to check correct implementation of the Size method on
@@ -30,7 +31,7 @@ func RunTestsForReadableSet_Size(t *testing.T, constructor Constructor[byte, can
 
 		t.Run("full", func(t *testing.T) {
 			expected := 256
-			actual := constructor(AllBytes()...).Size()
+			actual := constructor(testutils.AllBytes()...).Size()
 
 			if actual != expected {
 				t.Errorf("expected size %d but got %d", expected, actual)
