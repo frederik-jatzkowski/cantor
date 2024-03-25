@@ -6,8 +6,8 @@ import (
 	"github.com/frederik-jatzkowski/cantor"
 )
 
-// RunTestsForReadableSet_SymmetricDifference runs a test suite to check correct implementation of the SymmetricDifference method on
-// [pkg/github.com/frederik-jatzkowski/cantor.ReadableSet].
+// RunTestsForReadableSet_SymmetricDifference runs a test suite to check correct implementation
+// of the SymmetricDifference method on [pkg/github.com/frederik-jatzkowski/cantor.ReadableSet].
 func RunTestsForReadableSet_SymmetricDifference(t *testing.T, constructor Constructor[byte, cantor.ReadableSet[byte]]) {
 	t.Run("SymmetricDifference", func(t *testing.T) {
 		t.Run("subset", func(t *testing.T) {

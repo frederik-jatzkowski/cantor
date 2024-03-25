@@ -33,7 +33,7 @@ Features:
 
 - **Stability and Confidence**:
 
-  - An ever-growing test suite including more than `200` tests.
+  - An ever-growing test suite including more than `250` tests.
   - `100%` code coverage enforced by `CI`.
   - High code quality, enforced by `golangci-lint`.
   - Guaranteed compatibility with Go `v1.18` onwards.
