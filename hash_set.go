@@ -88,6 +88,16 @@ func (set HashSet[T]) Complement() ImplicitSet[T] {
 	})
 }
 
+// Difference returns a [ReadableSet] with all elements of this [HashSet],
+// which are not contained in the argument.
+//
+// The result is a data view and will reflect future changes of the underlying structures.
+func (set HashSet[T]) Difference(other Container[T]) ReadableSet[T] {
+	return set.Intersect(NewImplicitSet[T](func(element T) bool {
+		return !other.Contains(element)
+	}))
+}
+
 // Elements returns an [Iterator] (https://go.dev/wiki/RangefuncExperiment).
 // This [Iterator] can be used to yield the elements of a set one by one.
 // Iteration is stopped, if the yield function returns false.

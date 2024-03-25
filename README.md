@@ -12,7 +12,7 @@ Features:
   - [Union](<https://en.wikipedia.org/wiki/Union_(set_theory)>)
   - [Intersection](<https://en.wikipedia.org/wiki/Intersection_(set_theory)>)
   - [Complement](<https://en.wikipedia.org/wiki/Complement_(set_theory)>)
-  <!-- - [Difference](<https://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement>) -->
+  - [Difference](<https://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement>)
   <!-- - [Symmetric Difference](https://en.wikipedia.org/wiki/Symmetric_difference)
   - [Equality](https://proofwiki.org/wiki/Definition:Set_Equality) and [Comparisons](https://en.wikipedia.org/wiki/Subset) -->
 

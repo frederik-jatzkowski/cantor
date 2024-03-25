@@ -228,3 +228,75 @@ func TestImplicitSet_Complement(t *testing.T) {
 		}
 	})
 }
+
+func TestImplicitSet_Difference(t *testing.T) {
+	t.Run("argument is universal set", func(t *testing.T) {
+		a := cantor.NewImplicitSet[byte](func(element byte) bool {
+			return testutils.SliceContains(element, []byte{1, 2, 3})
+		})
+		b := cantor.NewImplicitSet[byte](func(element byte) bool { return true })
+
+		actual := a.Difference(b)
+
+		for i := byte(0); i < 255; i++ {
+			if actual.Contains(i) {
+				t.Errorf("contained %d but should not", i)
+			}
+		}
+	})
+
+	t.Run("argument is subset", func(t *testing.T) {
+		a := cantor.NewImplicitSet[byte](func(element byte) bool {
+			return testutils.SliceContains(element, []byte{1, 2, 3})
+		})
+		b := cantor.NewHashSet[byte](1, 2)
+
+		actual := a.Difference(b)
+		expected := cantor.NewHashSet[byte](3)
+
+		for i := byte(0); i < 255; i++ {
+			if actual.Contains(i) && !expected.Contains(i) {
+				t.Errorf("contained %d but should not", i)
+			}
+
+			if !actual.Contains(i) && expected.Contains(i) {
+				t.Errorf("was expected to contain %d but did not", i)
+			}
+		}
+	})
+
+	t.Run("overlapping", func(t *testing.T) {
+		a := cantor.NewImplicitSet[byte](func(element byte) bool {
+			return testutils.SliceContains(element, []byte{1, 2, 3})
+		})
+		b := cantor.NewHashSet[byte](2, 3, 4)
+
+		actual := a.Difference(b)
+		expected := cantor.NewHashSet[byte](1)
+
+		for i := byte(0); i < 255; i++ {
+			if actual.Contains(i) && !expected.Contains(i) {
+				t.Errorf("contained %d but should not", i)
+			}
+
+			if !actual.Contains(i) && expected.Contains(i) {
+				t.Errorf("was expected to contain %d but did not", i)
+			}
+		}
+	})
+
+	t.Run("equal", func(t *testing.T) {
+		a := cantor.NewImplicitSet[byte](func(element byte) bool {
+			return testutils.SliceContains(element, []byte{1, 2})
+		})
+		b := cantor.NewHashSet[byte](1, 2)
+
+		actual := a.Difference(b)
+
+		for i := byte(0); i < 255; i++ {
+			if actual.Contains(i) {
+				t.Errorf("contained %d but should not", i)
+			}
+		}
+	})
+}

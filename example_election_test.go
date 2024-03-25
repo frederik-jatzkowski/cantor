@@ -25,7 +25,7 @@ var (
 
 	// We derive a set view with all people who can still vote.
 	// Changes made to underlying sets are reflected in real time.
-	canVote = citizen.Intersect(offAge).Intersect(hasVoted.Complement())
+	canVote = citizen.Intersect(offAge).Difference(hasVoted)
 
 	// We still need a variable to collect all votes.
 	votesInFavor uint

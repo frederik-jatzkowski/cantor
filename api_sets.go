@@ -42,6 +42,12 @@ type ReadableSet[T comparable] interface {
 	//
 	// The result is a data view and will reflect future changes of the underlying structures.
 	Complement() ImplicitSet[T]
+
+	// Difference returns a ReadableSet representing the set with all elements of this set,
+	// which are not contained in the argument.
+	//
+	// The result is a data view and will reflect future changes of the underlying structures.
+	Difference(other Container[T]) ReadableSet[T]
 }
 
 // [Set] represents a [ReadableSet], where elements can freely be added or removed.
