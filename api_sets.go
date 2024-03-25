@@ -48,6 +48,12 @@ type ReadableSet[T comparable] interface {
 	//
 	// The result is a data view and will reflect future changes of the underlying structures.
 	Difference(other Container[T]) ReadableSet[T]
+
+	// SymmetricDifference returns a ReadableSet representing the set with all elements of this and the other set,
+	// which are contained in exactly one of the two.
+	//
+	// The result is a data view and will reflect future changes of the underlying structures.
+	SymmetricDifference(other ReadableSet[T]) ReadableSet[T]
 }
 
 // [Set] represents a [ReadableSet], where elements can freely be added or removed.

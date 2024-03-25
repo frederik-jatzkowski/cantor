@@ -98,6 +98,14 @@ func (set HashSet[T]) Difference(other Container[T]) ReadableSet[T] {
 	}))
 }
 
+// SymmetricDifference returns a ReadableSet representing the set with all elements of this and the other set,
+// which are contained in exactly one of the two.
+//
+// The result is a data view and will reflect future changes of the underlying structures.
+func (set HashSet[T]) SymmetricDifference(other ReadableSet[T]) ReadableSet[T] {
+	return set.Difference(other).Union(other.Difference(set))
+}
+
 // Elements returns an [Iterator] (https://go.dev/wiki/RangefuncExperiment).
 // This [Iterator] can be used to yield the elements of a set one by one.
 // Iteration is stopped, if the yield function returns false.

@@ -13,8 +13,8 @@ Features:
   - [Intersection](<https://en.wikipedia.org/wiki/Intersection_(set_theory)>)
   - [Complement](<https://en.wikipedia.org/wiki/Complement_(set_theory)>)
   - [Difference](<https://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement>)
-  <!-- - [Symmetric Difference](https://en.wikipedia.org/wiki/Symmetric_difference)
-  - [Equality](https://proofwiki.org/wiki/Definition:Set_Equality) and [Comparisons](https://en.wikipedia.org/wiki/Subset) -->
+  - [Symmetric Difference](https://en.wikipedia.org/wiki/Symmetric_difference)
+  <!-- - [Equality](https://proofwiki.org/wiki/Definition:Set_Equality) and [Comparisons](https://en.wikipedia.org/wiki/Subset) -->
 
 - **Infinite, Implicit Sets**:
   In addition to [HashSets](https://go.dev/blog/maps), you can implicitly define sets using a [Predicate](https://proofwiki.org/wiki/Definition:Set/Definition_by_Predicate).
@@ -33,13 +33,10 @@ Features:
 
 - **Stability and Confidence**:
 
-  - An ever-growing test suite including more than `175` tests.
+  - An ever-growing test suite including more than `200` tests.
   - `100%` code coverage enforced by `CI`.
   - High code quality, enforced by `golangci-lint`.
   - Guaranteed compatibility with Go `v1.18` onwards.
-
-<!-- - **Extensibility**:
-The exposed interfaces can be implemented  -->
 
 ## Architecture
 

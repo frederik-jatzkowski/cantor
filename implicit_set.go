@@ -51,3 +51,13 @@ func (predicate ImplicitSet[T]) Difference(other Container[T]) ImplicitSet[T] {
 		return predicate(element) && !other.Contains(element)
 	}
 }
+
+// SymmetricDifference returns an [ImplicitSet] set with all elements of this and the other set,
+// which are contained in exactly one of the two.
+//
+// The result is a data view and will reflect future changes of the underlying structures.
+func (predicate ImplicitSet[T]) SymmetricDifference(other Container[T]) ImplicitSet[T] {
+	return func(element T) bool {
+		return predicate(element) != other.Contains(element)
+	}
+}

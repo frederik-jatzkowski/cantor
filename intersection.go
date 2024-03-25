@@ -46,6 +46,10 @@ func (set intersection[T]) Difference(other Container[T]) ReadableSet[T] {
 	}))
 }
 
+func (set intersection[T]) SymmetricDifference(other ReadableSet[T]) ReadableSet[T] {
+	return set.Difference(other).Union(other.Difference(set))
+}
+
 func (set intersection[T]) Elements() Iterator[T] {
 	return func(yield func(element T) (next bool)) {
 		set.arg.Elements()(func(element T) (next bool) {

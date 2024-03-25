@@ -34,6 +34,10 @@ func (set union[T]) Complement() ImplicitSet[T] {
 	})
 }
 
+func (set union[T]) SymmetricDifference(other ReadableSet[T]) ReadableSet[T] {
+	return set.Difference(other).Union(other.Difference(set))
+}
+
 func (set union[T]) Difference(other Container[T]) ReadableSet[T] {
 	return set.Intersect(NewImplicitSet[T](func(element T) bool {
 		return !other.Contains(element)

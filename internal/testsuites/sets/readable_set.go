@@ -20,6 +20,7 @@ func RunTestsForReadableSet(t *testing.T, constructor Constructor[byte, cantor.R
 		RunTestsForReadableSet_Intersection(t, constructor)
 		RunTestsForReadableSet_Complement(t, constructor)
 		RunTestsForReadableSet_Difference(t, constructor)
+		RunTestsForReadableSet_SymmetricDifference(t, constructor)
 
 		t.Run("fmt.Stringer", func(t *testing.T) {
 			set := constructor(1, 2)
