@@ -23,6 +23,8 @@ type ReadableSet[T comparable] interface {
 	fmt.Stringer
 
 	// Elements returns an Iterator over the elements of this ReadableSet.
+	//
+	// The result is a data view and will reflect future changes of the underlying structures.
 	Elements() Iterator[T]
 
 	// Size returns the number of unique elements in this ReadableSet.
@@ -75,12 +77,12 @@ type Set[T comparable] interface {
 	// Add adds element and returns true if this operation actually changed the Set.
 	// If the element was already contained, this leaves the set unchanged and returns false.
 	//
-	// Derived data views will reflect this change.
+	// Data views derived from this set will reflect the change.
 	Add(element T) (modified bool)
 
 	// Remove removes element and returns true if this operation actually changed the Set.
 	// If the element was not in the set, this leaves the set unchanged and returns false.
 	//
-	// Derived data views will reflect this change.
+	// Data views derived from this set will reflect the change.
 	Remove(element T) (modified bool)
 }

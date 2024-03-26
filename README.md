@@ -2,6 +2,8 @@
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/frederik-jatzkowski/cantor.svg)](https://pkg.go.dev/github.com/frederik-jatzkowski/cantor)
 [![Go Report Card](https://goreportcard.com/badge/github.com/frederik-jatzkowski/cantor)](https://goreportcard.com/report/github.com/frederik-jatzkowski/cantor)
+![Tests Badge](https://github.com/frederik-jatzkowski/cantor/actions/workflows/tests.yml/badge.svg)
+![Linter Badge](https://github.com/frederik-jatzkowski/cantor/actions/workflows/linter.yml/badge.svg)
 
 The `cantor` package is a comprehensive toolkit for set operations for the Go Programming Language.
 

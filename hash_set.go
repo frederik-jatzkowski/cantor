@@ -32,7 +32,7 @@ func NewHashSetFromIterator[T comparable](iterator Iterator[T]) HashSet[T] {
 // Add adds element and returns true if this operation actually changed the [HashSet].
 // If the element was already contained, this leaves the set unchanged and returns false.
 //
-// Derived data views will reflect this change.
+// Data views derived from this set will reflect the change.
 //
 // The time complexity of this method is O(1).
 func (set HashSet[T]) Add(element T) (modified bool) {
@@ -45,7 +45,7 @@ func (set HashSet[T]) Add(element T) (modified bool) {
 // Remove removes element and returns true if this operation actually changed the [HashSet].
 // If the element was not in the set, this leaves the set unchanged and returns false.
 //
-// Derived data views will reflect this change.
+// Data views derived from this set will reflect the change.
 //
 // The time complexity of this method is O(1).
 func (set HashSet[T]) Remove(element T) (modified bool) {
@@ -125,6 +125,8 @@ func (set HashSet[T]) StrictSubset(other ReadableSet[T]) bool {
 // Elements returns an [Iterator] (https://go.dev/wiki/RangefuncExperiment).
 // This [Iterator] can be used to yield the elements of a set one by one.
 // Iteration is stopped, if the yield function returns false.
+//
+// The result is a data view and will reflect future changes of the underlying structures.
 func (set HashSet[T]) Elements() Iterator[T] {
 	return func(yield func(element T) (next bool)) {
 		for element := range set {
