@@ -4,11 +4,11 @@ import (
 	"testing"
 
 	"github.com/frederik-jatzkowski/cantor"
-	"github.com/frederik-jatzkowski/cantor/internal/testsuites"
+	"github.com/frederik-jatzkowski/cantor/internal/testsuites/sets"
 )
 
 func Test_intersection_ReadableSet(t *testing.T) {
-	testsuites.RunTestsForReadableSet(t, func(elements ...byte) cantor.ReadableSet[byte] {
+	sets.RunTestsForReadableSet(t, func(elements ...byte) cantor.ReadableSet[byte] {
 		a := cantor.NewHashSet(elements...)
 		b := cantor.NewHashSet(elements...)
 

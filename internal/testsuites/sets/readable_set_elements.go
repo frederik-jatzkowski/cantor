@@ -1,9 +1,10 @@
-package testsuites
+package sets
 
 import (
 	"testing"
 
 	"github.com/frederik-jatzkowski/cantor"
+	"github.com/frederik-jatzkowski/cantor/internal/testsuites/testutils"
 )
 
 // RunTestsForReadableSet_Elements runs a test suite to check correct implementation of the Elements method on
@@ -19,7 +20,7 @@ func RunTestsForReadableSet_Elements(t *testing.T, constructor Constructor[byte,
 		})
 
 		t.Run("universe", func(t *testing.T) {
-			expected := AllBytes()
+			expected := testutils.AllBytes()
 			container := constructor(expected...)
 
 			found := cantor.NewHashSet[byte]()
@@ -29,7 +30,7 @@ func RunTestsForReadableSet_Elements(t *testing.T, constructor Constructor[byte,
 					t.Errorf("duplicate element: %d", element)
 				}
 
-				if !SliceContains(element, expected) {
+				if !testutils.SliceContains(element, expected) {
 					t.Errorf("unexpected element: %d", element)
 				}
 
@@ -54,7 +55,7 @@ func RunTestsForReadableSet_Elements(t *testing.T, constructor Constructor[byte,
 					t.Errorf("duplicate element: %d", element)
 				}
 
-				if !SliceContains(element, expected) {
+				if !testutils.SliceContains(element, expected) {
 					t.Errorf("unexpected element: %d", element)
 				}
 
@@ -69,7 +70,7 @@ func RunTestsForReadableSet_Elements(t *testing.T, constructor Constructor[byte,
 		})
 
 		t.Run("iteration with break", func(t *testing.T) {
-			container := constructor(AllBytes()...)
+			container := constructor(testutils.AllBytes()...)
 
 			sum := 0
 			limit := 100

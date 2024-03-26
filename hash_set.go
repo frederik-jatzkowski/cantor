@@ -32,10 +32,10 @@ func NewHashSetFromIterator[T comparable](iterator Iterator[T]) HashSet[T] {
 // Add adds element and returns true if this operation actually changed the [HashSet].
 // If the element was already contained, this leaves the set unchanged and returns false.
 //
-// Derived data views will reflect this change.
+// Data views derived from this set will reflect the change.
 //
 // The time complexity of this method is O(1).
-func (set HashSet[T]) Add(element T) (setChanged bool) {
+func (set HashSet[T]) Add(element T) (modified bool) {
 	before := len(set)
 	set[element] = struct{}{}
 
@@ -45,10 +45,10 @@ func (set HashSet[T]) Add(element T) (setChanged bool) {
 // Remove removes element and returns true if this operation actually changed the [HashSet].
 // If the element was not in the set, this leaves the set unchanged and returns false.
 //
-// Derived data views will reflect this change.
+// Data views derived from this set will reflect the change.
 //
 // The time complexity of this method is O(1).
-func (set HashSet[T]) Remove(element T) (setChanged bool) {
+func (set HashSet[T]) Remove(element T) (modified bool) {
 	before := len(set)
 	delete(set, element)
 
@@ -88,9 +88,45 @@ func (set HashSet[T]) Complement() ImplicitSet[T] {
 	})
 }
 
+// Difference returns a [ReadableSet] with all elements of this [HashSet],
+// which are not contained in the argument.
+//
+// The result is a data view and will reflect future changes of the underlying structures.
+func (set HashSet[T]) Difference(other Container[T]) ReadableSet[T] {
+	return set.Intersect(NewImplicitSet[T](func(element T) bool {
+		return !other.Contains(element)
+	}))
+}
+
+// SymmetricDifference returns a ReadableSet representing the set with all elements of this and the other set,
+// which are contained in exactly one of the two.
+//
+// The result is a data view and will reflect future changes of the underlying structures.
+func (set HashSet[T]) SymmetricDifference(other ReadableSet[T]) ReadableSet[T] {
+	return set.Difference(other).Union(other.Difference(set))
+}
+
+// Equals returns true, if this [HashSet] and the other [ReadableSet] represent exactly the same elements.
+func (set HashSet[T]) Equals(other ReadableSet[T]) bool {
+	return set.SymmetricDifference(other).Size() == 0
+}
+
+// Subset returns true, if all elements of this [HashSet] are contained in the other [Container].
+func (set HashSet[T]) Subset(other Container[T]) bool {
+	return set.Difference(other).Size() == 0
+}
+
+// StrictSubset returns true, if all elements of this [HashSet] are contained in the other [ReadableSet]
+// and the sets are not equal.
+func (set HashSet[T]) StrictSubset(other ReadableSet[T]) bool {
+	return set.Difference(other).Size() == 0 && other.Difference(set).Size() > 0
+}
+
 // Elements returns an [Iterator] (https://go.dev/wiki/RangefuncExperiment).
 // This [Iterator] can be used to yield the elements of a set one by one.
 // Iteration is stopped, if the yield function returns false.
+//
+// The result is a data view and will reflect future changes of the underlying structures.
 func (set HashSet[T]) Elements() Iterator[T] {
 	return func(yield func(element T) (next bool)) {
 		for element := range set {

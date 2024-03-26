@@ -1,8 +1,4 @@
-// Package testsuites contains test cases for all interfaces exported from [pkg/github.com/frederik-jatzkowski/cantor].
-// These can be used to validate implementations of these interfaces.
-package testsuites
-
-type Constructor[E any, T any] func(elements ...E) T
+package testutils
 
 func SliceContains[T comparable](e T, elements []T) bool {
 	for _, e2 := range elements {

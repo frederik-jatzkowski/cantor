@@ -1,4 +1,4 @@
-package testsuites
+package testutils
 
 type Person struct {
 	Id   uint

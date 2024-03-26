@@ -2,6 +2,8 @@
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/frederik-jatzkowski/cantor.svg)](https://pkg.go.dev/github.com/frederik-jatzkowski/cantor)
 [![Go Report Card](https://goreportcard.com/badge/github.com/frederik-jatzkowski/cantor)](https://goreportcard.com/report/github.com/frederik-jatzkowski/cantor)
+![Tests Badge](https://github.com/frederik-jatzkowski/cantor/actions/workflows/tests.yml/badge.svg)
+![Linter Badge](https://github.com/frederik-jatzkowski/cantor/actions/workflows/linter.yml/badge.svg)
 
 The `cantor` package is a comprehensive toolkit for set operations for the Go Programming Language.
 
@@ -12,9 +14,9 @@ Features:
   - [Union](<https://en.wikipedia.org/wiki/Union_(set_theory)>)
   - [Intersection](<https://en.wikipedia.org/wiki/Intersection_(set_theory)>)
   - [Complement](<https://en.wikipedia.org/wiki/Complement_(set_theory)>)
-  <!-- - [Difference](<https://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement>) -->
-  <!-- - [Symmetric Difference](https://en.wikipedia.org/wiki/Symmetric_difference)
-  - [Equality](https://proofwiki.org/wiki/Definition:Set_Equality) and [Comparisons](https://en.wikipedia.org/wiki/Subset) -->
+  - [Difference](<https://en.wikipedia.org/wiki/Complement_(set_theory)#Relative_complement>)
+  - [Symmetric Difference](https://en.wikipedia.org/wiki/Symmetric_difference)
+  - [Equality](https://proofwiki.org/wiki/Definition:Set_Equality) and [Comparisons](https://en.wikipedia.org/wiki/Subset)
 
 - **Infinite, Implicit Sets**:
   In addition to [HashSets](https://go.dev/blog/maps), you can implicitly define sets using a [Predicate](https://proofwiki.org/wiki/Definition:Set/Definition_by_Predicate).
@@ -33,13 +35,10 @@ Features:
 
 - **Stability and Confidence**:
 
-  - An ever-growing test suite including more than `175` tests.
+  - An ever-growing test suite including more than `250` tests.
   - `100%` code coverage enforced by `CI`.
   - High code quality, enforced by `golangci-lint`.
   - Guaranteed compatibility with Go `v1.18` onwards.
-
-<!-- - **Extensibility**:
-The exposed interfaces can be implemented  -->
 
 ## Architecture
 
@@ -51,8 +50,9 @@ The following diagram represents the public facing API of `cantor`. The transpar
 
 Here you will find a list of the release notes for all versions.
 
-- [v0.1.0](docs/releases/v0.1.0.md)
+- [v0.3.0](docs/releases/v0.3.0.md)
 - [v0.2.0](docs/releases/v0.2.0.md)
+- [v0.1.0](docs/releases/v0.1.0.md)
 
 ## Development Guide
 

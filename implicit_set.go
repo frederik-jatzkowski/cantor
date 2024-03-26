@@ -26,15 +26,39 @@ func (predicate ImplicitSet[T]) Union(other Container[T]) ImplicitSet[T] {
 }
 
 // Intersect returns an [ImplicitSet] set representing the set intersection of its arguments.
+//
+// The result is a data view and will reflect future changes of the underlying structures.
 func (predicate ImplicitSet[T]) Intersect(other Container[T]) ImplicitSet[T] {
 	return func(element T) bool {
 		return predicate(element) && other.Contains(element)
 	}
 }
 
-// Complement returns an [ImplicitSet], that contains all elements where set.Contains() is false.
+// Complement returns an [ImplicitSet], that contains all elements not contained in this [ImplicitSet].
+//
+// The result is a data view and will reflect future changes of the underlying structures.
 func (predicate ImplicitSet[T]) Complement() ImplicitSet[T] {
 	return func(element T) bool {
 		return !predicate.Contains(element)
+	}
+}
+
+// Difference returns an [ImplicitSet] set with all elements of this [ImplicitSet],
+// which are not contained in the argument.
+//
+// The result is a data view and will reflect future changes of the underlying structures.
+func (predicate ImplicitSet[T]) Difference(other Container[T]) ImplicitSet[T] {
+	return func(element T) bool {
+		return predicate(element) && !other.Contains(element)
+	}
+}
+
+// SymmetricDifference returns an [ImplicitSet] set with all elements of this [ImplicitSet] and the other [Container],
+// which are contained in exactly one of the two.
+//
+// The result is a data view and will reflect future changes of the underlying structures.
+func (predicate ImplicitSet[T]) SymmetricDifference(other Container[T]) ImplicitSet[T] {
+	return func(element T) bool {
+		return predicate(element) != other.Contains(element)
 	}
 }
